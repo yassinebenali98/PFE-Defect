@@ -1,0 +1,110 @@
+
+<div class="body" style="margin-bottom: 150px;">
+
+    <h2 class="stitre" id="4.Présentation_et_analyse_des_résultats">4.Présentation et analyse des résultats</h2>
+    <h4 class="titre" id="4.1	Vue_d’ensemble_des_tests_effectués">4.1	Vue d’ensemble des tests effectués</h4>
+
+
+<p>Le tableau suivant résume les tests réalisés lors des tests d’intrusion applicatifs.</p>
+<table class="tg">
+    <thead>
+        <tr>
+            <th style="color: white;">Groupe de tests</th>
+            <th style="color: white;">Tests réalisés</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Recueil </td>
+            <td>Fingerprinting de la plateforme hébergeant l'application et des technologies utilisées
+                Crawling de l'application et détermination des différents liens / paramètres statiques et dynamiques
+                Analyse du mécanisme de gestion des sessions et des cookies « pré-authentification"
+                Modélisation du workflow de l'application "pré-authentification"
+                </td>
+        </tr>
+        <tr>
+            <td>Identification des vulnérabilités "pré-authentification"</td>
+            <td>Scans automatisés de vulnérabilités "pré-authentification"
+                Identification manuelle de vulnérabilités "pré-authentification"
+                Tests applicatifs "pré-authentification" selon les directives OWASP
+                Identification des vulnérabilités d'injection telles que l'injection SQL, XSS, injection de code, etc.
+                Analyse du comportement aux limites de l'application
+                Vol de session
+                Contournement du workflow de l'application "pré-authentification"
+                Elévation de privilèges
+                </td>
+        </tr>
+        <tr>
+            <td>Identification des vulnérabilités "post-authentification"</td>
+            <td>Scans automatisés de vulnérabilités "post-authentification"
+                Identification manuelle de vulnérabilités "post-authentification"
+                Tests applicatifs "post-authentification" selon les directives OWASP
+                Identification des vulnérabilités d'injection telles que l'injection SQL, XSS, injection de code, etc.
+                Analyse du comportement aux limites des applications 
+                Tests d'usurpation d'identité
+                Contournement du workflow de l'application "post-authentification" (par exemple bypass d'une étape de validation)
+                Analyse et classification des vulnérabilités
+                </td>
+        </tr>
+        <tr>
+            <td>Pénétration</td>
+            <td>Exploitation des vulnérabilités identifiées et acquisition d'accès non autorisés
+                Recherche et extraction d'informations confidentielles à partir de la base de données et des pages restreintes 
+                </td>
+        </tr>
+    </tbody>
+</table>
+<center><span class="ptitre">Tableau 14 : Résumé des tests d’intrusion externes applicatifs effectués</span></center>
+
+<h4 class="titre" id="4.2Conditions_des_tests">4.2	Conditions des tests</h4>
+<p>Les tests d’intrusion se sont déroulés dans les conditions suivantes :
+</p>
+
+<table class="tab" style =" border:1px solid black; width: 100%;" >
+    <tr >
+        <th style="color: white">Société Commanditaire des Tests d’intrusion</th>
+        <td>template</td>
+    </tr>
+    <tr>
+        <th style="color: white">Cible</th>
+        <td>template</td>
+    </tr>
+    <tr>
+        <th style="color: white">Personne à contacter en cas de besoin</th>
+        <td>template</td>
+    </tr>
+    <tr>
+        <th style="color: white">Prestation</th>
+        <td>Test d’intrusion applicatifs en Blackbox et GreyBox</td>
+    </tr>
+</table>
+<center><span class="ptitre">Tableau 15 : Conditions de test</span></center>
+
+	
+<p>
+Durant le pentest, nous avons constaté :
+<ul>
+    
+
+<li>	Certaines fonctionnalités applicatives étaient inopérantes,</li>
+<li>	Les contrôles de sécurité appliqués au niveau de la plateforme de préproduction (cible de notre test d’intrusion) sont légèrement différents par rapport à la plateforme de production,</li>
+<li>	La base de données de préproduction (cible du test d’intrusion) est réinitialisée quotidiennement via une réplication de la production,</li>
+<li>	Le contexte applicatif a évolué durant notre mission à travers quelques mises à jour applicatives appliquées,</li>
+</ul></p>
+
+<h4 class="titre" id="#4.3Bonnes_pratiques_identifiées"> 4.3	Bonnes pratiques identifiées</h4>
+<p>
+Lors des tests effectués, certaines exigences de sécurité de l’information ont pu être identifiées. Elles sont listées dans les points suivants :
+<ul>
+<li>	Exigences contraignantes de la session,</li>
+<li>	Exigences en matière de déconnexion et de temporisation des sessions,</li>
+<li>	Gestion de session basée sur les cookies (attribut 'Secure' et 'HttpOnly'),</li>
+<li>	Exigences de sécurité des communications, </li>
+<li>	Exigences sur les dépendances.</li>
+</ul>
+</p>
+ 
+<h4 class="titre" id="4.5_Vulnérabilités_relatives_aux_menaces_génériques">4.4	Vulnérabilités relatives aux menaces génériques</h4>
+
+
+</div>

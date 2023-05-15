@@ -1,0 +1,23 @@
+{% load display_tags %}
+
+{% if format == "HTML" %}
+    {% with images=obj|file_images %}
+        
+        {% for pic in images %}
+        {% if not 'risk' in pic.title %}
+            <p><img src="{{ host }}{% pic_token pic size %}" style="max-width: 85%" alt="Finding Image"></p>
+           <p style="color: #365F91;"> {{pic.title}}</p>
+        {%endif%}
+        {% empty %}
+           
+        {% endfor %}
+    {% endwith %}
+{% else %}
+    {% with images=obj|file_images %}
+        {% for pic in images %}
+            image::{{ request.scheme }}://{{ request.get_host }}{% pic_token pic size %}[] +<br>
+        {% empty %}
+            No images found.
+        {% endfor %}
+    {% endwith %}
+{% endif %}

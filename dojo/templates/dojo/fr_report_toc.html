@@ -1,0 +1,131 @@
+{% load static %}
+
+<div class="table_of_contents" style="margin-bottom: 150px;">
+        <b id="table_of_contents">Sommaire</b>
+        <div id="toc">
+                <li><a style="font-size:146%; color:black;" href="#1.Avant-propos">1.Avant-propos</a></li>
+                <ul>
+                        <ul>
+                                <li><a style="font-size:132%; color:black;" href="#1.1._Contexte_du_projet">1.1.
+                                                Contexte du projet</a>
+                                </li>
+                                <li><a style="font-size:132%; color:black;" href="#1.2._Objectif_du_document">1.2.
+                                                Objectif du
+                                                document</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#1.3._Objectifs_de_l’audit">1.3.
+                                                Objectifs de
+                                                l’audit</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#1.4._Champ_d’audit">1.4. Champ
+                                                d’audit</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#1.5._Equipe_d’audit">1.5. Equipe
+                                                d’audit</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#1.6._Organisation_du_document">1.6.
+                                                Organisation du
+                                                document </a></li>
+                                <li><a style="font-size:132%; color:black;" href="#1.7._Notes">1.7. Notes</a></li>
+                        </ul>
+                </ul>
+                <li><a style="font-size:146%; color:black;"
+                                href="#2.Méthode_de_classification_des_vulnérabilités_et_d’analyse_des_risques">2.Méthode
+                                de
+                                classification des vulnérabilités et d’analyse des risques</a></li>
+                <ul>
+                        <ul>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.1._Classification_:_Vulnérabilités_relatives_aux_menaces_génériques">2.1.
+                                                Classification : Vulnérabilités relatives aux menaces génériques</a>
+                                </li>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.2._Classification_:_Vulnérabilité_relatives_aux_menaces_avancées">2.2.
+                                                Classification :
+                                                Vulnérabilité relatives aux menaces avancées</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.1._Référence">2.2.1.
+                                                Référence</a></li>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.2.2._Titre_de_la_vulnérabilité">2.2.2. Titre de la
+                                                vulnérabilité</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.3._Score_CVSS_(Criticité)">2.2.3.
+                                                Score CVSS
+                                                (Criticité)</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.4._Eléments_Impactés">2.2.4.
+                                                Eléments
+                                                Impactés</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.5._Scénario_de_risque">2.2.5.
+                                                Scénario de
+                                                risque</a></li>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.2.6._Description_de_la_vulnérabilité">2.2.6.
+                                                Description de la vulnérabilité</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.7._Recommandation">2.2.7.
+                                                Recommandation</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#2.2.8._Type">2.2.8. Type</a></li>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.2.9._Complexité_de_mise_en_œuvre">2.2.9. Complexité
+                                                de mise en œuvre</a></li>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#2.2.10._Priorité_de_mise_en_œuvre">2.2.10. Priorité
+                                                de mise en œuvre</a></li>
+                        </ul>
+                </ul>
+                <li><a style="font-size:146%; color:black;" href="#3.Synthèse">3.Synthèse</a></li>
+                <ul>
+                        <ul>
+                                <li><a style="font-size:132%; color:black;" href="#3.1._Synthèse_globale">3.1. Synthèse
+                                                globale</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#3.2._Synthèse_détaillée">3.2.
+                                                Synthèse détaillée</a>
+                                </li>
+                        </ul>
+                </ul>
+                <li><a style="font-size:146%; color:black;"
+                                href="#4.Présentation_et_analyse_des_résultats">4.Présentation et
+                                analyse des résultats</a></li>
+                <ul>
+                        <ul>
+                                <li><a style="font-size:132%; color:black;"
+                                                href="#4.1	Vue_d’ensemble_des_tests_effectués">4.1 Vue
+                                                d’ensemble des tests effectués</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#4.2Conditions_des_tests">4.2
+                                                Conditions des
+                                                tests</a></li>
+                                <li><a style="font-size:132%; color:black;" href="#4.3Bonnes_pratiques_identifiées"> 4.3
+                                                Bonnes
+                                                pratiques identifiées</a></li>
+
+                                                {% for test_title, severity_groups in grouped_findings.items %}
+                                                <li><a style="font-size:132%; color:black;" href="#{{ test_title|slugify }}">{{ test_title }}</a></li>
+                                                {% for severity, findings in severity_groups.items %}
+                                                    {% if severity == "Info" %}
+                                                        <ul>
+                                                            <li>
+                                                                <a style="font-size:132%; color:black;" href="#Vulnérabilités_relatives_aux_menaces_génériques"> Vulnérabilités relatives aux menaces génériques</a>
+                                                                <ul>
+                                                                    {% for finding in findings %}
+                                                                        <li>
+                                                                            <a style="font-size:132%; color:black;" href="#finding_{{ finding.id }}">{{ finding.title }}</a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    {% else %}
+                                                        <ul>
+                                                            <li>
+                                                                <a style="font-size:132%; color:black;" href="#Vulnérabilités_relatives_aux_menaces_avancées"> Vulnérabilités relatives aux menaces avancées</a>
+                                                                <ul>
+                                                                    {% for finding in findings %}
+                                                                        <li>
+                                                                            <a style="font-size:132%; color:black;" href="#finding_{{ finding.id }}">{{ finding.title }}</a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                        </ul>
+                </ul>
+                </ul>
+        </div>
+</div>

@@ -1,0 +1,70 @@
+{% load display_tags %}
+{% load humanize %}
+{% load survey_tags %}
+{% load authorization_tags %}
+{% load static %}
+<div class="body" style="margin-bottom: 150px;">
+
+    <h2 class="stitre" id="3.Synthèse">3.Synthèse</h2>
+    <h4 class="titre" id="3.1._Synthèse_globale">3.1. Synthèse globale</h4>
+    {{ engagement.description|markdown_render }}
+    {% include "dojo/severity_pie_chart.html" with severities=severities %}
+
+    {% include "dojo/priority_pie_chart.html" with priorities=priorities %}
+    {% include "dojo/complexite_pie_chart.html" with complexites=complexites %}
+
+    <div class="page-break"></div>
+    
+    <h4 class="titre" id="3.2._Synthèse_détaillée">3.2. Synthèse détaillée</h4>
+    Le tableau suivant présente toutes les vulnérabilités détectées lors de cet audit, ainsi que les recommandations
+    émises par Talan.
+    <table border="1" cellpadding="0" cellspacing="0">
+        <thead class="tg">
+            <tr>
+                <th style="width: 50px; color: white;">Réf</th>
+                <th style="color: white;">Eléments impactés</th>
+                <th style="color: white;">Vulnérabilité</th>
+                <th style="color: white;">Niveau de risque</th>
+                <th style="color: white;">Type</th>
+                <th style="color: white;">Recommandation</th>
+                <th style="color: white;">Complexité de mise en œuvre</th>
+                <th style="color: white;">Priorité de mise en œuvre</th>
+                </tr>
+            
+        </thead>
+        <tbody>
+            <tbody>
+                {% regroup findings by test as test_list %}
+                
+                {% for test in test_list %}
+                <tr><td colspan="8" style="background-color: rgb(175, 175, 175);">{{ test.grouper }}</td></tr>
+                {% for finding in test.list %}
+                <tr>
+                    <td>V_{{ forloop.parentloop.counter }}.{{ forloop.counter }}</td>
+                    <td>{% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}</td>
+                    <td>{{ finding.title }}</td>
+                    <td>{% if finding.severity == 'High' %}
+                        Elevé
+                        {% elif finding.severity == 'Critical' %}
+                        Critique
+                        {% elif finding.severity == 'Low' %}
+                        Faible
+                        {% elif finding.severity == 'Medium' %}
+                        Moyenne
+                        {% else %}
+                        Générique
+                        {% endif %}
+                    </td>
+                    <td>{{ finding.type }}</td>
+                    <td>{{ finding.mitigation }}</td>
+                    <td>{{ finding.complexite }}</td>
+                    <td>{{ finding.priorite }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                </tbody>
+                
+    </table>
+    <center><span class="ptitre">Tableau 13 : Synthèse détaillée des vulnérabilités identifiées</span></center>
+    
+</div>

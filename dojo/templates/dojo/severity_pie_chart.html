@@ -1,0 +1,85 @@
+ 
+{% block content %}
+<style>
+    #severity-pie-chart {
+        width: 400px;
+        height: 400px;
+    }
+   
+</style>
+ 
+<p>La figure ci-dessous présente la répartition des vulnérabilités par niveau de criticité :</p>
+
+<div id="severity-pie-chart-container">
+    <canvas  id="severity-pie-chart"></canvas>
+    {% if severities_chart_image %}
+    <center><img  src="data:image/svg+xml;base64,{{ severities_chart_image }}" width="800" height="800"/></center>
+    {% endif %}
+</div>
+<center><h5><b>STATISTIQUES SUR LES VULNERABILTES</b></h5></center>
+<center><span class="ptitre">Figure 1 : Répartition des vulnérabilités par niveau de criticité</span></center>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+<script>
+    var severities = {{ severities|safe }};
+    var colorMap = {
+        'Critical': '#C23B21',
+        'High': '#FF8B01',
+        'Medium': '#FFD301',
+        'Low': '#00B050',
+    };
+    var data = [];
+    var total = 0; // Total value of all slices
+    for (var severity in severities) {
+        var value = severities[severity];
+        total += value;
+        data.push({ label: severity, value: value, color: colorMap[severity] });
+    }
+    var ctx = document.getElementById('severity-pie-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: data.map(function (x) { return x.value; }),
+                backgroundColor: data.map(function (x) { return x.color; })
+            }],
+            labels: data.map(function (x) { return x.label; })
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = ((currentValue / total) * 100).toFixed(0);
+                        return  currentValue ;
+                    }
+                }
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, context) => {
+                        let sum = 0;
+                        let dataArr = context.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
+

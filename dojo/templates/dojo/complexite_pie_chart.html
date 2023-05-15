@@ -1,0 +1,86 @@
+
+{% block content %}
+<style>
+    #complexite-pie-chart {
+        width: 400px;
+        height: 400px;
+    }
+   
+</style>
+
+<div id="complexite-pie-chart-container">
+    <canvas  id="complexite-pie-chart"></canvas>
+    {% if complexite_chart_image %}
+    <center><img  src="data:image/svg+xml;base64,{{ complexite_chart_image }}" width="800" height="800"/></center>
+    {% endif %}
+</div>
+<center><h5><b>Complexite de mise en oeuvre</b></h5></center>
+<center><span class="ptitre">Figure 3 : Répartition des vulnérabilités par complexité de mise en œuvre des recommandations</span></center>
+<p>La mise en œuvre des recommandations mentionnées dans ce document permettra à Talan d'améliorer le niveau de sécurité 
+    de l’application Web en passant d'un niveau Faible à un niveau Satisfaisant.</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+<script>
+    var complexites = {{ complexites|safe }};
+    var colorMap = {
+        'Complexe': '#C23B21',
+        'Moyenne': '#FF8B01',
+        'Simple': '#00B050'
+    };
+    var data = [];
+    var total = 0; // Total value of all slices
+    for (var complexite in complexites) {
+        var value = complexites[complexite];
+        if (value !== null) {
+            total += value;
+            data.push({ label: complexite, value: value, color: colorMap[complexite] });
+        }
+    }
+    var ctx = document.getElementById('complexite-pie-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: data.map(function (x) { return x.value; }),
+                backgroundColor: data.map(function (x) { return x.color; })
+            }],
+            labels: data.map(function (x) { return x.label; })
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = ((currentValue / total) * 100).toFixed(0);
+                        return  currentValue ;
+                    }
+                }
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, context) => {
+                        let sum = 0;
+                        let dataArr = context.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
+

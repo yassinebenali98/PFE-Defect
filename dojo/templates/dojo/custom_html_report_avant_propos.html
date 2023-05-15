@@ -1,0 +1,277 @@
+{% load display_tags %}
+{% load static %}
+
+{% load humanize %}
+{% load get_endpoint_status %}
+{% load get_notetype_availability %}
+{% load event_tags %}
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+    }
+
+    .flex-container1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .flex-container2 {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .header {
+        color: #365273;
+        text-align: center;
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 50px;
+
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .circle {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: #edc400;
+        color: white;
+
+    }
+
+    .center {
+        text-align: center;
+        margin: 0;
+    }
+
+    .center-vertical {
+        padding: 30px 0;
+    }
+
+    .grey-background {
+        background-color: #F2F2F2;
+        padding: 0.5px 0;
+        width: 50%;
+    }
+
+    .bleu {
+        color: #365273;
+    }
+
+    p {
+        max-width: 830px;
+        min-width: 50%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .vert {
+        background-color: #00B050;
+    }
+
+    .jaune {
+        background-color: #FFD301;
+    }
+
+    .orange {
+        background-color: #FF8B01;
+    }
+
+    .rouge {
+        background-color: #C23B21;
+    }
+
+    .tvert {
+        color: #00B050;
+    }
+
+    .tjaune {
+        color: #FFD301;
+    }
+
+    .torange {
+        color: #FF8B01;
+    }
+
+    .trouge {
+        color: #C23B21;
+    }
+
+    .stitre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
+
+    .sbg {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        background-color: #F2F2F2;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .titre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        margin-left: 30px;
+    }
+
+    .conttext {
+        font-family: calibri;
+        font-size: 18px;
+        letter-spacing: 0px;
+        word-spacing: 0px;
+        font-weight: 400;
+        text-decoration: none;
+        font-style: bold;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    ul {
+        font-size: 15px;
+       
+    }
+
+    th {
+        background-color: #365F91;
+        color: #F2F2F2;
+        text-align: center;
+        border: 1px;
+        
+    }
+
+    td {
+        text-align: center;
+        border: 1px solid #666;
+       border-collapse: collapse;
+    }
+</style>
+<div class="body" style="margin-bottom: 150px;">
+    <h2 class="stitre">1.Avant-propos</h2>
+    <h4 class="titre" class="titre">1.1. Contexte du projet</h4>
+    <p class="text-justify">
+        Ce projet consiste à réaliser un test d’intrusion ciblant la plateforme {{ product.name }}
+        Dans le cadre de cet engagement, la démarche TALAN s’articule en 5 phases listées ci-dessous :
+    </p>
+    <ul class="body">
+        <li>Phase 1 : Collecte Passive </li>
+        <li>Phase 2 : Collecte Active </li>
+        <li>Phase 3 : Test d’intrusion en BlackBox </li>
+        <li>Phase 4 : Test d’intrusion en GrayBox </li>
+        <li>Phase 5 : Reporting </li>
+    </ul>
+
+    <h4 class="titre">1.2. Objectif du document</h4>
+    <p>Ce document constitue le rapport technique relatif aux résultats du test d’intrusion de la plateforme «
+        **Titre**».</p>
+    <h4 class="titre">1.3. Objectifs de l’audit</h4>
+    <p class="text-justify">L’audit technique du site Web a pour objectifs de :
+        Identifier les brèches de sécurité affectant l’infrastructure applicative de la plateforme {{ product.name }}
+        Evaluer le niveau de sécurité de l’infrastructure applicative de la plateforme {{ product.name }}
+        Mesurer l’écart existant entre le niveau de sécurité adéquat et le niveau de sécurité mis en œuvre,
+        Proposer un plan d’action permettant d’améliorer le niveau de sécurité de l’infrastructure applicative de la
+        plateforme du client
+        et de remédier aux vulnérabilités identifiées.</p>
+    <h4 class="titre">1.4. Champ d’audit</h4>
+    <p class="text-justify">Le périmètre de cet audit est le suivant :</p>
+    <center>
+    <table border="1" cellpadding="0" cellspacing="0" width="50%" >
+        <thead>
+            <tr>
+                <th>Cible</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{%for finding in findings%}
+                    {% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %} 
+                    {%endfor%}</td>
+                    
+            </tr>
+        </tbody>
+    </table>
+    
+    Tableau 5 : Champ d’audit
+</center>
+    <h4 class="titre">1.5. Equipe d’audit</h4>
+
+    <p class="text-justify">L’équipe d’audit est composée de :</p>
+    <center>
+        <table border="1" cellpadding="0" cellspacing="0" width="50%" >
+        <thead>
+            <tr>
+                <th>Nom et prénom</th>
+            
+                <th>Rôle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{product.team_manager}}</td>
+                <td>Team Manager</td>
+            </tr>
+            <tr>
+                <td>{{product.product_manager}}</td>
+                <td>Product Manager</td>
+            </tr>
+            <tr>
+                <td>{{product.technical_contact}}</td>
+                <td>Technical Contact</td>
+            </tr>
+        </tbody>
+    </table>
+    Tableau 6 : Equipe d’audit
+    </center>
+
+    <h4 class="titre">1.6. Organisation du document </h4>
+    <p class="text-justify">Ce document est organisé de la manière suivante :</p>
+    <ul>
+        <li> Synthèse,</li>
+        <li> Méthode de classification des vulnérabilités et d’analyse des risques,</li>
+        <li> Présentation et analyse des résultats.</li>
+    </ul>
+    <h4 class="titre">1.7. Notes</h4>
+    <p class="text-justify">
+        Tous les mots de passe détectés lors de ces tests d’intrusion sont masqués sur les copies d’écran et remplacés
+        par la chaîne de caractères « ****** » au niveau du texte.
+        Toutes les recommandations émises par TALAN doivent être testées sur un environnement de test avant d’être
+        implémentées sur l’environnement de production.
+         </p>
+</div>

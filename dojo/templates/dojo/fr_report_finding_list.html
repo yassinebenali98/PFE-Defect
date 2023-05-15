@@ -1,0 +1,649 @@
+{% load static %}
+{% load display_tags %}
+{% load humanize %}
+{% load get_endpoint_status %}
+{% load get_note_status %}
+{% load get_notetype_availability %}
+{% load event_tags %}
+
+<style>
+    .thfiche {
+        background-color: #ffffff;
+        color: #000000;
+        border: 0px;
+        text-align: left;
+        width: 37%;
+    }
+
+    .tfiche {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    body {
+        font-family: sans-serif;
+    }
+
+    .flex-container1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .flex-container2 {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .header {
+        color: #365273;
+        text-align: center;
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 50px;
+
+    }
+
+    .container {
+        padding: 10px;
+        align-content: center;
+    }
+
+    .circle {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: #edc400;
+        color: white;
+
+    }
+
+    .center {
+        text-align: center;
+        margin: 0;
+    }
+
+    .center-vertical {
+        padding: 30px 0;
+    }
+
+    .grey-background {
+        background-color: #F2F2F2;
+        padding: 0.5px 0;
+        width: 50%;
+    }
+
+    .bleu {
+        color: #365273;
+    }
+
+    p {
+        max-width: 8.5in;
+        min-width: 50%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .vert {
+        background-color: #00B050;
+    }
+
+    .jaune {
+        background-color: #FFD301;
+    }
+
+    .orange {
+        background-color: #FF8B01;
+    }
+
+    .rouge {
+        background-color: #C23B21;
+    }
+
+    .tvert {
+        color: #00B050;
+    }
+
+    .tjaune {
+        color: #FFD301;
+    }
+
+    .torange {
+        color: #FF8B01;
+    }
+
+    .trouge {
+        color: #C23B21;
+    }
+
+    .stitre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
+
+    .sbg {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        background-color: #F2F2F2;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .titre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    .conttext {
+        font-family: calibri;
+        font-size: 18px;
+        letter-spacing: 0px;
+        word-spacing: 0px;
+        font-weight: 400;
+        text-decoration: none;
+        font-style: bold;
+        font-variant: normal;
+        text-transform: none;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+<div id="contents">
+
+
+
+    {% for test_title, severity_groups in grouped_findings.items %}
+    <h1 id="{{ test_title|slugify }}">{{ test_title }}</h1>
+    {% for severity, findings in severity_groups.items %}
+        {% if severity != "Info" %}
+            <center><h2 id="Vulnérabilités_relatives_aux_menaces_avancées">Vulnérabilités relatives aux menaces avancées  </h2></center>
+            <br>
+        {% else %}
+        <center><h2 id="Vulnérabilités_relatives_aux_menaces_génériques">Vulnérabilités relatives aux menaces Générique </h2></center>
+            <br>
+        {% endif %}
+    
+    {% for finding in findings %}
+       
+    {% if finding.severity != "Info" %}
+   
+    <div class="container" id="finding_{{ finding.id }}">
+        <h5 class="titre">
+
+            4.5.{{ forloop.counter }} V_ {{ forloop.counter }} - {{ finding.title }} 
+
+
+
+        </h5>
+        <div class="panel " style="margin-bottom: 150px;">
+
+            <br>
+            <div class="container">
+                <table class="tfiche">
+                    <tr class="thfiche">
+                        <th class="thfiche">
+                            <span>
+                                <span class="stitre">Risque : </span>
+                            </span>
+                        </th>
+                        <th class="thfiche">
+                            <span class="home-text09">
+                                <span class="stitre">Statut :</span>
+
+                            </span>
+                        </th>
+                        <th class="thfiche">
+                            <span class="stitre">CVSS Score :</span>
+
+                        </th>
+                    </tr>
+                    <tr class="thfiche">
+                        <td class="thfiche">
+                            <span class="conttext {% if finding.cvssv3_score < 4 and 0 < finding.cvssv3_score %}tvert{% endif %}
+                    {% if finding.cvssv3_score < 7 and 3.9 < finding.cvssv3_score %}tjaune{% endif %}
+                    {% if finding.cvssv3_score < 9 and 6.9 < finding.cvssv3_score %}torange{% endif %}
+                    {% if finding.cvssv3_score < 10.1 and 8.9 < finding.cvssv3_score %}trouge{% endif %}">
+
+                                {%if finding.severity == 'High' %}
+                                Elevé
+
+                                {% elif finding.severity == 'Critical' %}
+                                Critique
+
+                                {% elif finding.severity == 'Low' %}
+                                Faible
+                                {% elif finding.severity == 'Medium' %}
+                                Moyenne
+                                {% else%}
+                                Générique
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td class="thfiche">
+                            <span class="conttext {% if finding.statut == 'Résolue'%} tvert{%else%} trouge{%endif%}">
+                                {{finding.statut}}
+
+                            </span>
+                        </td>
+                        <td class="thfiche" style="margin-right: 10px;">
+                            <div class="circle {% if finding.cvssv3_score < 4 and 0 < finding.cvssv3_score %}vert{% endif %}
+                    {% if finding.cvssv3_score < 7 and 3.9 < finding.cvssv3_score %}jaune{% endif %}
+                    {% if finding.cvssv3_score < 9 and 6.9 < finding.cvssv3_score %}orange{% endif %}
+                    {% if finding.cvssv3_score < 10.1 and 8.9 < finding.cvssv3_score %}rouge{% endif %}"
+                                style="margin: 8px;">
+                                <div class="center-vertical">
+
+                                    <b style='font-size: 25px;' class='center'>
+                                        <center>
+                                            {% if finding.cvssv3_score %}
+                                            {{ finding.cvssv3_score }}
+                                            {% else %}
+                                            N/A
+                                            {% endif %}
+                                    </b>
+                                    </center>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <span class="home-text18">
+                <div class="sbg ">
+                    <span class="sbg">Eléments Impactés :</span>
+                </div>
+                <br class="home-text20" />
+                <br />
+                {% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}
+                <br />
+                <br />
+                <br />
+            </span>
+            {% if finding.description %}
+
+            <div class="sbg ">
+                <span class="sbg">Description :</span>
+            </div>
+            <br />
+            <br />
+
+            {{ finding.description|markdown_render }}
+
+            <br />
+            <br />
+            <div class="sbg ">
+                <span class="sbg">Scénario de risque :</span>
+            </div>
+            <img src="{{ finding.senarioDeRisque.url }}" alt="Scenario de Risque" class="img-fluid">
+            <br />
+            <br />
+
+            {% endif %}
+            <center>
+                {% if finding.steps_to_reproduce %}
+                {{ finding.steps_to_reproduce|markdown_render }}
+                {% endif %}
+            </center>
+            <table class="rectab" cellspacing="0" cellpadding="0">
+                <thead>
+                    <div class="sbg ">
+                        <span class="sbg">Recommandation :</span>
+                    </div>
+                    <tr>
+                        <td class="recomtd" rowspan="3" style="border-right: 1px solid rgb(0, 0, 0);">
+
+                            {% if finding.mitigation %} {{ finding.mitigation|markdown_render }} {% endif %}
+                        </td>
+                        <td class="rectd"><span class="stitre">Type :</span>
+                            <b> <span class="conttext">{{ finding.type }}</span></b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rectd"><span class="stitre">Complexité de mise en œuvre :</span>
+                            <b><span class="conttext {% if finding.complexite == 'Simple' %}tvert{% endif %}
+                            {% if finding.complexite == 'Moyenne' %}torange{% endif %}
+                            {% if finding.complexite == 'Complexe' %}trouge{% endif %}">{{ finding.complexite }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rectd"><span class="stitre">Priorité de mise en œuvre</span>
+                            <b><span class="conttext {% if finding.priorite == 'Immédiate' %}trouge{% endif %}
+                            {% if finding.priorite == 'Court Terme' %}torange{% endif %}
+                            {% if finding.priorite == 'Moyenne Terme' %}tjaune{% endif %}
+                            {% if finding.priorite == 'Long Terme' %}tvert{% endif %}">:
+                                    {{finding.priorite}}</span></b>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+
+
+
+
+
+            <div class="sbg ">
+                <span class="sbg">Vecteur CVSS :</span>
+            </div>
+            <br />
+            </span>
+
+            <center>
+                <b style="font-size:large ;"> {{ finding.cvssv3|markdown_render }} </b>
+            </center>
+
+
+
+
+
+
+
+            <div class="sbg ">
+                <span class="sbg">Preuve :</span>
+            </div>
+            <br>
+{% if finding.images.all %}
+            <div class="row">
+                
+            {% for finding in findings %}
+            {% for finding_image in finding.images.all %}
+            <div class="col-12">
+                <center>
+                    <img src="{{ finding_image.image|image_to_data_uri }}" class="img-responsive">
+                </center>
+            </div>
+            <div class="col-12">
+                <center>
+                    <u>{{ finding_image.title }}</u>
+                </center>
+            </div>
+            
+            {% endfor %}
+            {% endfor %}
+            
+                
+            </div>
+            {% else %}
+            <p>No images found.</p>
+            {% endif %}
+
+            {% if finding.impact %}
+            {{ finding.impact }}
+            {% endif %}
+            <center>
+                {% if include_finding_images %}
+                {% include "dojo/snippets/file_images.html" with size='original' obj=finding format="HTML" %}
+                {% endif %}
+            </center>
+
+
+
+
+
+
+
+            {% if include_finding_notes %}
+            {% with notes=finding.notes.all|get_public_notes %}
+            {% if notes.count > 0 %}
+            <b6>Notes</b6>
+            <table id="notes" class="tablesorter-bootstrap table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        {% with notes_with_type=notes|get_notetype_notes_count %}
+                        {% if notes_with_type > 0 %}
+                        <th>Note Type</th>
+                        {% endif %}
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes reversed %}
+                    <tr>
+                        <td>
+                            {{ note.author.username }}
+                        </td>
+                        <td>
+                            {{ note.date }}
+                        </td>
+                        {% if notes_with_type > 0 %}
+                        <td>
+                            {% if note.note_type != None %}
+                            {{ note.note_type }}
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        <td>
+                            {{ note|linebreaks }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endwith %}
+            </table>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+
+        </div>
+    </div>
+
+<hr style="border-top: 1px solid #222; opacity: 100%;" class="element-to-hide">
+<div class="page-break"></div>
+{% else %}
+<div class="container" id="finding_{{ finding.id }}">
+    <h5 class="titre">
+
+        4.5.{{ forloop.counter }} V_ {{ forloop.counter }} - {{ finding.title }}
+        
+    </h5>
+    <div class="panel " style="margin-bottom: 150px;">
+
+        <br>
+        <div class="container">
+           
+                  
+            <span class="stitre">Status :</span><span class="conttext {% if finding.statut == 'Résolue'%} tvert{%else%} trouge{%endif%}">
+                           {{finding.statut}}
+
+                        </span>
+                    
+        </div>
+        <span class="home-text18">
+            <div class="sbg ">
+                <span class="sbg">Eléments Impactés :</span>
+            </div>
+            <br class="home-text20" />
+            <br />
+            {% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}
+            <br />
+            <br />
+            <br />
+        </span>
+        {% if finding.description %}
+
+        <div class="sbg ">
+            <span class="sbg">Description :</span>
+        </div>
+        <br />
+        <br />
+
+        {{ finding.description|markdown_render }}
+
+        <br />
+        <br />
+        <div class="sbg ">
+            <span class="sbg">Scénario de risque :</span>
+        </div>
+        <img src="{{ finding.senarioDeRisque.url }}" alt="Scenario de Risque" class="img-fluid">
+        <br />
+        <br />
+
+        {% endif %}
+        <center>
+            {% if finding.steps_to_reproduce %}
+            {{ finding.steps_to_reproduce|markdown_render }}
+            {% endif %}
+        </center>
+        <table class="rectab" cellspacing="0" cellpadding="0">
+            <thead>
+                <div class="sbg ">
+                    <span class="sbg">Recommandation :</span>
+                </div>
+                <tr>
+                    <td class="recomtd" rowspan="3" style="border-right: 1px solid rgb(0, 0, 0);">
+
+                        {% if finding.mitigation %} {{ finding.mitigation|markdown_render }} {% endif %}
+                    </td>
+                    <td class="rectd"><span class="stitre">Type :</span>
+                        <b> <span class="conttext">{{ finding.type }}</span></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="rectd"><span class="stitre">Complexité de mise en œuvre :</span>
+                        <b><span class="conttext {% if finding.complexite == 'Simple' %}tvert{% endif %}
+                        {% if finding.complexite == 'Moyenne' %}torange{% endif %}
+                        {% if finding.complexite == 'Complexe' %}trouge{% endif %}">{{ finding.complexite }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="rectd"><span class="stitre">Priorité de mise en œuvre</span>
+                        <b><span class="conttext {% if finding.priorite == 'Immédiate' %}trouge{% endif %}
+                        {% if finding.priorite == 'Court Terme' %}torange{% endif %}
+                        {% if finding.priorite == 'Moyenne Terme' %}tjaune{% endif %}
+                        {% if finding.priorite == 'Long Terme' %}tvert{% endif %}">:
+                                {{finding.priorite}}</span></b>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+        <div class="sbg ">
+            <span class="sbg">Vecteur CVSS :</span>
+        </div>
+        <br />
+        </span>
+
+        <center>
+            <b style="font-size:large ;"> {{ finding.cvssv3|markdown_render }} </b>
+        </center>
+        <div class="sbg ">
+            <span class="sbg">Preuve :</span>
+        </div>
+        <br>
+{% if finding.images.all %}
+        <div class="row">
+            
+        {% for finding in findings %}
+        {% for finding_image in finding.images.all %}
+        <div class="col-12">
+            <center>
+                <img src="{{ finding_image.image|image_to_data_uri }}" class="img-responsive">
+            </center>
+        </div>
+        <div class="col-12">
+            <center>
+                <b>{{ finding_image.title }}</b>
+            </center>
+        </div>
+        
+        {% endfor %}
+        {% endfor %}
+        
+            
+        </div>
+        {% else %}
+        <p>No images found.</p>
+        {% endif %}
+
+        {% if finding.impact %}
+        {{ finding.impact }}
+        {% endif %}
+        <center>
+            {% if include_finding_images %}
+            {% include "dojo/snippets/file_images.html" with size='original' obj=finding format="HTML" %}
+            {% endif %}
+        </center>
+
+        {% if include_finding_notes %}
+        {% with notes=finding.notes.all|get_public_notes %}
+        {% if notes.count > 0 %}
+        <b6>Notes</b6>
+        <table id="notes" class="tablesorter-bootstrap table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Date</th>
+                    {% with notes_with_type=notes|get_notetype_notes_count %}
+                    {% if notes_with_type > 0 %}
+                    <th>Note Type</th>
+                    {% endif %}
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notes reversed %}
+                <tr>
+                    <td>
+                        {{ note.author.username }}
+                    </td>
+                    <td>
+                        {{ note.date }}
+                    </td>
+                    {% if notes_with_type > 0 %}
+                    <td>
+                        {% if note.note_type != None %}
+                        {{ note.note_type }}
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                    <td>
+                        {{ note|linebreaks }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% endwith %}
+        </table>
+        {% endif %}
+        {% endwith %}
+        {% endif %}
+
+    </div>
+</div>
+
+</div>
+<hr style="border-top: 1px solid #222; opacity: 100%;" class="element-to-hide">
+<div class="page-break"></div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}

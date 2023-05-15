@@ -1,0 +1,449 @@
+{% extends "report_base.html" %}
+{% load static %}
+{% load display_tags %}
+{% load humanize %}
+{% load event_tags %}
+{% load get_endpoint_status %}
+{% load get_note_status %}
+{% load get_notetype_availability %}
+{% block content %}
+{{ block.super }}
+
+<style>
+    .rectd {
+        text-align: left;
+        border: 0px;
+        padding-left: 10px;
+    }
+
+    .recomtd {
+        text-align: start;
+        vertical-align: text-top;
+        width: 50%;
+        border: 0px;
+    }
+
+    .rectab {
+        width: 100%;
+        border: 0px;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+
+    }
+
+    .flex-container1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .flex-container2 {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .header {
+        color: #365273;
+        text-align: center;
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 50px;
+
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .circle {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: #edc400;
+        color: white;
+
+    }
+
+    .center {
+        text-align: center;
+        margin: 0;
+    }
+
+    .center-vertical {
+        padding: 30px 0;
+    }
+
+    .grey-background {
+        background-color: #F2F2F2;
+        padding: 0.5px 0;
+        width: 50%;
+    }
+
+    .bleu {
+        color: #365273;
+    }
+
+    p {
+        max-width: 8.5in;
+        min-width: 50%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .vert {
+        background-color: #00B050;
+    }
+
+    .jaune {
+        background-color: #FFD301;
+    }
+
+    .orange {
+        background-color: #FF8B01;
+    }
+
+    .rouge {
+        background-color: #C23B21;
+    }
+
+    .tvert {
+        color: #00B050;
+    }
+
+    .tjaune {
+        color: #FFD301;
+    }
+
+    .torange {
+        color: #FF8B01;
+    }
+
+    .trouge {
+        color: #C23B21;
+    }
+
+    .stitre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
+
+    .sbg {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        background-color: #F2F2F2;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .titre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        margin-left: 30px;
+    }
+
+    .conttext {
+        font-family: calibri;
+        font-size: 18px;
+        letter-spacing: 0px;
+        word-spacing: 0px;
+        font-weight: 400;
+        text-decoration: none;
+        font-style: bold;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    ul {
+        font-size: 15px;
+
+    }
+
+    th {
+        background-color: #365F91;
+        color: #F2F2F2;
+        text-align: center;
+        border: 1px;
+
+    }
+
+
+    td {
+        text-align: center;
+        border: 1px solid #666;
+        border-collapse: collapse;
+    }
+
+    .rep {
+        width: fit-content;
+        margin: 1cm;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+    @media print {
+            .element-to-hide {
+                display: none;
+            }
+            
+</style>
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<div class="container">
+    <a href="{% url 'my_report' engagement_id=engagement.id %}" class="element-to-hide">Generate PDF report</a>
+
+    
+
+    {% include "dojo/fr_report_cover_page.html" with product=engagement.product findings=findings %}
+    <div class="page-break"></div>
+    <div id="toc-page">
+        <pre>{{ toc_text }}</pre>
+        {% include "dojo/fr_report_toc.html" with product=engagement.product findings=findings grouped_findings=grouped_findings %}
+    </div>
+
+    <div class="page-break"></div>
+    <div id="contents">
+
+
+        {% include "dojo/fr_report_avant_propos.html" with product=engagement.product findings=findings %}
+        <div class="page-break"></div>
+        {% include "dojo/fr_report_methodes_de_classification.html"%}
+        <div class="page-break"></div>
+
+        {% include "dojo/fr_report_synthese.html" with findings=findings severities=severities priorities=priorities complexites=complexites product=engagement.product %}
+
+
+        
+        <div class="page-break"></div>
+        {% include "dojo/fr_report_presentation.html"%}
+        <div class="page-break"></div>
+        {% include "dojo/fr_report_finding_list.html" with findings=findings grouped_findings=grouped_findings %}
+    </div>
+
+</div> <!-- /container -->
+{% endblock %}
+{% block js %}
+{{ block.super }}
+<!-- jQuery -->
+<script src="{{ host }}{% static " jquery/dist/jquery.js" %}"></script>
+<!-- Flot Charts JavaScript -->
+<script src="{{ host }}{% static " flot/excanvas.min.js" %}"></script>
+<script src="{{ host }}{% static " flot/jquery.flot.js" %}"></script>
+<script src="{{ host }}{% static " flot/jquery.flot.resize.js" %}"></script>
+<script src="{{ host }}{% static " flot-axis/jquery.flot.axislabels.js" %}"></script>
+{% if punchcard %}
+<script src="{{ host }}{% static " jquery.flot.tooltip/js/jquery.flot.tooltip.min.js" %}"></script>
+<script src="{{ host }}{% static " JUMFlot/javascripts/JUMFlot.min.js" %}"></script>
+<script src="{{ host }}{% static " JUMFlot/javascripts/jquery.flot.mouse.js" %}"></script>
+<script src="{{ host }}{% static " JUMFlot/javascripts/jquery.flot.bubbles.js" %}"></script>
+{% endif %}
+<script src="{{ host }}{% static " dojo/js/metrics.js" %}"></script>
+<script type="text/javascript">
+    $(function () {
+        var critical = 0;
+        var high = 0;
+        var medium = 0;
+        var low = 0;
+        var info = 0;
+        var ticks = [
+            [0, "Critical"], [1, "High"], [2, "Medium"], [3, "Low"], [4, "Info"]
+        ];
+
+        {% for f in findings %}
+        {% if f.severity == 'Critical' %}
+        critical += 1;
+        {% elif f.severity == 'High' %}
+        high += 1;
+        {% elif f.severity == 'Medium' %}
+        medium += 1;
+        {% elif f.severity == 'Low' %}
+        low += 1;
+        {% elif f.severity == 'Info' %}
+        info += 1;
+        {% endif %}
+        {% endfor %}
+
+        var d1 = [
+            [0, critical],
+        ];
+        var d2 = [
+            [1, high],
+        ];
+        var d3 = [
+            [2, medium],
+        ];
+        var d4 = [
+            [3, low],
+        ];
+        var d5 = [
+            [4, info],
+        ];
+        open_findings(d1, d2, d3, d4, d5, ticks);
+
+        critical = 0;
+        high = 0;
+        medium = 0;
+        low = 0;
+        info = 0;
+        {% for f in closed_findings %}
+        {% if f.severity == 'Critical' %}
+        critical += 1;
+        {% elif f.severity == 'High' %}
+        high += 1;
+        {% elif f.severity == 'Medium' %}
+        medium += 1;
+        {% elif f.severity == 'Low' %}
+        low += 1;
+        {% elif f.severity == 'Info' %}
+        info += 1;
+        {% endif %}
+        {% endfor %}
+
+        var d1 = [
+            [0, critical],
+        ];
+        var d2 = [
+            [1, high],
+        ];
+        var d3 = [
+            [2, medium],
+        ];
+        var d4 = [
+            [3, low],
+        ];
+        var d5 = [
+            [4, info],
+        ];
+        closed_findings(d1, d2, d3, d4, d5, ticks);
+
+        var data = {};
+        var data_1 = []
+        var ticks = []
+        {% for f in findings %}
+        if (data[{{ f.age }
+    }]) {
+        data[{{ f.age }
+    }] += 1
+            }
+            else {
+        data[{{ f.age }
+    }] = 1
+            }
+    {% endfor %}
+    var i = 0;
+    $.each(data, function (index, value) {
+        if (value > 0) {
+            data_1.push([i, value]);
+            ticks.push([i, index])
+        }
+        i++;
+    });
+    finding_age(data_1, ticks);
+    });
+
+    window.onload = function () {
+        var toc = "";
+        var level = 3;
+
+        document.getElementById("contents").innerHTML =
+            document.getElementById("contents").innerHTML.replace(
+                /<h([\d])([^<]*)>([^<]+)<\/h([\d])>|<h([\d])([^>]*)>([^<]+)<sup>([^<]*)<\/sup>([^<]*)<\/h([\d])>/gi,
+                function (str, openLevel, id, titleText, closeLevel, openLevel_t, id_t, titleText_t, tags, junk, closeLevel_t) {
+                    if (openLevel != closeLevel || openLevel > 5) {
+                        return str;
+                    }
+
+                    if (tags) {
+                        openLevel = openLevel_t;
+                        id = id_t;
+                        titleText = titleText_t;
+                        closeLevel = closeLevel_t;
+                    }
+
+                    if (openLevel > level) {
+                        toc += (new Array(openLevel - level + 1)).join("<ul>");
+                    } else if (openLevel < level) {
+                        toc += (new Array(level - openLevel + 1)).join("</ul>");
+                    }
+
+                    level = parseInt(openLevel);
+
+                    var anchor = titleText.trim().replace(/ /g, "_");
+
+                    if (tags) {
+                        if (['Info', 'Low', 'Medium', 'High', 'Critical'].indexOf(titleText) >= 0) {
+                            toc += "<li><a style=\"font-size:" + (160 - (level * 7)) + "%; color:black;\" href=\"#" + anchor + "\">" +
+                                "<span class=\"label severity severity-" + titleText + "\">" + titleText + "</span></a></li>";
+                        }
+                        else {
+                            toc += "<li><a style=\"font-size:" + (160 - (level * 7)) + "%; color:black;\" href=\"#" + anchor + "\">" +
+                                titleText + "<sup>" + tags + "</sup></a></li>";
+                        }
+
+                        return "<a style=\"color:black;\" name=\"" + anchor + "\"><h" + openLevel + "" + id + ">"
+                            + titleText + "<sup>" + tags + "</sup></h" + closeLevel + "></a>";
+                    }
+                    else {
+                        if (['Info', 'Low', 'Medium', 'High', 'Critical'].indexOf(titleText) >= 0) {
+                            toc += "<br><li><a style=\"font-size:" + (160 - (level * 7)) + "%; color:black;\" href=\"#" + anchor + "\">" +
+                                "<span class=\"label severity severity-" + titleText + "\">" + titleText + "</span></a></li><br>";
+                        }
+                        else {
+                            toc += "<li><a style=\"font-size:" + (160 - (level * 7)) + "%; color:black;\" href=\"#" + anchor + "\">" +
+                                titleText + "</a></li>";
+                        }
+
+                        return "<a style=\"color:black;\" name=\"" + anchor + "\"><h" + openLevel + "" + id + ">"
+                            + titleText + "</h" + closeLevel + "></a>";
+                    }
+
+                    return "<a style=\"color:black;\" name=\"" + anchor + "\"><h" + openLevel + "" + id + ">"
+                        + titleText + "<sup>" + tags + "</sup></h" + closeLevel + "></a>";
+                }
+            );
+
+        if (level) {
+            toc += (new Array(level + 1)).join("</ul>");
+        }
+
+        document.getElementById("toc").innerHTML += toc;
+    };
+</script>
+{% endblock %}

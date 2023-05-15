@@ -1,0 +1,100 @@
+
+{% block content %}
+<style>
+    #priority-pie-chart {
+        width: 400px;
+        height: 400px;
+    }
+   
+</style>
+
+<p>Plusieurs recommandations ont été proposées tout au long de ce document, afin de remédier aux vulnérabilités identifiées et permettre, ainsi, d'améliorer le niveau de sécurité global. Elles peuvent être groupées dans les axes suivants :
+<ul>
+   <li>Mise en place d’un mécanisme efficace de filtrage et de contrôles des entrées,</li>
+	<li>Renforcer le mécanisme d’authentification de l’application,</li>
+	<li>Assurer une configuration (Hardening) sécurisée,</li>
+	<li>Déploiement de mécanisme de sécurité supplémentaire telles qu’un pare-feu applicatif (WAF).</li>
+</ul>
+Pour chaque vulnérabilité identifiée, TALAN a déterminé la priorité (cf. ‎2.2.10 Priorité de mise en œuvre) et la complexité (cf. ‎2.2.9 Complexité de mise en œuvre) de mise en œuvre de sa recommandation. Les deux figures suivantes présentent une répartition des vulnérabilités selon ces deux paramètres.
+</p>
+<div id="priority-pie-chart-container">
+    <canvas  id="priority-pie-chart"></canvas>
+    {% if priorities_chart_image %}
+    <center><img  src="data:image/svg+xml;base64,{{ priorities_chart_image }}" width="400" height="400"/></center>
+    {% endif %}
+</div>
+<center><h5><b>Priorite de mise en oeuvre</b></h5></center>
+<center><span class="ptitre">Figure 2 : Répartition des vulnérabilités par priorité de mise en œuvre des recommandations</span></center>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+<script>
+    var priorities = {{ priorities|safe }};
+    var colorMap = {
+        'Immédiate': '#C23B21',
+        'Court Terme': '#FF8B01',
+        'Moyenne Terme': '#FFD301',
+        'Long Terme': '#00B050',
+        'None': '#000000'
+    };
+    var data = [
+        { label: 'Immédiate', value: priorities['Immédiate'], color: colorMap['Immédiate'] },
+        { label: 'Court Terme', value: priorities['Court Terme'], color: colorMap['Court Terme'] },
+        { label: 'Moyenne Terme', value: priorities['Moyenne Terme'], color: colorMap['Moyenne Terme'] },
+        { label: 'Long Terme', value: priorities['Long Terme'], color: colorMap['Long Terme'] }
+    ];
+    var total = 0; // Total value of all slices
+    for (var i = 0; i < data.length; i++) {
+        var value = data[i].value;
+        if (value !== null) {
+            total += value;
+        }
+    }
+    var ctx = document.getElementById('priority-pie-chart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: data.map(function (x) { return x.value; }),
+                backgroundColor: data.map(function (x) { return x.color; })
+            }],
+            labels: data.map(function (x) { return x.label; })
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = ((currentValue / total) * 100).toFixed(0);
+                        return currentValue;
+                    }
+                }
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, context) => {
+                        let sum = 0;
+                        let dataArr = context.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
+

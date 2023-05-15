@@ -1,0 +1,800 @@
+<style type="text/css">
+    
+    .tab {
+        border: 1;
+        width: 50%;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .tab th {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        padding: 10px 20px;
+        word-break: normal;
+        background-color: #365F91;
+    }
+        
+    
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    .tg td {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 10px 20px;
+        word-break: normal;
+    }
+
+    .tg th {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+
+        overflow: hidden;
+        padding: 10px 20px;
+        word-break: normal;
+        background-color: #365F91;
+        color: rgb(0, 0, 0);
+    }
+
+    .tg .tg-0pky {
+        border-color: inherit;
+        text-align: left;
+        vertical-align: top
+    }
+
+
+
+    .tg .tg-twdu {
+        background-color: #BFBFBF;
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle
+    }
+
+    .tg .tg-fymr {
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: top;
+        background-color: #F2F2F2;
+
+    }
+
+    .tg .tg-u3ks {
+        background-color: #afd6af;
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .tg .tg-ev4w {
+        background-color: #32cb00;
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .tg .tg-20mg {
+        background-color: #ffc702;
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .tg .tg-o0on {
+        background-color: #b91919;
+        border-color: inherit;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .tg .tg-0pky {
+        border-color: inherit;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .vl {
+        border-left: 6px solid green;
+        height: 500px;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+    }
+
+    .flex-container1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .flex-container2 {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .header {
+        color: #365273;
+        text-align: center;
+        font-size: 3em;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 50px;
+
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .circle {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: #edc400;
+        color: white;
+
+    }
+
+    .center {
+        text-align: center;
+        margin: 0;
+    }
+
+    .center-vertical {
+        padding: 30px 0;
+    }
+
+    .grey-background {
+        background-color: #F2F2F2;
+        padding: 0.5px 0;
+        width: 50%;
+    }
+
+    .bleu {
+        color: #365273;
+    }
+
+    p {
+        max-width: 8.5in;
+        min-width: 50%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .vert {
+        background-color: #00B050;
+    }
+
+    .jaune {
+        background-color: #FFD301;
+    }
+
+    .orange {
+        background-color: #FF8B01;
+    }
+
+    .rouge {
+        background-color: #C23B21;
+    }
+
+    .tvert {
+        color: #00B050;
+    }
+
+    .tjaune {
+        color: #FFD301;
+    }
+
+    .torange {
+        color: #FF8B01;
+    }
+
+    .trouge {
+        color: #C23B21;
+    }
+
+    .stitre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
+
+    .ptitre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: bold;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+
+    }
+
+    .sbg {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        background-color: #F2F2F2;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .titre {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0px;
+        word-spacing: -1.2px;
+        color: #365F91;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        margin-left: 30px;
+    }
+
+    .conttext {
+        font-family: calibri;
+        font-size: 18px;
+        letter-spacing: 0px;
+        word-spacing: 0px;
+        font-weight: 400;
+        text-decoration: none;
+        font-style: bold;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    ul {
+        font-size: 15px;
+        margin-left: 10px;
+
+    }
+
+    th {
+        background-color: #365F91;
+        color: #F2F2F2;
+        text-align: center;
+        border: 1px;
+        font-weight: bold;
+
+    }
+
+    td {
+        text-align: center;
+        border: 1px solid #666;
+        border-collapse: collapse;
+    }
+    
+</style>
+
+<div class="body" style="margin-bottom: 150px;">
+    <h2 class="stitre" id="#2.1._Classification_:_Vulnérabilités_relatives_aux_menaces_génériques">2.Méthode de classification des vulnérabilités et d’analyse des risques</h2>
+    <br>
+    <h4 class="titre" class="titre" id="2.2._Classification_:_Vulnérabilité_relatives_aux_menaces_avancées">2.1. Classification : Vulnérabilités relatives aux menaces génériques</h4>
+
+    <br>
+    Ce type de vulnérabilités seront présentées sous le modèle ci-dessous.
+
+    <table class="tg">
+        <thead>
+            <tr>
+                <th class="tg-0pky" style="color:white">ref</th>
+                <th class="tg-0pky" style="color:white">titre</th>
+                <th class="tg-0pky" style="color:white">Elements impactés</th>
+                <th class="tg-0pky" style="color:white">Description</th>
+                <th class="tg-0pky" style="color:white">Preuve</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tg-0pky" rowspan="3" style=" writing-mode: vertical-lr"> <b>VG_00X</b></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky" rowspan="3"></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky" style="background-color:#365F91; color: white;" colspan="2">Recomandation</td>
+                <td class="tg-0pky" style="background-color:#365F91; color: white;">Priorité</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky" colspan="2"> .</td>
+                <td class="tg-0pky"> .</td>
+            </tr>
+        </tbody>
+    </table>
+    <center> <span class="ptitre">Tableau 7 : Tableau de présentation des vulnérabilités relatives aux menaces
+            génériques</span>
+    </center>
+
+    <br>
+    <h4 class="titre" class="titre">2.2. Classification : Vulnérabilité relatives aux menaces avancées</h4>
+    <br>
+    Ce type de vulnérabilités seront présentées sous le modèle ci-dessous.
+    <br>
+    <br>
+
+    <div class="panel " style="margin-bottom: 150px;">
+        <p class="titre">
+
+            Référence(V_X) - Titre
+
+        </p>
+        <div class="container">
+
+            <table class="tfiche">
+                <tr class="thfiche">
+                    <th class="thfiche">
+                        <span>
+                            <span class="stitre">Risque : </span>
+                        </span>
+                    </th>
+                    <th class="thfiche">
+                        <span class="home-text09">
+                            <span class="stitre">Statut :</span>
+
+                        </span>
+                    </th>
+                    <th class="thfiche">
+                        <span class="stitre">CVSS Score :</span>
+
+                    </th>
+                </tr>
+                <tr>
+                    <td class="thfiche" style='font-size: 25px;'>?</td>
+                    <td class="thfiche" style='font-size: 25px;'>?</td>
+                    <td class="thfiche">
+                        <div class="circle orange" style="margin: 8px;">
+                            <div class="center-vertical">
+
+                                <b style='font-size: 25px;' class='center'>
+                                    <center>
+                                        ?
+                                </b>
+                                </center>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <span class="home-text18">
+            <div class="sbg ">
+                <span class="sbg">Eléments Impactés :</span>
+            </div>
+            
+            <br />
+
+            <br />
+            <br />
+            <br />
+        </span>
+
+
+        <div class="sbg ">
+            <span class="sbg">Description :</span>
+        </div>
+        <br />
+        <br />
+
+
+
+        <br />
+        <br />
+        <div class="sbg ">
+            <span class="sbg">Scénario de risque :</span>
+        </div>
+        <br />
+        <br />
+
+
+      
+        <table class="rectab" cellspacing="0" cellpadding="0">
+            <thead>
+                  <div class="sbg ">
+                            <span class="sbg">Recommandation :</span>
+                        </div>
+                <tr>
+                    <td class="recomtd" rowspan="3" style="border-right: 1px solid rgb(0, 0, 0);">
+                      
+                    </td>
+                    <td class="rectd"><span class="stitre">Type :</span>
+                        <b> <span class="conttext">??</span></b></td>
+                </tr>
+                <tr>
+                    <td class="rectd"><span class="stitre">Complexité de mise en œuvre :</span>
+                        <b><span class="conttext ">??</span></b></td>
+                </tr>
+                <tr>
+                    <td class="rectd"><span class="stitre">Priorité de mise en œuvre</span>
+                        <b><span class="conttext ">: ??</span></b></td>
+                </tr>
+            </thead>
+        </table>
+
+
+
+           
+            <div class="sbg ">
+                <span class="sbg">Vecteur CVSS :</span>
+            </div>
+            <br/>
+            </span>
+
+            <center>
+                <b style="font-size:large ;"> CVSS: 3.1/AV:?/AC:?/PR:?/UI:?/S:?/C:?/I:?/A:? </b>
+            </center>
+            <br/>
+
+
+
+            <div class="sbg ">
+                <span class="sbg">Preuve :</span>
+            </div>
+            <br>
+
+            <center>
+
+            </center>
+
+    </div>
+ <div class="page-break"></div>
+    Ci-dessous, une description des différents champs du modèle.
+    <br>
+   
+
+    <h4 class="titre" class="titre" id="2.2.1._Référence">2.2.1. Référence</h4>
+
+    La référence de la vulnérabilité est un identifiant sous le format « V_X » qui sera utilisé dans la synthèse des
+    vulnérabilités identifiées.
+    <br>
+    <h4 class="titre" class="titre" id="2.2.2._Titre_de_la_vulnérabilité">2.2.2. Titre de la vulnérabilité</h4>
+
+    Le titre de la vulnérabilité est la nomination de la vulnérabilité
+    <br>
+    <h4 class="titre" class="titre" id="2.2.3._Score_CVSS_(Criticité)">2.2.3. Score CVSS (Criticité)</h4>
+
+    Le score d’une vulnérabilité sera calculé par la CVSS 3.X (Common Vulnerability Scoring System), le score d’une
+    vulnérabilité déduit son niveau de criticité :
+    <br>
+    <center>
+        <table class="tab" style="width: 40%;">
+            <thead>
+                <tr>
+                    <th style="color:white">CVSS Score</th>
+                    <th style="color:white">Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0.1 – 3.9</td>
+                    <td class="vert">Faible</td>
+                </tr>
+                <tr>
+                    <td>4.0 – 6.9</td>
+                    <td class="jaune">Moyenne</td>
+                </tr>
+                <tr>
+                    <td>7.0 – 8.9</td>
+                    <td class="orange">Forte</td>
+                </tr>
+                <tr>
+                    <td>9.0 – 10.0</td>
+                    <td class="rouge">Critique</td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="ptitre">Tableau 8 : Répartition du score</span>
+    </center>
+
+    <br>
+    <div class="row">
+        <div class="col-6" style="border-right: 1px solid black">
+            <p>
+                Vecteur d’attaque (AV) :
+            <ul>
+                <li> Réseau (N)</li>
+                <li> Local (L)</li>
+                <li> Physique (P)</li>
+                <li> Adjacent (A)</li>
+            </ul>
+            Complexité de l'attaque (AC)
+            <ul>
+                <li> Complexe (H)</li>
+                <li> Simple (L)</li>
+            </ul>
+            Privilège requis (PR)
+            <ul>
+                <li> Haut (H)</li>
+                <li> Faible (L)</li>
+                <li> Non (N)</li>
+            </ul>
+            Interaction avec l'utilisateur (UI)
+            <ul>
+                <li> Obligatoire (R)</li>
+                <li> Non (N)</li>
+            </ul>
+            Portée (S)
+            <ul>
+                <li> Changée (C)</li>
+                <li> Inchangée (U)</li>
+            </ul>
+            </p>
+        </div>
+        <div class="col-6" style="padding-left: 25 px;">
+            <p>
+                Impact sur la confidentialité (C)
+            <ul>
+                <li> Aucun impact (N)</li>
+                <li> Faible (L)</li>
+                <li> Fort (H)</li>
+            </ul>
+
+            Impact sur l'intégrité (I)
+            <ul>
+                <li> Aucun impact (N)</li>
+                <li> Faible (L)</li>
+                <li> Fort (H)</li>
+            </ul>
+
+            Impact sur la disponibilité (A)
+            <ul>
+                <li> Aucun impact (N)</li>
+                <li> Faible (L)</li>
+                <li> Fort (H)</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+    <h4 class="titre" class="titre" id="2.2.4._Eléments_Impactés">2.2.4. Eléments Impactés</h4>
+
+
+    Les éléments affectés par la vulnérabilité sont précisés dans ce champ.
+    <br>
+    <h4 class="titre" class="titre" id="2.2.5._Scénario_de_risque">2.2.5. Scénario de risque</h4>
+
+
+    <p>
+        Un scénario qui décrit le schéma d’attaque et les différents impacts possibles.
+    </p>
+    <br>
+    <h4 class="titre" class="titre" id="2.2.6._Description_de_la_vulnérabilité">2.2.6. Description de la vulnérabilité</h4>
+
+
+    <p>
+        Le libellé de la vulnérabilité est une description générale de la vulnérabilité en question.
+        <br>
+        ● Eléments Identifiés
+        <br>
+        Les constats relatifs à la vulnérabilité sont décrits dans ce champ.
+        <br>
+        ● Preuves
+        <br>
+    </p>
+    <p>
+        Ce champ liste les éléments qui prouvent la présence de la vulnérabilité.</p>
+    <br>
+    <h4 class="titre" class="titre" id="2.2.7._Recommandation">2.2.7. Recommandation</h4>
+
+    <p>
+        Ce champ contient une description des actions de correction de la vulnérabilité.</p>
+    <br>
+    <h4 class="titre" class="titre" id="2.2.8._Type">2.2.8. Type</h4>
+
+    <p>
+        TALAN classe les vulnérabilités en 3 catégories, présentées dans le tableau ci-dessous :</p>
+    <center>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th style="color: white;">Type de Vulnérabilité</th>
+                    <th style="color: white;">Type de Vulnérabilité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vulnérabilité organisationnelle</td>
+                    <td>Vulnérabilité liée à l’organisation retenue pour la gestion du système audité </td>
+                </tr>
+                <tr>
+                    <td>Vulnérabilité technique</td>
+                    <td>Vulnérabilité liée aux choix techniques ou technologiques effectués dans le cadre du système
+                        audité
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vulnérabilité de type configuration</td>
+                    <td>Vulnérabilité liée à une configuration inadaptée</td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="ptitre">Tableau 9 : Type de vulnérabilités</span>
+    </center>
+
+    <br>
+    <h4 class="titre" class="titre" id="2.2.9._Complexité_de_mise_en_œuvre">2.2.9. Complexité de mise en œuvre</h4>
+
+    <p>Ce champ indique la complexité de mise en œuvre de la recommandation, estimée à partir du niveau d’expertise, du
+        temps de travail
+        et des ressources (matérielles et humaines) nécessaires. Le tableau ci-dessous présente les trois niveaux de
+        complexité utilisés
+        par TALAN.</p>
+    <center>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th style="color: white;">Complexité de mise en œuvre</th>
+                    <th style="color: white;">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="tvert"><b>Simple</b></td>
+                    <td>La correction est simple à réaliser.
+                        Exemple : légère modification d’un fichier de configuration
+                    </td>
+                </tr>
+                <tr>
+                    <td class="torange"><b>Moyenne</b></td>
+                    <td>La correction est moyennement difficile à implémenter.
+                        Exemple : reconfiguration d’un équipement
+                    </td>
+                </tr>
+                <tr>
+                    <td class="trouge"><b>Complexe</b></td>
+                    <td>La correction est difficile à mettre en œuvre.
+                        Exemple : modification de l’architecture
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <span class="ptitre">
+            Tableau 10 : Niveaux de la complexité de mise en œuvre</span>
+    </center>
+    <br>
+    <h4 class="titre" class="titre" id="2.2.10._Priorité_de_mise_en_œuvre">2.2.10. Priorité de mise en œuvre</h4>
+
+    <p>
+        Ce champ représente le délai de mise en œuvre recommandé par TALAN.
+        TALAN détermine la priorité de mise en œuvre en fonction des deux critères suivants :
+    <ul>
+        <li> Niveau de criticité (risque), </li>
+        <li> Complexité de mise œuvre de la recommandation.</li>
+    </ul>
+
+    La matrice suivante présente les priorités de mise en œuvre correspondant aux différentes combinaisons (Niveau de
+    criticité, complexité de mise en œuvre).
+    </p>
+    <center>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th class="tg-twdu" rowspan="4"><span style="background-color:#BFBFBF"> </span><br><span
+                            style="color:black ; writing-mode: vertical-lr">Complexité de mise en œuvre</span><span
+                            style="background-color:#BFBFBF ">
+                        </span></th>
+                    <th class="tg-fymr">Complexe</th>
+                    <th class="tg-u3ks">Long terme</th>
+                    <th class="tg-ev4w">Moyen terme</th>
+                    <th class="tg-20mg">Court terme</th>
+                    <th class="tg-20mg">Court terme</th>
+                </tr>
+                <tr>
+                    <th class="tg-fymr">Moyenne</th>
+                    <th class="tg-ev4w">Moyen terme</th>
+                    <th class="tg-ev4w">Moyen terme</th>
+                    <th class="tg-20mg">Court terme</th>
+                    <th class="tg-o0on">Immédiate</th>
+                </tr>
+                <tr>
+                    <th class="tg-fymr">Simple</th>
+                    <th class="tg-20mg">Court terme</th>
+                    <th class="tg-20mg">Court terme</th>
+                    <th class="tg-o0on">Immédiate</th>
+                    <th class="tg-o0on">Immédiate</th>
+                </tr>
+                <tr>
+                    <th class="tg-fymr">Niveau</th>
+                    <th class="tg-fymr">Faible</th>
+                    <th class="tg-fymr">Moyen</th>
+                    <th class="tg-fymr">Fort</th>
+                    <th class="tg-fymr">Trés fort</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="tg-0pky" style="border: 0px;"></td>
+                    <td class="tg-twdu" colspan="5"><span style="background-color:#BFBFBF"> </span><br><span
+                            style="color:black">Niveau de criticité (risque)</span><span
+                            style="background-color:#BFBFBF">
+                        </span></td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="ptitre"> Tableau 11 : Priorités de mise en œuvre</span>
+    </center>
+    <br>
+    Le tableau ci-dessous décrit les 4 priorités de mise en œuvre présentées ci-dessus.
+    <br>
+
+    <center>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th style="color: white;">Priorité de mise en œuvre</th>
+                    <th style="color: white;">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="trouge"><b>Immédiate</b></td>
+                    <td>La correction doit être réalisée dans un délai inférieur à un mois</td>
+                </tr>
+                <tr>
+                    <td class="torange"><b>Court terme</b> </td>
+                    <td>La correction doit être réalisée dans un délai de 1 à 3 mois </td>
+                </tr>
+                <tr>
+                    <td class="tjaune"><b>Moyen terme</b></td>
+                    <td>La correction doit être réalisée dans un délai de 3 à 6 mois </td>
+                </tr>
+                <tr>
+                    <td class="tvert"><b>Long terme</b></td>
+                    <td>La correction doit être réalisée dans un délai > 6 mois</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <br>
+        <span class="ptitre">
+            Tableau 12 : Niveaux de la priorité de mise en œuvre</span>
+    </center>
+
+
+</div>
