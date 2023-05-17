@@ -87,17 +87,32 @@ def markdown_render(value):
                                                       'markdown.extensions.toc',
                                                       'markdown.extensions.tables'])
         return mark_safe(bleach.clean(markdown_text, tags=markdown_tags, attributes=markdown_attrs, css_sanitizer=markdown_styles))
+from django.core.files.storage import default_storage, FileSystemStorage
+import mimetypes
+import base64
+import os
 @register.filter
 def image_to_data_uri(image_field):
+    if not image_field:
+        print("image_field is None")
+        return None
+
+    if not os.path.exists(image_field.path):
+        print(f"No file exists at path: {image_field.path}")
+        return None
+
     try:
-        with default_storage.open(image_field.path, 'rb') as f:
+        with open(image_field.path, 'rb') as f:
             image_data = f.read()
             mime_type = mimetypes.guess_type(image_field.path)[0]
             encoded_data = base64.b64encode(image_data).decode('utf-8')
-            return f'data:{mime_type};base64,{encoded_data}'
+            data_uri = f'data:{mime_type};base64,{encoded_data}'
+            print(f"Image path: {image_field.path}, Data URI: {data_uri}")
+            return data_uri
     except Exception as e:
         print(f"Error converting image to data URI: {e}")
         return None
+
 
 @register.filter(name='url_shortner')
 def url_shortner(value):

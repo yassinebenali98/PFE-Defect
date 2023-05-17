@@ -743,7 +743,7 @@ def prefetch_for_view_engagements(engagements, recent_test_day_count):
 def import_scan_results_prod(request, pid=None):
     from dojo.engagement.views import import_scan_results
     return import_scan_results(request, pid=pid)
-
+ 
 
 def new_product(request, ptid=None):
     if get_authorized_product_types(Permissions.Product_Type_Add_Product).count() == 0:
@@ -759,10 +759,10 @@ def new_product(request, ptid=None):
     form = ProductForm(initial=initial)
 
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=Product())
+        form = ProductForm(request.POST,request.FILES, instance=Product())
 
         if get_system_setting('enable_github'):
-            gform = GITHUB_Product_Form(request.POST, instance=GITHUB_PKey())
+            gform = GITHUB_Product_Form(request.POST,request.FILES, instance=GITHUB_PKey())
         else:
             gform = None
 
@@ -854,7 +854,9 @@ def edit_product(request, pid):
         pass
 
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
+        form = ProductForm(request.POST,request.FILES, instance=product)
+        print(f"Form is valid: {form.is_valid()}")
+        print(f"Logo data: {request.FILES.get('logo')}")
         jira_project = jira_helper.get_jira_project(product)
         if form.is_valid():
             form.save()
@@ -868,7 +870,7 @@ def edit_product(request, pid):
             error = not success
 
             if get_system_setting('enable_github') and github_inst:
-                gform = GITHUB_Product_Form(request.POST, instance=github_inst)
+                gform = GITHUB_Product_Form(request.POST,request.FILES, instance=github_inst)
                 # need to handle delete
                 try:
                     gform.save()

@@ -3,8 +3,9 @@
 
 <link href="{% static "bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
 <div class="row" style="margin-bottom: 150px; margin-top: 150px;">
+	
 	<center>
-<img src="{{ request.scheme }}://{{ request.get_host }}{% static 'dojo/img/talan-head.png' %}" alt="talan"  class="full-width-image"/>
+<img src="{{ product.logo|image_to_data_uri }}" alt="logo" style="max-width: 800px;"/>
 </center>
 	
 	

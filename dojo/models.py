@@ -861,7 +861,7 @@ class SLA_Configuration(models.Model):
 
 class Product(models.Model):
     WEB_PLATFORM = 'web'
-    IOT = 'iot'
+    IOT = 'iot' 
     DESKTOP_PLATFORM = 'desktop'
     MOBILE_PLATFORM = 'mobile'
     WEB_SERVICE_PLATFORM = 'web service'
@@ -915,6 +915,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=4000)
 
+
+    logo = models.FileField(upload_to=UniqueUploadNameProvider('uploaded_files'),blank=True, null=True)
     product_manager = models.ForeignKey(Dojo_User, null=True, blank=True,
                                         related_name='product_manager', on_delete=models.RESTRICT)
     technical_contact = models.ForeignKey(Dojo_User, null=True, blank=True,
@@ -2024,7 +2026,7 @@ class Finding(models.Model):
                              verbose_name=_('statut'),
                              help_text=_("statut"))
 
-    scenarioDeRisque = models.ImageField(upload_to='senario/', blank=True, null=True)
+    scenarioDeRisque = models.FileField(upload_to=UniqueUploadNameProvider('uploaded_files'),blank=True, null=True)
     sla_start_date = models.DateField(
                             blank=True,
                             null=True,
