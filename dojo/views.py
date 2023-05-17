@@ -237,6 +237,14 @@ def my_report_view(request, engagement_id):
     png_buffer = chart.render_to_png()
     severities_png_base64 = base64.b64encode(png_buffer).decode('utf-8')
 
+    counts = {
+        'Technique': findings.filter(type='Technique').count(),
+        'Organisationnelle': findings.filter(type='Organisationnelle').count(),
+        'Confuguration ': findings.filter(type='Confuguration ').count()
+         }
+        
+    counts['generic'] = findings.filter(severity='Info').count()    
+
 
 
     
@@ -254,7 +262,7 @@ def my_report_view(request, engagement_id):
     # Render the HTML template with the chart image
     context = {'engagement': engagement, 'product': product, 'findings': findings, 'include_table_of_contents': 1, 'image_to_data_uri': image_to_data_uri,
                 'priorities_chart_image': priorities_png_base64,'complexite_chart_image': complexites_png_base64,'severities_chart_image': severities_png_base64,
-                  'grouped_findings':grouped_findings  }
+                  'grouped_findings':grouped_findings,'counts':counts  }
     html_string = render(request, 'dojo/engagement_pdf_report.html', context).content.decode('utf-8')
 
     # Create a PDF file using WeasyPrint

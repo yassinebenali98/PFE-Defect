@@ -7,6 +7,37 @@
 
     <h2 class="stitre" id="3.Synthèse">3.Synthèse</h2>
     <h4 class="titre" id="3.1._Synthèse_globale">3.1. Synthèse globale</h4>
+
+    {{ engagement.niveau_securite_global|markdown_render }}
+    {{ engagement.mesures_impactees|markdown_render }}
+
+
+
+    {% with choices=engagement.compteur %}
+
+    {% if 'technique' in choices %}
+        <p>Au total, {{ counts.Technique }} vulnérabilités ont été identifiées durant l’audit dont le type est Technique.</p>
+    {% endif %}
+
+    {% if 'Organisationnelle' in choices %}
+        <p>Au total, {{ counts.Organisationnelle }} vulnérabilités ont été identifiées durant l’audit dont le type est Organisationnelle.</p>
+    {% endif %}
+
+    {% if 'Configuration' in choices %}
+        <p>Au total, {{ counts.Configuration }} vulnérabilités ont été identifiées durant l’audit dont le type est Configuration.</p>
+    {% endif %}
+
+    {% if 'generic' in choices %}
+        <p>Au total, {{ counts.generic }} vulnérabilités ont été identifiées durant l’audit dont le type est generic.</p>
+    {% endif %}
+{% endwith %}
+
+    {{ engagement.consequences|markdown_render }}
+    {{ engagement.risques|markdown_render }}
+
+
+
+
     {{ engagement.description|markdown_render }}
     {% include "dojo/severity_pie_chart.html" with severities=severities %}
 

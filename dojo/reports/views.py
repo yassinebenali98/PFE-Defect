@@ -532,13 +532,20 @@ def generate_report(request, obj, host_view=False):
         template = 'dojo/engagement_pdf_report.html'
         report_title = "Engagement Report"
         report_subtitle = str(engagement)
-
+        counts = {
+        'Technique': findin.filter(type='Technique').count(),
+        'Organisationnelle': findin.filter(type='Organisationnelle').count(),
+        'Confuguration ': findin.filter(type='Confuguration ').count()
+         }
+        
+        counts['generic'] = findin.filter(severity='Info').count()
+ 
         ids = set(finding.id for finding in findings.qs)
         tests = Test.objects.filter(finding__id__in=ids).distinct()
         endpoints = Endpoint.objects.filter(product=engagement.product).distinct()
         logger.debug(tests.__str__ )
 
-        
+ 
         
         context = {'engagement': engagement,
                    'tests': tests, 
@@ -547,6 +554,7 @@ def generate_report(request, obj, host_view=False):
                    'findings': findings.qs.distinct().order_by('test'),
                    'finding':findin,
                    'severities': complexites_count,
+                   'counts': counts,
                    'priorities': priorities_count,
                    'complexites': complexites_count,
                    'include_finding_notes': include_finding_notes,
@@ -697,6 +705,8 @@ def generate_report(request, obj, host_view=False):
                            'severities':severitiesjson,
                            'complexites':complexitesjson,
                            'grouped_findings':grouped_findings,
+                           'counts': counts,
+
                            'context': context,
                            })
 

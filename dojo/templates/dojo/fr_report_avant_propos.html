@@ -198,17 +198,8 @@
 <div class="container" style="margin-bottom: 150px;">
     <h2 class="stitre" id="1.Avant-propos">1.Avant-propos</h2>
     <h4 class="titre" class="titre" id="1.1._Contexte_du_projet">1.1. Contexte du projet</h4>
-    <div class="text-justify">
-        Ce projet consiste à réaliser un test d’intrusion ciblant la plateforme {{ product.name }}
-        Dans le cadre de cet engagement, la démarche TALAN s’articule en 5 phases listées ci-dessous :
-    </div>
-    <ul class="body">
-        <li>Phase 1 : Collecte Passive </li>
-        <li>Phase 2 : Collecte Active </li>
-        <li>Phase 3 : Test d’intrusion en BlackBox </li>
-        <li>Phase 4 : Test d’intrusion en GrayBox </li>
-        <li>Phase 5 : Reporting </li>
-    </ul>
+    {{ engagement.description|markdown_render }}
+
 
     <h4 class="titre" id="1.2._Objectif_du_document">1.2. Objectif du document</h4>
     <div>Ce document constitue le rapport technique relatif aux résultats du test d’intrusion de la plateforme «

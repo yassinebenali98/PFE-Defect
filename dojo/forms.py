@@ -798,12 +798,43 @@ class EngForm(forms.ModelForm):
         help_text="Add a descriptive name to identify this engagement. " +
                   "Without a name the target start date will be set.")
     description = forms.CharField(
+    label='Contexte du projet',    
     widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
     required=False,
     help_text="Description of the engagement and details regarding the engagement.",
-    initial="- L’audit technique de l’application Web a permis de relever un niveau de sécurité global qualifié de Faible, L’échelle d’évaluation utilisée étant :\n\n- Faible,\n- Inférieur à la moyenne,\n- Moyen,\n- Supérieur à la moyenne,\n- Satisfaisant.\n\nCe niveau s'explique par la criticité forte de certaines vulnérabilités. Ces vulnérabilités touchent principalement aux éléments suivants :\n\n- Le mécanisme de filtrage des inputs au niveau de l’interface de l’application,\n- Le mécanisme d’authentification de l’application,\n- Le mécanisme de vérification de fichiers uploadés mis en place au niveau de l’application Web,\n- Le mécanisme de vérification de l’identité des utilisateurs,\n- La protection de la confidentialité des flux applicatifs échangés entre l’utilisateur et le serveur.\n\nAu total, 21 vulnérabilités ont été identifiées durant l’audit dont le type est Technique.\nAu total, yy vulnérabilités ont été identifiées durant l’audit dont le type est générique.\n\nL'exploitation réussie de ces vulnérabilités pourrait aboutir à une ou plusieurs des conséquences suivantes :\n\n- La perte de la disponibilité (Déni de service),\n- La perte de la confidentialité des données,\n- La perte de l’intégrité des données,\n- Le contournement du dispositif d’authentification (Usurpation d’identité).\n\nL'évaluation de l'impact et de la complexité d'exploitation de chaque vulnérabilité a permis d'identifier les risques les plus critiques, présentées ci-dessous :\n\n- Mécanisme de réinitialisation de mot de passe non suffisamment sécurisé,\n- Possibilité d’exécution de code à distance (RCE),\n- Absence de mécanisme de protection contre les attaques de brute force et dénies de services,\n- Possibilité d’injection des charges utiles XSS/SSTI.\n"
-)
+    initial="Ce projet consiste à réaliser un test d’intrusion ciblant la plateforme MediaNet. Dans le cadre de cet engagement, la démarche TALAN s’articule en 5 phases listées ci-dessous :\n\n- Phase 1 : Collecte Passive\n- Phase 2 : Collecte Active\n- Phase 3 : Test d’intrusion en BlackBox\n- Phase 4 : Test d’intrusion en GrayBox\n- Phase 5 : Reporting\n\n"
 
+)
+    niveau_securite_global = forms.CharField(
+    widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
+    required=False,
+    help_text="Description of the engagement and details regarding the engagement.",
+    initial="L’audit technique de l’application Web a permis de relever un niveau de sécurité global qualifié de Faible, L’échelle d’évaluation utilisée étant :\n\n- Faible,\n- Inférieur à la moyenne,\n- Moyen,\n- Supérieur à la moyenne,\n- Satisfaisant"
+)
+    mesures_impactees = forms.CharField(
+    widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
+    required=False,
+    help_text="Description of the engagement and details regarding the engagement.",
+    initial=".\n\nCe niveau s'explique par la criticité forte de certaines vulnérabilités. Ces vulnérabilités touchent principalement aux éléments suivants :\n\n- Le mécanisme de filtrage des inputs au niveau de l’interface de l’application,\n- Le mécanisme d’authentification de l’application,\n- Le mécanisme de vérification de fichiers uploadés mis en place au niveau de l’application Web,\n- Le mécanisme de vérification de l’identité des utilisateurs,\n- La protection de la confidentialité des flux applicatifs échangés entre l’utilisateur et le serveur."
+)
+    consequences = forms.CharField(
+    widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
+    required=False,
+    help_text="Description of the engagement and details regarding the engagement.",
+    initial="\n\nAu total, 21 vulnérabilités ont été identifiées durant l’audit dont le type est Technique.\nAu total, yy vulnérabilités ont été identifiées durant l’audit dont le type est générique.\n\nL'exploitation réussie de ces vulnérabilités pourrait aboutir à une ou plusieurs des conséquences suivantes :\n\n- La perte de la disponibilité (Déni de service),\n- La perte de la confidentialité des données,\n- La perte de l’intégrité des données,\n- Le contournement du dispositif d’authentification (Usurpation d’identité)."
+)
+    risques = forms.CharField(
+    widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
+    required=False,
+    help_text="Description of the engagement and details regarding the engagement.",
+    initial="\n\nL'évaluation de l'impact et de la complexité d'exploitation de chaque vulnérabilité a permis d'identifier les risques les plus critiques, présentées ci-dessous :\n\n- Mécanisme de réinitialisation de mot de passe non suffisamment sécurisé,\n- Possibilité d’exécution de code à distance (RCE),\n- Absence de mécanisme de protection contre les attaques de brute force et dénies de services,\n- Possibilité d’injection des charges utiles XSS/SSTI.\n"
+)
+    compteur = forms.MultipleChoiceField(
+        choices=Engagement.CHOICES,
+        widget=forms.CheckboxSelectMultiple,
+        required=False, 
+        label="Compteur"
+    )
     product = forms.ModelChoiceField(label='Product',
                                        queryset=Product.objects.none(),
                                        required=True)
@@ -815,7 +846,13 @@ class EngForm(forms.ModelForm):
         queryset=None,
         required=True, label="Testing Lead")
     test_strategy = forms.URLField(required=False, label="Test Strategy URL")
-
+    
+    def clean_your_field(self):
+        compteur = self.cleaned_data.get('compteur')
+        if compteur:
+            # Convert list of choices to comma-separated string
+            compteur = ','.join(compteur)
+        return compteur
     def __init__(self, *args, **kwargs):
         cicd = False
         product = None

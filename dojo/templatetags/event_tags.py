@@ -6,6 +6,9 @@ from django import forms
 
 register = template.Library()
 
+@register.filter
+def filter(queryset, **kwargs):
+    return queryset.filter(**kwargs)
 
 def _process_field_attributes(field, attr, process):
     # split attribute name and value from 'attr:value' string

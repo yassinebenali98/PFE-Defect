@@ -234,7 +234,7 @@
     {% include "dojo/fr_report_cover_page.html" with product=engagement.product findings=findings %}
     <div class="page-break"></div>
     <div id="toc-page">
-        <pre>{{ toc_text }}</pre>
+        <pre>{{ toc_text }}</pre> 
         {% include "dojo/fr_report_toc.html" with product=engagement.product findings=findings grouped_findings=grouped_findings %}
     </div>
 
@@ -246,8 +246,8 @@
         <div class="page-break"></div>
         {% include "dojo/fr_report_methodes_de_classification.html"%}
         <div class="page-break"></div>
-
-        {% include "dojo/fr_report_synthese.html" with findings=findings severities=severities priorities=priorities complexites=complexites product=engagement.product %}
+ 
+        {% include "dojo/fr_report_synthese.html" with findings=findings severities=severities priorities=priorities complexites=complexites product=engagement.product countz=countz %}
 
 
         

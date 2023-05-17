@@ -1233,7 +1233,23 @@ ENGAGEMENT_STATUS_CHOICES = (('Not Started', 'Not Started'),
 
 class Engagement(models.Model):
     name = models.CharField(max_length=300, null=True, blank=True)
-    description = models.CharField(max_length=2000, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    niveau_securite_global = models.CharField(max_length=2000, null=True, blank=True)
+    mesures_impactees = models.CharField(max_length=2000, null=True, blank=True)
+    consequences = models.CharField(max_length=2000, null=True, blank=True)
+    risques = models.CharField(max_length=2000, null=True, blank=True)
+    
+    CHOICES = [
+        ('generic', 'générique'),
+        ('technique', 'technique'),
+        ('organisationnelle', 'organisationnelle'),
+        ('configuration', 'configuration'),
+    ]
+
+    compteur = models.CharField(max_length=200, default='', blank=True)
+
+    def get_compteur_list(self):
+        return self.compteur.split(',') if self.compteur else []
     version = models.CharField(max_length=100, null=True, blank=True, help_text=_("Version of the product the engagement tested."))
     first_contacted = models.DateField(null=True, blank=True)
     target_start = models.DateField(null=False, blank=False)
