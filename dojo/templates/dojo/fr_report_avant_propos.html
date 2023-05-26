@@ -73,7 +73,7 @@
     }
 
     p {
-        max-width: 8.5in;
+        
         min-width: 50%;
         overflow-wrap: break-word;
         word-wrap: break-word;
@@ -203,7 +203,7 @@
 
     <h4 class="titre" id="1.2._Objectif_du_document">1.2. Objectif du document</h4>
     <div>Ce document constitue le rapport technique relatif aux résultats du test d’intrusion de la plateforme «
-        **Titre**».</div>
+        {{ product.name }}».</div>
     <h4 class="titre" id="1.3._Objectifs_de_l’audit">1.3. Objectifs de l’audit</h4>
     <div class="text-justify">L’audit technique du site Web a pour objectifs de :
         Identifier les brèches de sécurité affectant l’infrastructure applicative de la plateforme {{ product.name }}
@@ -223,9 +223,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="td">{%for finding in findings%}
-                        {% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}
-                        {%endfor%}</td>
+                    <td class="td">
+                        {% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}  
+                       </td>
+                        
 
                 </tr>
             </tbody>

@@ -29,6 +29,15 @@ logger = logging.getLogger(__name__)
 
 register = template.Library()
 
+
+@register.simple_tag
+def increment(value):
+    return int(value) + 1
+
+
+@register.filter
+def remove_duplicates(value):
+    return list(set(value))
 # Tags suitable for rendering markdown
 markdown_tags = {
     "h1", "h2", "h3", "h4", "h5", "h6",

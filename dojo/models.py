@@ -37,6 +37,11 @@ from django.db.models import JSONField
 import hyperlink
 from cvss import CVSS3
 from dojo.settings.settings import SLA_BUSINESS_DAYS
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
+
 from numpy import busday_count
 
 
@@ -1233,6 +1238,8 @@ ENGAGEMENT_STATUS_CHOICES = (('Not Started', 'Not Started'),
                              ('Waiting for Resource', 'Waiting for Resource'))
 
 
+
+
 class Engagement(models.Model):
     name = models.CharField(max_length=300, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -1240,6 +1247,8 @@ class Engagement(models.Model):
     mesures_impactees = models.CharField(max_length=2000, null=True, blank=True)
     consequences = models.CharField(max_length=2000, null=True, blank=True)
     risques = models.CharField(max_length=2000, null=True, blank=True)
+    cibles = models.CharField(max_length=1000, null=True, blank=True)
+    password = models.CharField(max_length=128, null=True, blank=True)
     
     CHOICES = [
         ('generic', 'générique'),
@@ -1302,7 +1311,43 @@ class Engagement(models.Model):
     deduplication_on_engagement = models.BooleanField(default=False, verbose_name=_('Deduplication within this engagement only'), help_text=_("If enabled deduplication will only mark a finding in this engagement as duplicate of another finding if both findings are in this engagement. If disabled, deduplication is on the product level."))
 
     tags = TagField(blank=True, force_lowercase=True, help_text=_("Add tags that help describe this engagement. Choose from the list or add new tags. Press Enter key to add."))
+    @staticmethod
+    def generate_secret_key():
+        password = b'secret_password'
+        salt = b'salt_value'
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+            backend=default_backend()
+        )
+        key = base64.urlsafe_b64encode(kdf.derive(password))
+        return key
 
+    @staticmethod
+    def encrypt_password(password, key):
+        cipher_suite = Fernet(key)
+        encrypted_password = cipher_suite.encrypt(password.encode('utf-8'))
+        return encrypted_password.decode()
+
+    @staticmethod
+    def decrypt_password(encrypted_password, key):
+        cipher_suite = Fernet(key)
+        decrypted_password = cipher_suite.decrypt(encrypted_password.encode()).decode('utf-8')
+        return decrypted_password
+
+    def save(self, *args, **kwargs):
+        if self.password and not self.password.startswith('pbkdf2_sha256'):
+            secret_key = self.generate_secret_key()
+            encrypted_password = self.encrypt_password(self.password, secret_key)
+            self.password = encrypted_password
+        super().save(*args, **kwargs)
+
+    def get_decrypted_password(self):
+        secret_key = self.generate_secret_key()
+        decrypted_password = self.decrypt_password(self.password, secret_key)
+        return decrypted_password
     class Meta:
         ordering = ['-target_start']
         indexes = [

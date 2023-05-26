@@ -92,38 +92,95 @@
                                                 Bonnes
                                                 pratiques identifiées</a></li>
 
-                                                {% for test_title, severity_groups in grouped_findings.items %}
-                                                <li><a style="font-size:132%; color:black;" href="#{{ test_title|slugify }}">{{ test_title }}</a></li>
-                                                {% for severity, findings in severity_groups.items %}
-                                                    {% if severity == "Info" %}
+                                                {% for test_title, findings_dict in grouped_findings.items %}
+                                                <li><a style="font-size:132%; color:black;" href="#{{ test_title|slugify }}">
+                                                    4.{{ forloop.counter|add:3 }} {{ test_title }}</a></li>
+                                                
+                                                {% if findings_dict.avances %}
+                                                <ul>
+                                                    <li>4.{{ forloop.counter|add:3 }}.1
+                                                        <a style="font-size:132%; color:black;"
+                                                           href="#Vulnérabilités_relatives_aux_menaces_avancées">
+                                                            Vulnérabilités relatives aux menaces avancées</a>
+                                                    </li>
+                                                    <ul>
+                                                        {% for finding in findings_dict.avances %}
+                                                        <li>4.{{ forloop.parentloop.counter|add:3 }}.1.{{ forloop.counter }}
+                                                            <a style="font-size:132%; color:black;"
+                                                               href="#finding_{{ finding.id }}">
+                                                                {{ finding.title }}</a>
+                                                            {% for subfinding in finding.subfindings %}
+                                                            <ul>
+                                                                <li>4.{{ forloop.parentloop.counter|add:3 }}.1.{{ forloop.counter }}
+                                                                    <a style="font-size:132%; color:black;"
+                                                                       href="#finding_{{ subfinding.id }}">
+                                                                        {{ subfinding.title }}</a>
+                                                                </li>
+                                                            </ul>
+                                                            {% endfor %}
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </ul>
+                                                {% endif %}
+                                                
+                                                {% if findings_dict.generiques %}
+                                                {% if findings_dict.avances %}
+                                                 <ul>
+                                                    <li>4.{{ forloop.counter|add:3 }}.2
+                                                        <a style="font-size:132%; color:black;"
+                                                           href="#Vulnérabilités_relatives_aux_menaces_génériques">
+                                                            Vulnérabilités relatives aux menaces génériques</a>
+                                                    </li>
+                                                    <ul>
+                                                        {% for finding in findings_dict.generiques %}
+                                                        <li>4.{{ forloop.parentloop.counter|add:3 }}.2.{{ forloop.counter }}
+                                                            <a style="font-size:132%; color:black;"
+                                                               href="#finding_{{ finding.id }}">
+                                                                {{ finding.title }}</a>
+                                                            {% for subfinding in finding.subfindings %}
+                                                            <ul>
+                                                                <li>4.{{ forloop.parentloop.counter|add:3 }}.2.{{ forloop.counter }}
+                                                                    <a style="font-size:132%; color:black;"
+                                                                       href="#finding_{{ subfinding.id }}">
+                                                                        {{ subfinding.title }}</a>
+                                                                </li>
+                                                            </ul>
+                                                            {% endfor %}
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </ul>
+                                                {% else %}
+                                                <ul>
+                                                        <li>4.{{ forloop.counter|add:3 }}.1 
+                                                            <a style="font-size:132%; color:black;"
+                                                               href="#Vulnérabilités_relatives_aux_menaces_génériques">
+                                                                Vulnérabilités relatives aux menaces génériques</a>
+                                                        </li>
                                                         <ul>
-                                                            <li>
-                                                                <a style="font-size:132%; color:black;" href="#Vulnérabilités_relatives_aux_menaces_génériques"> Vulnérabilités relatives aux menaces génériques</a>
+                                                            {% for finding in findings_dict.generiques %}
+                                                            <li>4.{{ forloop.parentloop.counter|add:3 }}.1.{{ forloop.counter }}
+                                                                <a style="font-size:132%; color:black;"
+                                                                   href="#finding_{{ finding.id }}">
+                                                                    {{ finding.title }}</a>
+                                                                {% for subfinding in finding.subfindings %}
                                                                 <ul>
-                                                                    {% for finding in findings %}
-                                                                        <li>
-                                                                            <a style="font-size:132%; color:black;" href="#finding_{{ finding.id }}">{{ finding.title }}</a>
-                                                                        </li>
-                                                                    {% endfor %}
+                                                                    <li>4.{{ forloop.parentloop.counter|add:3 }}.1.{{ forloop.counter }}
+                                                                        <a style="font-size:132%; color:black;"
+                                                                           href="#finding_{{ subfinding.id }}">
+                                                                            {{ subfinding.title }}</a>
+                                                                    </li>
                                                                 </ul>
+                                                                {% endfor %}
                                                             </li>
+                                                            {% endfor %}
                                                         </ul>
-                                                    {% else %}
-                                                        <ul>
-                                                            <li>
-                                                                <a style="font-size:132%; color:black;" href="#Vulnérabilités_relatives_aux_menaces_avancées"> Vulnérabilités relatives aux menaces avancées</a>
-                                                                <ul>
-                                                                    {% for finding in findings %}
-                                                                        <li>
-                                                                            <a style="font-size:132%; color:black;" href="#finding_{{ finding.id }}">{{ finding.title }}</a>
-                                                                        </li>
-                                                                    {% endfor %}
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    {% endif %}
+                                                    </ul>               
+                                                {% endif %}
+                                                {% endif %}
                                                 {% endfor %}
-                                            {% endfor %}
+                                                
                         </ul>
                 </ul>
                 </ul>

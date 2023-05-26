@@ -305,6 +305,7 @@ class EditFindingGroupForm(forms.ModelForm):
             self.fields['jira_issue'].initial = jira_url
             self.fields['push_to_jira'].widget.attrs['checked'] = 'checked'
 
+        
     class Meta:
         model = Finding_Group
         fields = ['name']
@@ -809,6 +810,15 @@ class EngForm(forms.ModelForm):
     initial="Ce projet consiste à réaliser un test d’intrusion ciblant la plateforme MediaNet. Dans le cadre de cet engagement, la démarche TALAN s’articule en 5 phases listées ci-dessous :\n\n- Phase 1 : Collecte Passive\n- Phase 2 : Collecte Active\n- Phase 3 : Test d’intrusion en BlackBox\n- Phase 4 : Test d’intrusion en GrayBox\n- Phase 5 : Reporting\n\n"
 
 )
+    password = forms.CharField(
+        max_length=128, widget=forms.PasswordInput,
+        help_text="Enter a password for the engagement.")
+    cibles = forms.CharField(
+    widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
+    required=False,
+    help_text="Description of the engagement and details regarding the engagement.",
+    initial="\n\n- 1\n- 2\n- 3\n"
+)
     niveau_securite_global = forms.CharField(
     widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
     required=False,
@@ -825,7 +835,7 @@ class EngForm(forms.ModelForm):
     widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
     required=False,
     help_text="Description of the engagement and details regarding the engagement.",
-    initial="\n\nAu total, 21 vulnérabilités ont été identifiées durant l’audit dont le type est Technique.\nAu total, yy vulnérabilités ont été identifiées durant l’audit dont le type est générique.\n\nL'exploitation réussie de ces vulnérabilités pourrait aboutir à une ou plusieurs des conséquences suivantes :\n\n- La perte de la disponibilité (Déni de service),\n- La perte de la confidentialité des données,\n- La perte de l’intégrité des données,\n- Le contournement du dispositif d’authentification (Usurpation d’identité)."
+    initial="\n\nL'exploitation réussie de ces vulnérabilités pourrait aboutir à une ou plusieurs des conséquences suivantes :\n\n- La perte de la disponibilité (Déni de service),\n- La perte de la confidentialité des données,\n- La perte de l’intégrité des données,\n- Le contournement du dispositif d’authentification (Usurpation d’identité)."
 )
     risques = forms.CharField(
     widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
@@ -851,11 +861,12 @@ class EngForm(forms.ModelForm):
         required=True, label="Testing Lead")
     test_strategy = forms.URLField(required=False, label="Test Strategy URL")
     
-    def clean_your_field(self):
+    def clean_compteur(self):
         compteur = self.cleaned_data.get('compteur')
         if compteur:
-            # Convert list of choices to comma-separated string
+         # Convert list of choices to comma-separated string
             compteur = ','.join(compteur)
+            self.cleaned_data['compteur'] = compteur
         return compteur
     def __init__(self, *args, **kwargs):
         cicd = False
@@ -892,6 +903,13 @@ class EngForm(forms.ModelForm):
         else:
             del self.fields['test_strategy']
             del self.fields['status']
+        self.fields['version'].widget = forms.HiddenInput()
+        self.fields['preset'].widget = forms.HiddenInput()
+        self.fields['tracker'].widget = forms.HiddenInput()
+        self.fields['test_strategy'].widget = forms.HiddenInput()
+        self.fields['source_code_management_uri'].widget = forms.HiddenInput()
+        self.fields['deduplication_on_engagement'].widget = forms.HiddenInput()
+        self.fields['tags'].widget = forms.HiddenInput()
 
     def is_valid(self):
         valid = super(EngForm, self).is_valid()
@@ -1035,7 +1053,8 @@ class AddFindingForm(forms.ModelForm):
         error_messages={
             'required': 'Select valid choice: In Progress, On Hold, Completed',
             'invalid_choice': 'Select valid choice: Critical,High,Medium,Low'})
-    mitigation = forms.CharField( required=False)
+    mitigation = forms.CharField(widget=forms.Textarea, required=False)
+
     impact = forms.CharField( required=False )
     request = forms.CharField( required=False )
     response = forms.CharField( required=False )
@@ -1053,9 +1072,8 @@ class AddFindingForm(forms.ModelForm):
     planned_remediation_date = forms.DateField(widget=forms.TextInput(attrs={'class': 'datepicker', 'autocomplete': 'off'}), required=False)
 
     # the only reliable way without hacking internal fields to get predicatble ordering is to make it explicit
-    field_order = ('title', 'date', 'cwe', 'vulnerability_ids', 'severity', 'cvssv3', 'description', 'mitigation', 'impact', 'request', 'response', 'steps_to_reproduce',
-                   'severity_justification', 'endpoints', 'endpoints_to_add', 'references', 'active', 'verified', 'false_p', 'duplicate', 'out_of_scope',
-                   'risk_accepted', 'under_defect_review')
+    field_order = ('title','risque' ,'statut', 'date','severity', 'cvssv3','endpoints', 'description','scenarioDeRisque', 'mitigation','type','complexite',
+                   'priorite')
 
     def __init__(self, *args, **kwargs):
         req_resp = kwargs.pop('req_resp')
@@ -1074,6 +1092,50 @@ class AddFindingForm(forms.ModelForm):
             self.fields['response'].initial = req_resp[1]
 
         self.endpoints_to_add_list = []
+        self.fields['impact'].widget = forms.HiddenInput()
+        self.fields['response'].widget = forms.HiddenInput()
+        self.fields['request'].widget = forms.HiddenInput()
+        self.fields['references'].widget = forms.HiddenInput()
+        self.fields['vulnerability_ids'].widget = forms.HiddenInput()
+        self.fields['cwe'].widget = forms.HiddenInput()
+        self.fields['severity_justification'].widget = forms.HiddenInput()
+        self.fields['cvssv3_score'].widget = forms.HiddenInput()
+        self.fields['defect_review_requested_by'].widget = forms.HiddenInput()
+        self.fields['line'].widget = forms.HiddenInput()
+        self.fields['file_path'].widget = forms.HiddenInput()
+        self.fields['component_name'].widget = forms.HiddenInput()
+        self.fields['component_version'].widget = forms.HiddenInput()
+        self.fields['sonarqube_issue'].widget = forms.HiddenInput()
+        self.fields['unique_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['vuln_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['sast_source_object'].widget = forms.HiddenInput()
+        self.fields['sast_sink_object'].widget = forms.HiddenInput()
+        self.fields['sast_source_line'].widget = forms.HiddenInput()
+        self.fields['sast_source_file_path'].widget = forms.HiddenInput()
+        self.fields['nb_occurences'].widget = forms.HiddenInput()
+        self.fields['publish_date'].widget = forms.HiddenInput()
+        self.fields['service'].widget = forms.HiddenInput()
+        self.fields['planned_remediation_date'].widget = forms.HiddenInput()
+        self.fields['tags'].widget = forms.HiddenInput()
+        self.fields['active'].widget = forms.HiddenInput()
+        self.fields['verified'].widget = forms.HiddenInput()
+        self.fields['false_p'].widget = forms.HiddenInput()
+        self.fields['duplicate'].widget = forms.HiddenInput()
+        self.fields['out_of_scope'].widget = forms.HiddenInput()
+        self.fields['risk_accepted'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['steps_to_reproduce'].widget = forms.HiddenInput()
+        self.fields['static_finding'].widget = forms.HiddenInput()
+        self.fields['dynamic_finding'].widget = forms.HiddenInput()
+        self.fields['mitigated_by'].widget = forms.HiddenInput()
+        self.fields['mitigated'].widget = forms.HiddenInput()
+
+
+   
+        self.fields['severity'].label = "Risque"
+        self.fields['mitigation'].label = "Recommandation "
+        
 
     def clean(self):
         cleaned_data = super(AddFindingForm, self).clean()
@@ -1174,6 +1236,51 @@ class AdHocFindingForm(forms.ModelForm):
 
             self.fields['request'].widget.attrs.update({'hidden': True})
             self.fields['response'].widget.attrs.update({'hidden': True})
+        
+        self.endpoints_to_add_list = []
+        self.fields['impact'].widget = forms.HiddenInput()
+        self.fields['response'].widget = forms.HiddenInput()
+        self.fields['request'].widget = forms.HiddenInput()
+        self.fields['references'].widget = forms.HiddenInput()
+        self.fields['vulnerability_ids'].widget = forms.HiddenInput()
+        self.fields['cwe'].widget = forms.HiddenInput()
+        self.fields['severity_justification'].widget = forms.HiddenInput()
+        self.fields['cvssv3_score'].widget = forms.HiddenInput()
+        self.fields['defect_review_requested_by'].widget = forms.HiddenInput()
+        self.fields['line'].widget = forms.HiddenInput()
+        self.fields['file_path'].widget = forms.HiddenInput()
+        self.fields['component_name'].widget = forms.HiddenInput()
+        self.fields['component_version'].widget = forms.HiddenInput()
+        self.fields['sonarqube_issue'].widget = forms.HiddenInput()
+        self.fields['unique_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['vuln_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['sast_source_object'].widget = forms.HiddenInput()
+        self.fields['sast_sink_object'].widget = forms.HiddenInput()
+        self.fields['sast_source_line'].widget = forms.HiddenInput()
+        self.fields['sast_source_file_path'].widget = forms.HiddenInput()
+        self.fields['nb_occurences'].widget = forms.HiddenInput()
+        self.fields['publish_date'].widget = forms.HiddenInput()
+        self.fields['service'].widget = forms.HiddenInput()
+        self.fields['planned_remediation_date'].widget = forms.HiddenInput()
+        self.fields['tags'].widget = forms.HiddenInput()
+        self.fields['active'].widget = forms.HiddenInput()
+        self.fields['verified'].widget = forms.HiddenInput()
+        self.fields['false_p'].widget = forms.HiddenInput()
+        self.fields['duplicate'].widget = forms.HiddenInput()
+        self.fields['out_of_scope'].widget = forms.HiddenInput()
+        self.fields['risk_accepted'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['steps_to_reproduce'].widget = forms.HiddenInput()
+        self.fields['static_finding'].widget = forms.HiddenInput()
+        self.fields['dynamic_finding'].widget = forms.HiddenInput()
+        self.fields['mitigated_by'].widget = forms.HiddenInput()
+        self.fields['mitigated'].widget = forms.HiddenInput()
+
+
+
+        self.fields['severity'].label = "Risque"
+        self.fields['mitigation'].label = "Recommandation "
 
         self.endpoints_to_add_list = []
 
@@ -1298,7 +1405,7 @@ class FindingForm(forms.ModelForm):
         error_messages={
             'required': 'Select valid choice: In Progress, On Hold, Completed',
             'invalid_choice': 'Select valid choice: Critical,High,Medium,Low'} )
-    mitigation = forms.CharField( required=False)
+    mitigation = forms.CharField(widget=forms.Textarea, required=False)
     impact = forms.CharField( required=False )
     request = forms.CharField( required=False )
     response = forms.CharField( required=False )
@@ -1318,9 +1425,8 @@ class FindingForm(forms.ModelForm):
 
 
     # the onyl reliable way without hacking internal fields to get predicatble ordering is to make it explicit
-    field_order = ('title','vulnerability_ids','statut','severity', 'cvssv3', 'endpoints', 'endpoints_to_add', 'description','senario', 'mitigation','type','complexite','priorite', 'impact','cwe','date', 'request', 'response', 
-                   'severity_justification',  'references', 'active', 'verified', 'false_p', 'duplicate', 'out_of_scope','steps_to_reproduce',
-                   'risk_accepted', 'under_defect_review', 'sla_start_date')
+    field_order = ('title','risque' ,'statut', 'date','severity', 'cvssv3','endpoints', 'description','scenarioDeRisque', 'mitigation','type','complexite',
+                   'priorite')
 
     def __init__(self, *args, **kwargs):
         
@@ -1378,6 +1484,50 @@ class FindingForm(forms.ModelForm):
             self.fields['group'].initial = self.instance.finding_group
 
         self.endpoints_to_add_list = []
+        self.endpoints_to_add_list = []
+        self.fields['impact'].widget = forms.HiddenInput()
+        self.fields['date'].widget = forms.HiddenInput()
+        self.fields['response'].widget = forms.HiddenInput()
+        self.fields['request'].widget = forms.HiddenInput()
+        self.fields['references'].widget = forms.HiddenInput()
+        self.fields['vulnerability_ids'].widget = forms.HiddenInput()
+        self.fields['cwe'].widget = forms.HiddenInput()
+        self.fields['severity_justification'].widget = forms.HiddenInput()
+        self.fields['cvssv3_score'].widget = forms.HiddenInput()
+        self.fields['defect_review_requested_by'].widget = forms.HiddenInput()
+        self.fields['line'].widget = forms.HiddenInput()
+        self.fields['file_path'].widget = forms.HiddenInput()
+        self.fields['component_name'].widget = forms.HiddenInput()
+        self.fields['component_version'].widget = forms.HiddenInput()
+        self.fields['unique_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['vuln_id_from_tool'].widget = forms.HiddenInput()
+        self.fields['sast_source_object'].widget = forms.HiddenInput()
+        self.fields['sast_sink_object'].widget = forms.HiddenInput()
+        self.fields['sast_source_line'].widget = forms.HiddenInput()
+        self.fields['sast_source_file_path'].widget = forms.HiddenInput()
+        self.fields['nb_occurences'].widget = forms.HiddenInput()
+        self.fields['publish_date'].widget = forms.HiddenInput()
+        self.fields['service'].widget = forms.HiddenInput()
+        self.fields['planned_remediation_date'].widget = forms.HiddenInput()
+        self.fields['tags'].widget = forms.HiddenInput()
+        self.fields['active'].widget = forms.HiddenInput()
+        self.fields['verified'].widget = forms.HiddenInput()
+        self.fields['false_p'].widget = forms.HiddenInput()
+        self.fields['duplicate'].widget = forms.HiddenInput()
+        self.fields['out_of_scope'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['under_defect_review'].widget = forms.HiddenInput()
+        self.fields['steps_to_reproduce'].widget = forms.HiddenInput()
+        self.fields['static_finding'].widget = forms.HiddenInput()
+        self.fields['dynamic_finding'].widget = forms.HiddenInput()
+        self.fields['sla_start_date'].widget = forms.HiddenInput()
+        self.fields['mitigated_by'].widget = forms.HiddenInput()
+        self.fields['mitigated'].widget = forms.HiddenInput()
+
+
+        self.fields['severity'].label = "Risque"
+        self.fields['mitigation'].label = "Recommandation "
+      
 
     def clean(self):
         cleaned_data = super(FindingForm, self).clean()

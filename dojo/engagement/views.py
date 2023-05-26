@@ -222,6 +222,8 @@ def edit_engagement(request, eid):
             # first save engagement details
             new_status = form.cleaned_data.get('status')
             engagement.product = form.cleaned_data.get('product')
+            engagement.compteur = form.cleaned_data.get('compteur')  # Save compteur value
+
             engagement = form.save(commit=False)
             if (new_status == "Cancelled" or new_status == "Completed"):
                 engagement.active = False
@@ -231,8 +233,13 @@ def edit_engagement(request, eid):
                         engagement=engagement, url=reverse('engagement_all_findings', args=(engagement.id, ))),
             else:
                 engagement.active = True
+
             engagement.save()
             form.save_m2m()
+
+            # Additional logging for debugging purposes
+            print(form.cleaned_data['compteur'])
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
             messages.add_message(
                 request,
@@ -257,7 +264,16 @@ def edit_engagement(request, eid):
             logger.debug(form.errors)
 
     else:
-        form = EngForm(initial={'product': engagement.product}, instance=engagement, cicd=is_ci_cd, product=engagement.product, user=request.user)
+        form = EngForm(
+            initial={
+                'product': engagement.product,
+                'compteur': engagement.compteur.split(',') if engagement.compteur else None,  # Use current compteur value as initial
+            }, 
+            instance=engagement, 
+            cicd=is_ci_cd, 
+            product=engagement.product, 
+            user=request.user
+        )
 
         jira_epic_form = None
         if get_system_setting('enable_jira'):
@@ -282,7 +298,6 @@ def edit_engagement(request, eid):
         'jira_project_form': jira_project_form,
         'engagement': engagement,
     })
-
 
 @user_is_authorized(Engagement, Permissions.Engagement_Delete, 'eid')
 def delete_engagement(request, eid):

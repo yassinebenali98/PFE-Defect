@@ -403,6 +403,8 @@ def generate_report(request, obj, host_view=False):
     report_name = str(obj)
     report_type = type(obj).__name__
     add_breadcrumb(title="Generate Report", top_level=False, request=request)
+    tests = Test.objects.none()
+
     if type(obj).__name__ == "Product_Type":
         product_type = obj
         template = "dojo/product_type_pdf_report.html"
@@ -433,6 +435,7 @@ def generate_report(request, obj, host_view=False):
         endpoint_monthly_counts = get_period_counts_legacy(findings.qs.order_by('numerical_severity'), findings.qs.order_by('numerical_severity'), None,
                                                             months_between, start_date,
                                                             relative_delta='months')
+        
 
         context = {'product_type': product_type,
                    'products': products,
@@ -487,15 +490,14 @@ def generate_report(request, obj, host_view=False):
 
     elif type(obj).__name__ == "Engagement":
         logger.debug('generating report for Engagement')
-        
+
         engagement = obj
         findings = ReportFindingFilter(request.GET, engagement=engagement,
-                                       queryset=prefetch_related_findings_for_report(Finding.objects.filter(test__engagement=engagement)))
+                        queryset=prefetch_related_findings_for_report(Finding.objects.filter(test__engagement=engagement)))
         findings_queryset = findings.qs.distinct().order_by('numerical_severity')
 
-
         findings = ReportFindingFilter(request.GET, engagement=engagement,
-                                   queryset=prefetch_related_findings_for_report(Finding.objects.filter(test__engagement=engagement)))
+                        queryset=prefetch_related_findings_for_report(Finding.objects.filter(test__engagement=engagement)))
 
         # Turn the filtered findings into a list and sort them by the 'name' field of 'test' and 'severity'
         findings_list = sorted(list(findings.qs), key=attrgetter('test.title', 'severity'))
@@ -503,11 +505,23 @@ def generate_report(request, obj, host_view=False):
         # Group the sorted findings by the 'name' field of 'test' and 'severity'
         grouped_findings = {}
         for key, group in groupby(findings_list, key=attrgetter('test.title')):
-            grouped_findings[key] = {k: list(v) for k, v in groupby(group, key=attrgetter('severity'))}
+            avances_findings = []
+            generiques_findings = []
 
-        
+            for finding in group:
+                if finding.severity != 'Info':
+                    avances_findings.append(finding)
+                elif finding.severity == 'Info':
+                    generiques_findings.append(finding)
+
+            grouped_findings[key] = {
+                'avances': avances_findings,
+                'generiques': generiques_findings
+            }
+
         engag = Engagement.objects.get(id=engagement.id)
         findin = Finding.objects.filter(test__engagement=engag)
+
         # priorities
         priorities = findin.values_list('priorite', flat=True)
         priorities_count = Counter(priorities)
@@ -515,14 +529,12 @@ def generate_report(request, obj, host_view=False):
         priorities_json = json.dumps(priorities_count)
 
         # complexite
-
         complexites = findin.values_list('complexite', flat=True)
         complexites_count = Counter(complexites)
         # Convert dictionary to JSON
         complexitesjson = json.dumps(complexites_count)
 
         # severite
-
         severities = findin.values_list('severity', flat=True)
         severities_count = Counter(severities)
         # Convert dictionary to JSON
@@ -536,39 +548,79 @@ def generate_report(request, obj, host_view=False):
         'Technique': findin.filter(type='Technique').count(),
         'Organisationnelle': findin.filter(type='Organisationnelle').count(),
         'Confuguration ': findin.filter(type='Confuguration ').count()
-         }
-        
+        }
         counts['generic'] = findin.filter(severity='Info').count()
- 
+
         ids = set(finding.id for finding in findings.qs)
-        tests = Test.objects.filter(finding__id__in=ids).distinct()
-        endpoints = Endpoint.objects.filter(product=engagement.product).distinct()
+        tests = tests
+        advanced_threats_findings = []
+        generic_findings = []
+
+        # Iterate over all the findings
+        for finding in findings.qs:
+            if finding.severity != 'Info':
+                # Check if the finding belongs to advanced threats based on severity
+                advanced_threats_findings.append(finding)
+            else:
+                # Check if the finding belongs to generic findings based on severity
+                generic_findings.append(finding)
+        endpoints = Endpoint.objects.filter(product=engagement.product)
+        unique_endpoints = []
+
+        # Keep track of seen host values
+        seen_hosts = set()
+
+        # Filter the endpoints based on unique host values
+        for endpoint in endpoints:
+            if endpoint.host not in seen_hosts:
+                unique_endpoints.append(endpoint)
+                seen_hosts.add(endpoint.host)
+
         logger.debug(tests.__str__ )
 
- 
+        # Assign the 'tests' variable before the context
+        tests = tests
+        advanced_threats_findings = []
+        generic_findings = []
+
+        # Iterate over all the findings
+        for finding in findings.qs:
+            if finding.severity != 'Info':
+                # Check if the finding belongs to advanced threats based on severity
+                advanced_threats_findings.append(finding)
+            else:
+                # Check if the finding belongs to generic findings based on severity
+                generic_findings.append(finding)
+
+        print("Advanced Threats Findings:")
+        print(advanced_threats_findings)
+        print("Generic Findings:")
+        print(generic_findings)
+        context = {
         
-        context = {'engagement': engagement,
-                   'tests': tests, 
-                   'report_name': report_name,
-                   'grouped_findings':grouped_findings,
-                   'findings': findings.qs.distinct().order_by('test'),
-                   'finding':findin,
-                   'severities': complexites_count,
-                   'counts': counts,
-                   'priorities': priorities_count,
-                   'complexites': complexites_count,
-                   'include_finding_notes': include_finding_notes,
-                   'include_finding_images': include_finding_images,
-                   'include_executive_summary': include_executive_summary,
-                   'include_table_of_contents': include_table_of_contents,
-                   'include_disclaimer': include_disclaimer,
-                   'disclaimer': disclaimer,
-                   'user': user,
-                   'team_name': settings.TEAM_NAME,
-                   'title': report_title,
-                   'host': report_url_resolver(request),
-                   'user_id': request.user.id,
-                   'endpoints': endpoints}
+        'engagement': engagement,
+        'tests': tests,
+        'report_name': report_name,
+        'grouped_findings': grouped_findings,
+        'findings': findings.qs.distinct().order_by('test'),
+        'finding': findin,
+        'severities': complexites_count,
+        'counts': counts,
+        'priorities': priorities_count,
+        'complexites': complexites_count,
+        'include_finding_notes': include_finding_notes,
+        'include_finding_images': include_finding_images,
+        'include_executive_summary': include_executive_summary,
+        'include_table_of_contents': include_table_of_contents,
+        'include_disclaimer': include_disclaimer,
+        'disclaimer': disclaimer,
+        'user': user,
+        'team_name': settings.TEAM_NAME,
+        'title': report_title,
+        'host': report_url_resolver(request),
+        'user_id': request.user.id,
+        'endpoints': unique_endpoints
+        }
 
     elif type(obj).__name__ == "Test":
         test = obj
@@ -687,7 +739,7 @@ def generate_report(request, obj, host_view=False):
                            'report_name': report_name,
                            'test': test,
                            'endpoint': endpoint,
-                           'endpoints': endpoints,
+                           'endpoints':  unique_endpoints,
                            'findings': findings.qs.distinct().order_by('numerical_severity'),
                            'include_finding_notes': include_finding_notes,
                            'include_finding_images': include_finding_images,
@@ -706,6 +758,8 @@ def generate_report(request, obj, host_view=False):
                            'complexites':complexitesjson,
                            'grouped_findings':grouped_findings,
                            'counts': counts,
+                           'advanced_threats_findings': advanced_threats_findings,
+                           'generic_findings': generic_findings,
 
                            'context': context,
                            })

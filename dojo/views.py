@@ -1,3 +1,4 @@
+import datetime
 from itertools import groupby
 import logging
 from operator import attrgetter
@@ -20,7 +21,8 @@ from dojo.authorization.authorization import user_has_permission, user_has_permi
 from dojo.authorization.roles_permissions import Permissions
 from django.shortcuts import render
 from django.http import HttpResponse
-from weasyprint import HTML
+from weasyprint import HTML, CSS, Document
+from weasyprint.text.fonts import FontConfiguration
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
@@ -31,6 +33,10 @@ import matplotlib.pyplot as plt
 from django.db.models import Count
 from chartjs.views.lines import BaseLineChartView
 from django.views.generic import TemplateView
+import hashlib
+from PyPDF2 import PdfReader, PdfWriter
+
+
 
 from dojo.filters import ReportFindingFilter
 
@@ -39,6 +45,11 @@ import json
 from io import BytesIO
 import base64
 import tempfile
+
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, PageTemplate, BaseDocTemplate, Frame, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 
 
 
@@ -127,20 +138,32 @@ def generate_pie_priorities_chart(findings):
     # Generate chart data in the desired order
     chart_data = [(priority, count[priority], count[priority] / total_count) for priority in priority_order if priority in count]
 
-    # Create a new pie chart using pygal
-    chart_style = Style(colors=[color_map[priority] for priority in priority_order])
-    chart = pygal.Pie(style=chart_style)
-    chart.title = 'Priority Pie Chart'
-    chart.legend_at_bottom = True
-    chart.print_values = True
-    chart.human_readable = True
+    # Create a new pie chart using matplotlib
+    labels = []
+    sizes = []
+    colors = []
 
     for priority, count, percentage in chart_data:
-        formatted_percentage = f'{percentage:.0%}'
-        label = f"{priority} {formatted_percentage} ({count})"
-        chart.add(label, count)
+        formatted_percentage = f'{int(percentage * 100)}%'
+        label = f"{priority} {formatted_percentage}"
+        labels.append(label)
+        sizes.append(count)
+        colors.append(color_map[priority])
 
-    return chart
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, colors=colors, autopct='%1.0f%%')
+    ax.set_title('')
+
+    ax.set_xlabel('PRIORITE DE MISE EN OEUVRE', loc='center', fontsize=16)
+    # Convert the chart image to a base64-encoded string
+    chart_image = io.BytesIO()
+    plt.savefig(chart_image, format='png')
+    chart_image.seek(0)
+    chart_base64 = base64.b64encode(chart_image.read()).decode('utf-8')
+
+    plt.close()
+
+    return chart_base64
 
 def generate_pie_complexite_chart(findings):
     # Generate the chart data
@@ -155,26 +178,39 @@ def generate_pie_complexite_chart(findings):
         'Complexe': '#FFD301'
     }
 
-    # Predefine the order of the priorities
+    # Predefine the order of the complexites
     complexite_order = ['Simple', 'Moyenne', 'Complexe']
 
     # Generate chart data in the desired order
     chart_data = [(complexite, count[complexite], count[complexite] / total_count) for complexite in complexite_order if complexite in count]
 
-    # Create a new pie chart using pygal
-    chart_style = Style(colors=[color_map[complexite] for complexite in complexite_order])
-    chart = pygal.Pie(style=chart_style)
-    chart.title = 'Complexite Pie Chart'
-    chart.legend_at_bottom = True
-    chart.print_values = True
-    chart.human_readable = True
+    # Create a new pie chart using matplotlib
+    labels = []
+    sizes = []
+    colors = []
 
     for complexite, count, percentage in chart_data:
-        formatted_percentage = f'{percentage:.0%}'
-        label = f"{complexite} {formatted_percentage} ({count})"
-        chart.add(label, count)
+        formatted_percentage = f'{int(percentage * 100)}%'
+        label = f"{complexite} {formatted_percentage}"
+        labels.append(label)
+        sizes.append(count)
+        colors.append(color_map[complexite])
 
-    return chart
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, colors=colors, autopct='%1.0f%%')
+    ax.set_title('')
+    ax.set_xlabel('COMPLEXITE DE MISE EN OEUVRE', loc='center', fontsize=16)
+
+    # Convert the chart image to a base64-encoded string
+    chart_image = io.BytesIO()
+    plt.savefig(chart_image, format='png')
+    chart_image.seek(0)
+    chart_base64 = base64.b64encode(chart_image.read()).decode('utf-8')
+
+    plt.close()
+
+    return chart_base64
+
 
 def generate_pie_severities_chart(findings):
     # Generate the chart data
@@ -182,97 +218,205 @@ def generate_pie_severities_chart(findings):
     count = Counter(severities)
     total_count = sum(count.values())
 
+    # Define the display labels for each severity level
+    display_labels = {
+        'Critical': 'Critique',
+        'High': 'Forte',
+        'Medium': 'Moyenne',
+        'Low': 'Faible',
+        'Info': 'Générique',
+    }
+
     # Define the color map
     color_map = {
         'Critical': '#C23B21',
         'High': '#FF8B01',
         'Medium': '#FFD301',
         'Low': '#00B050',
+        'Info': '#999999',
     }
 
-    # Predefine the order of the priorities
-    severity_order = ['Critical', 'High', 'Medium','Low']
+    # Predefine the order of the severities
+    severity_order = ['Critical', 'High', 'Medium', 'Low', 'Info']
 
     # Generate chart data in the desired order
     chart_data = [(severity, count[severity], count[severity] / total_count) for severity in severity_order if severity in count]
 
-    # Create a new pie chart using pygal
-    chart_style = Style(colors=[color_map[severity] for severity in severity_order])
-    chart = pygal.Pie(style=chart_style)
-    chart.title = 'severity Pie Chart'
-    chart.legend_at_bottom = True
-    chart.print_values = True
-    chart.human_readable = True
+    # Create a new pie chart using matplotlib
+    labels = []
+    sizes = []
+    colors = []
 
     for severity, count, percentage in chart_data:
-        formatted_percentage = f'{percentage:.0%}'
-        label = f"{severity} {formatted_percentage} ({count})"
-        chart.add(label, count)
+        formatted_percentage = f'{int(percentage * 100)}%'
+        display_label = f"{display_labels[severity]} {formatted_percentage}"
+        labels.append(display_label)
+        sizes.append(count)
+        colors.append(color_map[severity])
 
-    return chart
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, colors=colors, autopct='%1.0f%%')
+    ax.set_title('')
+    ax.set_xlabel('STATISTIQUES SUR LES VULNÉRABILITÉS', loc='center', fontsize=16)
+    # Convert the chart image to a base64-encoded string
+    chart_image = io.BytesIO()
+    plt.savefig(chart_image, format='png')
+    chart_image.seek(0)
+    chart_base64 = base64.b64encode(chart_image.read()).decode('utf-8')
 
+    plt.close()
+
+    return chart_base64
+
+class CustomPageTemplate(PageTemplate):
+    def __init__(self, id):
+        frames = [
+            Frame(30, 30, 550, 800, id='normal', showBoundary=0),
+            Frame(30, 15, 550, 800, id='footer', showBoundary=0),
+        ]
+        PageTemplate.__init__(self, id, frames=frames)
+
+    def afterDrawPage(self, canvas, doc):
+        canvas.saveState()
+        canvas.setFont('Helvetica', 10)
+        canvas.drawString(40, 20, f"Page {doc.page}")
+        canvas.restoreState()
+
+from django.contrib.auth.hashers import make_password, check_password
+        
 
 def my_report_view(request, engagement_id):
     logger = logging.getLogger('weasyprint')
     logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.DEBUG)
+   
+    tests = Test.objects.none()
 
     engagement = Engagement.objects.get(id=engagement_id)
     product = engagement.product
     findings = Finding.objects.filter(test__engagement=engagement)
+    
+    # Generate the chart images
+    priorities_png_base64 = generate_pie_priorities_chart(findings)
+    complexite_png_base64 = generate_pie_complexite_chart(findings)
+    severities_png_base64 = generate_pie_severities_chart(findings)
 
-    # Generate the chart
-    chart = generate_pie_priorities_chart(findings)
-    # Save the chart as a PNG buffer
-    png_buffer = chart.render_to_png()
-    # Convert the PNG buffer to a base64-encoded string
-    priorities_png_base64 = base64.b64encode(png_buffer).decode('utf-8')
-
-    chart = generate_pie_complexite_chart(findings)
-    png_buffer = chart.render_to_png()
-    complexites_png_base64 = base64.b64encode(png_buffer).decode('utf-8')
-
-
-    chart = generate_pie_severities_chart(findings)
-    png_buffer = chart.render_to_png()
-    severities_png_base64 = base64.b64encode(png_buffer).decode('utf-8')
-
+    # Count the findings
     counts = {
         'Technique': findings.filter(type='Technique').count(),
         'Organisationnelle': findings.filter(type='Organisationnelle').count(),
-        'Confuguration ': findings.filter(type='Confuguration ').count()
-         }
-        
-    counts['generic'] = findings.filter(severity='Info').count()    
+        'Confuguration': findings.filter(type='Confuguration').count()
+    }
+    counts['generic'] = findings.filter(severity='Info').count()
 
-
-
-    
-    
-    # Turn the filtered findings into a list and sort them by the 'name' field of 'test' and 'severity'
+    # Sort and group the findings
     findings_list = sorted(list(findings), key=attrgetter('test.title', 'severity'))
-    
-
-    # Group the sorted findings by the 'name' field of 'test' and 'severity'
     grouped_findings = {}
     for key, group in groupby(findings_list, key=attrgetter('test.title')):
-        grouped_findings[key] = {k: list(v) for k, v in groupby(group, key=attrgetter('severity'))}
+            avances_findings = []
+            generiques_findings = []
 
+            for finding in group:
+                if finding.severity != 'Info':
+                    avances_findings.append(finding)
+                elif finding.severity == 'Info':
+                    generiques_findings.append(finding)
 
-    # Render the HTML template with the chart image
-    context = {'engagement': engagement, 'product': product, 'findings': findings, 'include_table_of_contents': 1, 'image_to_data_uri': image_to_data_uri,
-                'priorities_chart_image': priorities_png_base64,'complexite_chart_image': complexites_png_base64,'severities_chart_image': severities_png_base64,
-                  'grouped_findings':grouped_findings,'counts':counts  }
+            grouped_findings[key] = {
+                'avances': avances_findings,
+                'generiques': generiques_findings
+            }
+
+    tests = tests
+    advanced_threats_findings = []
+    generic_findings = []
+
+    # Iterate over all the findings
+    for finding in findings:
+        if finding.severity != 'Info':
+            # Check if the finding belongs to advanced threats based on severity
+            advanced_threats_findings.append(finding)
+        else:
+            # Check if the finding belongs to generic findings based on severity
+            generic_findings.append(finding)
+
+    # Render the HTML template with the chart images and findings
+    context = {
+        'engagement': engagement,
+        'product': product,
+        'tests': tests,
+        'advanced_threats_findings': advanced_threats_findings,
+        'generic_findings': generic_findings,
+        'findings': findings,  # Include the findings queryset
+        'include_table_of_contents': 1,
+        'priorities_chart_image': priorities_png_base64,
+        'complexite_chart_image': complexite_png_base64,
+        'severities_chart_image': severities_png_base64,
+        'grouped_findings': grouped_findings,
+        'counts': counts
+    }
     html_string = render(request, 'dojo/engagement_pdf_report.html', context).content.decode('utf-8')
 
-    # Create a PDF file using WeasyPrint
-    pdf_file = HTML(string=html_string).write_pdf()
+    # Create a CSS string for the footer
+    footer_css = '''
+    @page {
+        @bottom-left {
+            content: "© TALAN – 2022";
+            font-size: 10pt;
+            
+        }
+        @bottom-center {
+            content: "www.talan.com";
+            font-size: 10pt;
+            
+        }
+        @bottom-right {
+            content: "Page " counter(page) "/" counter(pages);
+            font-size: 10pt;
+        }
+    }
+    '''
 
-    # Return the PDF file as an HTTP response
-    response = HttpResponse(pdf_file, content_type='application/pdf')
-    response['Content-Disposition'] = ''
+    # Create a PDF document using WeasyPrint and apply the CSS for the footer
+    font_config = FontConfiguration()
+    document = HTML(string=html_string).render(stylesheets=[CSS(string=footer_css)], font_config=font_config)
+
+    # Set the file name with the current date
+    current_date = datetime.datetime.now().strftime('%d%m%y')
+    file_name = f'{current_date}-Rapport de pentest {product.name} {engagement.name}.pdf'
+
+    # Create a byte string for the PDF content
+    pdf_bytes = document.write_pdf()
+
+    # Encrypt the PDF file with the original password
+    encrypted_pdf_bytes = encrypt_pdf(pdf_bytes, engagement.get_decrypted_password(), engagement.get_decrypted_password())
+
+    # Return the encrypted PDF file as an HTTP response with the updated file name
+    response = HttpResponse(encrypted_pdf_bytes, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
     return response
 
+
+def encrypt_pdf(pdf_bytes, owner_password, user_password):
+    pdf_reader = PdfReader(io.BytesIO(pdf_bytes))
+    pdf_writer = PdfWriter()
+
+    for page in pdf_reader.pages:
+        pdf_writer.add_page(page)
+
+    pdf_writer.encrypt(user_pwd=user_password, owner_pwd=owner_password)
+
+    output_stream = io.BytesIO()
+    pdf_writer.write(output_stream)
+    encrypted_pdf_bytes = output_stream.getvalue()
+
+    return encrypted_pdf_bytes
+
+
+def chart_to_base64(chart):
+    png_buffer = chart.render_to_png()
+    png_base64 = base64.b64encode(png_buffer).decode('utf-8')
+    return png_base64
 def custom_error_view(request, exception=None):
     return render(request, "500.html", {})
 

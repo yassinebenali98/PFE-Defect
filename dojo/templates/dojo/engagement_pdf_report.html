@@ -86,8 +86,7 @@
         color: #365273;
     }
 
-    p {
-        max-width: 8.5in;
+    p {        
         min-width: 50%;
         overflow-wrap: break-word;
         word-wrap: break-word;
@@ -215,26 +214,124 @@
     .page-break {
         page-break-after: always;
     }
+    .sticky-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 9999;
+        background-color: #365F91;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 15px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .sticky-button:hover {
+        background-color: #365f9180;
+    }
+    
+    @media screen {
+            .hide-in-html {
+                display: none;
+            }
+        }  
     @media print {
             .element-to-hide {
                 display: none;
             }
-            
+    @page {
+    size: A4;
+    margin-left: 10mm;    
+    margin-right: 10mm;    
+    margin-top: 100px;
+    margin-bottom: 50px;
+
+
+} 
+
+.full-width-img {
+        width: 100%;
+        max-width: 100vw;
+        height: auto;
+    }
+    
+    /* Styles for the centered image */
+    .centered-image {
+        max-width: 100px;
+        height: auto;
+    }
+
+header {
+    position: fixed;
+    top: -100px;
+    left: 0;
+    right: 0;
+    height: 100px;
+}  
+footer {
+    position: fixed;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 50px;
+}
+.footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #000000; /* Set the desired color for the footer text */
+        }
+
+        /* Page numbering styles */
+        .page-number:before {
+            counter-increment: page;
+            content: "Page " counter(page) " of";
+        }
+
+       .logo{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        max-width: 150px;
+        opacity: 50%;
+        margin-top: 25px;
+        margin-right: 25px;
+       }
+       
 </style>
 
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<header class="hide-in-html" >
+        <div>
+            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'dojo/img/talan-logo.png' %}" alt="talan" class="logo">
 
+            
+        </div>
+    </header>
+
+   
 <div class="container">
-    <a href="{% url 'my_report' engagement_id=engagement.id %}" class="element-to-hide">Generate PDF report</a>
+    <button onclick="window.location.href='{% url 'my_report' engagement_id=engagement.id %}';" class="sticky-button element-to-hide">Generate PDF report</button>
+
+
 
     
 
     {% include "dojo/fr_report_cover_page.html" with product=engagement.product findings=findings %}
     <div class="page-break"></div>
-    <div id="toc-page">
-        <pre>{{ toc_text }}</pre> 
+    <div>
+        
         {% include "dojo/fr_report_toc.html" with product=engagement.product findings=findings grouped_findings=grouped_findings %}
     </div>
 
@@ -242,7 +339,7 @@
     <div id="contents">
 
 
-        {% include "dojo/fr_report_avant_propos.html" with product=engagement.product findings=findings %}
+        {% include "dojo/fr_report_avant_propos.html" with product=engagement.product endpoints=endpoints %}
         <div class="page-break"></div>
         {% include "dojo/fr_report_methodes_de_classification.html"%}
         <div class="page-break"></div>
@@ -254,13 +351,41 @@
         <div class="page-break"></div>
         {% include "dojo/fr_report_presentation.html"%}
         <div class="page-break"></div>
-        {% include "dojo/fr_report_finding_list.html" with findings=findings grouped_findings=grouped_findings %}
+        {% include "dojo/fr_report_finding_list.html" with findings=findings grouped_findings=grouped_findings advanced_threats_findings=advanced_threats_findings %}
     </div>
 
 </div> <!-- /container -->
 {% endblock %}
 {% block js %}
 {{ block.super }}
+<script>
+        // JavaScript code to update the page number in the footer
+        window.onload = function () {
+            var pageNumberElement = document.getElementById('page-number');
+
+            // Get the total number of pages
+            var totalPageCount = 0;
+            var pageCountInterval = setInterval(function () {
+                totalPageCount = document.querySelectorAll('.page-break').length + 1;
+            }, 100);
+
+            // Update the page number when the total page count is determined
+            setTimeout(function () {
+                clearInterval(pageCountInterval);
+                updatePageNumber();
+
+                // Update the page number whenever the window is resized
+                window.addEventListener('resize', updatePageNumber);
+            }, 1000);
+
+            // Function to update the page number in the footer
+            function updatePageNumber() {
+                var currentPageNumber = Math.floor(window.pageYOffset / window.innerHeight) + 1;
+                pageNumberElement.textContent = 'Page ' + currentPageNumber + ' of ' + totalPageCount;
+            }
+        };
+    </script>
+
 <!-- jQuery -->
 <script src="{{ host }}{% static " jquery/dist/jquery.js" %}"></script>
 <!-- Flot Charts JavaScript -->

@@ -4,31 +4,7 @@
 {% load get_endpoint_status %}
 
 {% if destination == "Report" %}
-    {% if finding|has_endpoints %}
-        {% with endpoints=finding|get_vulnerable_endpoints %}
-            {% if endpoints %}
-            
-                {% for endpoint in endpoints %}
-            
-                 {{ endpoint }}<br>
-                {% endfor %}
-            
-                           
-                 
-            {% endif %}
-        {% endwith %}
-
-        {% with endpoints=finding|get_mitigated_endpoints %}
-            {% if endpoints %}
-            <ul>
-                {% for endpoint in endpoints %}
-            
-                <li> {{ endpoint }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        {% endwith %}
-    {% endif %}
+{{ engagement.cibles|markdown_render }}
     {% if finding.file_path %}
         <div class="row">
             <div class="col-md-12">

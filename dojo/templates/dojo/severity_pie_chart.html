@@ -1,11 +1,9 @@
- 
 {% block content %}
 <style>
     #severity-pie-chart {
         width: 400px;
         height: 400px;
     }
-   
 </style>
  
 <p>La figure ci-dessous présente la répartition des vulnérabilités par niveau de criticité :</p>
@@ -16,8 +14,8 @@
     <center><img  src="data:image/svg+xml;base64,{{ severities_chart_image }}" width="800" height="800"/></center>
     {% endif %}
 </div>
-<center><h5><b>STATISTIQUES SUR LES VULNERABILTES</b></h5></center>
-<center><span class="ptitre">Figure 1 : Répartition des vulnérabilités par niveau de criticité</span></center>
+<center><h5 class="element-to-hide"><b>STATISTIQUES SUR LES VULNERABILTES</b></h5></center>
+<center><span class="ptitre ">Figure 1 : Répartition des vulnérabilités par niveau de criticité</span></center>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
@@ -28,13 +26,21 @@
         'High': '#FF8B01',
         'Medium': '#FFD301',
         'Low': '#00B050',
+        'Info': '#AAAAAA'
+    };
+    var labelMap = {
+        'Critical': 'Critique',
+        'High': 'Forte',
+        'Medium': 'Moyenne',
+        'Low': 'Faible',
+        'Info': 'Génériques'
     };
     var data = [];
     var total = 0; // Total value of all slices
     for (var severity in severities) {
         var value = severities[severity];
         total += value;
-        data.push({ label: severity, value: value, color: colorMap[severity] });
+        data.push({ label: labelMap[severity], value: value, color: colorMap[severity] });
     }
     var ctx = document.getElementById('severity-pie-chart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -82,4 +88,3 @@
 </script>
 
 {% endblock %}
-

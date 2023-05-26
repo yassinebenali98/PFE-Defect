@@ -28,7 +28,7 @@
     {% endif %}
 
     {% if 'generic' in choices %}
-        <p>Au total, {{ counts.generic }} vulnérabilités ont été identifiées durant l’audit dont le type est generic.</p>
+        <p>Au total, {{ counts.generic }} vulnérabilités ont été identifiées durant l’audit dont le type est Générique.</p>
     {% endif %}
 {% endwith %}
 
@@ -72,7 +72,7 @@
                 {% for finding in test.list %}
                 <tr>
                     <td>V_{{ forloop.parentloop.counter }}.{{ forloop.counter }}</td>
-                    <td>{% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}</td>
+                    <td style="width: 200px;">{% include "dojo/snippets/endpoints.html" with finding=finding destination="Report" %}</td>
                     <td>{{ finding.title }}</td>
                     <td>{% if finding.severity == 'High' %}
                         Elevé
