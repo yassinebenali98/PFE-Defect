@@ -812,7 +812,8 @@ class EngForm(forms.ModelForm):
 )
     password = forms.CharField(
         max_length=128, widget=forms.PasswordInput,
-        help_text="Enter a password for the engagement.")
+        help_text="Enter a password for the engagement report.",
+        required=False)
     cibles = forms.CharField(
     widget=forms.Textarea(attrs={'style': 'white-space: pre-wrap;'}),
     required=False,
@@ -1079,13 +1080,13 @@ class AddFindingForm(forms.ModelForm):
         req_resp = kwargs.pop('req_resp')
 
         product = None
-        if 'product' in kwargs:
-            product = kwargs.pop('product')
+        if 'engagement' in kwargs:
+            engagement = kwargs.pop('engagement')
 
         super(AddFindingForm, self).__init__(*args, **kwargs)
 
-        if product:
-            self.fields['endpoints'].queryset = Endpoint.objects.filter(product=product)
+        if engagement:
+            self.fields['endpoints'].queryset = Endpoint.objects.filter(finding__test__engagement=engagement).distinct()
 
         if req_resp:
             self.fields['request'].initial = req_resp[0]
@@ -1409,6 +1410,7 @@ class FindingForm(forms.ModelForm):
     impact = forms.CharField( required=False )
     request = forms.CharField( required=False )
     response = forms.CharField( required=False )
+    description = forms.CharField(widget=forms.Textarea)
     endpoints = forms.ModelMultipleChoiceField(queryset=Endpoint.objects.none(), required=False, label='Systems / Endpoints')
     endpoints_to_add = forms.CharField(max_length=5000, required=False, label="Endpoints to add",
                                help_text="The IP address, host name or full URL. You may enter one endpoint per line. "
@@ -1439,9 +1441,12 @@ class FindingForm(forms.ModelForm):
 
         super(FindingForm, self).__init__(*args, **kwargs)
         self.fields['sla_start_date'].widget.attrs.update({'hidden': True})
+        test = self.instance.test
+        engagement = test.engagement
+        product = engagement.product
 
-        self.fields['endpoints'].queryset = Endpoint.objects.filter(product=self.instance.test.engagement.product)
-        self.fields['mitigated_by'].queryset = get_authorized_users(Permissions.Test_Edit)
+        self.fields['endpoints'].queryset = Endpoint.objects.filter(finding__test=test, finding__test__engagement=engagement, finding__test__engagement__product=product).distinct()
+
 
         # do not show checkbox if finding is not accepted and simple risk acceptance is disabled
         # if checked, always show to allow unaccept also with full risk acceptance enabled
@@ -1521,8 +1526,9 @@ class FindingForm(forms.ModelForm):
         self.fields['static_finding'].widget = forms.HiddenInput()
         self.fields['dynamic_finding'].widget = forms.HiddenInput()
         self.fields['sla_start_date'].widget = forms.HiddenInput()
-        self.fields['mitigated_by'].widget = forms.HiddenInput()
-        self.fields['mitigated'].widget = forms.HiddenInput()
+        self.fields['sla_start_date'].widget = forms.HiddenInput()
+
+
 
 
         self.fields['severity'].label = "Risque"

@@ -547,7 +547,7 @@ def generate_report(request, obj, host_view=False):
         counts = {
         'Technique': findin.filter(type='Technique').count(),
         'Organisationnelle': findin.filter(type='Organisationnelle').count(),
-        'Confuguration ': findin.filter(type='Confuguration ').count()
+        'Configuration': findin.filter(type='Configuration').count()
         }
         counts['generic'] = findin.filter(severity='Info').count()
 
@@ -739,7 +739,7 @@ def generate_report(request, obj, host_view=False):
                            'report_name': report_name,
                            'test': test,
                            'endpoint': endpoint,
-                           'endpoints':  unique_endpoints,
+                           #'endpoints':  unique_endpoints,
                            'findings': findings.qs.distinct().order_by('numerical_severity'),
                            'include_finding_notes': include_finding_notes,
                            'include_finding_images': include_finding_images,

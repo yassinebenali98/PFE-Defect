@@ -73,11 +73,11 @@
                 datalabels: {
                     formatter: (value, context) => {
                         let sum = 0;
-                        let dataArr = context.chart.data.datasets[0].data;
+                        let dataArr = context.dataset.data;
                         dataArr.map(data => {
                             sum += data;
                         });
-                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        let percentage = ((value / sum) * 100).toFixed(0) + "%";
                         return percentage;
                     },
                     color: '#fff',

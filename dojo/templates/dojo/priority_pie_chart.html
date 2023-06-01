@@ -29,7 +29,9 @@ Pour chaque vulnérabilité identifiée, TALAN a déterminé la priorité (cf. �
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-<script>
+
+        
+   <script>
     var priorities = {{ priorities|safe }};
     var colorMap = {
         'Immédiate': '#C23B21',
@@ -38,17 +40,13 @@ Pour chaque vulnérabilité identifiée, TALAN a déterminé la priorité (cf. �
         'Long Terme': '#00B050',
         'None': '#000000'
     };
-    var data = [
-        { label: 'Immédiate', value: priorities['Immédiate'], color: colorMap['Immédiate'] },
-        { label: 'Court Terme', value: priorities['Court Terme'], color: colorMap['Court Terme'] },
-        { label: 'Moyenne Terme', value: priorities['Moyenne Terme'], color: colorMap['Moyenne Terme'] },
-        { label: 'Long Terme', value: priorities['Long Terme'], color: colorMap['Long Terme'] }
-    ];
+    var data = [];
     var total = 0; // Total value of all slices
-    for (var i = 0; i < data.length; i++) {
-        var value = data[i].value;
+    for (var complexite in priorities) {
+        var value = priorities[complexite];
         if (value !== null) {
             total += value;
+            data.push({ label: complexite, value: value, color: colorMap[complexite] });
         }
     }
     var ctx = document.getElementById('priority-pie-chart').getContext('2d');
@@ -74,7 +72,7 @@ Pour chaque vulnérabilité identifiée, TALAN a déterminé la priorité (cf. �
                         var dataset = data.datasets[tooltipItem.datasetIndex];
                         var currentValue = dataset.data[tooltipItem.index];
                         var percentage = ((currentValue / total) * 100).toFixed(0);
-                        return currentValue;
+                        return  currentValue ;
                     }
                 }
             },

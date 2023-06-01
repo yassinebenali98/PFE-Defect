@@ -435,7 +435,7 @@ def close_finding(request, fid):
                 finding.active = False
                 now = timezone.now()
                 finding.mitigated = form.cleaned_data.get("mitigated") or now
-                finding.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
+                #finding.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
                 finding.is_mitigated = True
                 finding.last_reviewed = finding.mitigated
                 finding.last_reviewed_by = request.user
@@ -444,7 +444,7 @@ def close_finding(request, fid):
                 finding.duplicate = form.cleaned_data.get("duplicate", False)
                 endpoint_status = finding.status_finding.all()
                 for status in endpoint_status:
-                    status.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
+                    #status.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
                     status.mitigated_time = form.cleaned_data.get("mitigated") or now
                     status.mitigated = True
                     status.last_modified = timezone.now()
@@ -510,7 +510,7 @@ def defect_finding_review(request, fid):
             if defect_choice == "Close Finding":
                 finding.active = False
                 finding.mitigated = now
-                finding.mitigated_by = request.user
+                #finding.mitigated_by = request.user
                 finding.is_mitigated = True
                 finding.last_reviewed = finding.mitigated
                 finding.last_reviewed_by = request.user
@@ -574,13 +574,13 @@ def reopen_finding(request, fid):
     finding = get_object_or_404(Finding, id=fid)
     finding.active = True
     finding.mitigated = None
-    finding.mitigated_by = request.user
+    f#inding.mitigated_by = request.user
     finding.is_mitigated = False
     finding.last_reviewed = finding.mitigated
     finding.last_reviewed_by = request.user
     endpoint_status = finding.status_finding.all()
     for status in endpoint_status:
-        status.mitigated_by = None
+        #status.mitigated_by = None
         status.mitigated_time = None
         status.mitigated = False
         status.last_modified = timezone.now()
@@ -815,7 +815,7 @@ def edit_finding(request, fid):
                     new_finding.is_mitigated = True
                     endpoint_status = new_finding.status_finding.all()
                     for status in endpoint_status:
-                        status.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
+                        #status.mitigated_by = form.cleaned_data.get("mitigated_by") or request.user
                         status.mitigated_time = form.cleaned_data.get("mitigated") or now
                         status.mitigated = True
                         status.last_modified = timezone.now()

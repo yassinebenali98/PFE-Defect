@@ -57,56 +57,9 @@
 {% else %}
     {% with endpoints=finding|get_vulnerable_endpoints %}
         {% if endpoints %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default table-responsive">
-                        <div class="panel-heading">
-                            <h4>Vulnerable Endpoints / Systems ({{ endpoints|length }})
-                                <span class="pull-right"><a data-toggle="collapse" href="#vuln_endpoints"><i
-                                        class="glyphicon glyphicon-chevron-up"></i></a></span>
-                            </h4>
-                        </div>
-
-                        <table id="vuln_endpoints" class="table-striped table table-hover">
-                            <thead>
-                                {% if finding|has_object_permission:"Finding_Edit" %}
-                                    <th class="hidden-sm" title="Select all vulnerable endpoints." style="width: 10%;">
-                                        <form class="inline-form" action="#">
-                                            <input type="checkbox" label="select_all_vulnerable" name="select_all_vulnerable" id="select_all_vulnerable"/>
-                                        </form>
-                                        <span>Select All</span>
-                                    </th>
-                                {% endif %}
-                                <th>Endpoint</th>
-                                <th>Status</th>
-                                <th>Date Discovered</th>
-                                <th>Last Modified</th>
-                            </thead>
-                            <tbody>
-                                {% for endpoint in endpoints %}
-                                    <tr>
-                                        {% if finding|has_object_permission:"Finding_Edit" %}
-                                            <td class="hidden-sm">
-                                                <form action="#">
-                                                    <input type="checkbox" label="select_vulnerable_{{ endpoint.id }}" name="select_vulnerable_{{ endpoint.id }}" id="{{ endpoint.id }}"
-                                                        class="select_one"/>
-                                                </form>
-                                            </td>
-                                        {% endif %}
-                                        <td>
-                                            <a data-toggle="tooltip" data-placement="top" data-original-title="{{ endpoint }}" href="{% url 'view_endpoint' endpoint.id %}">{{ endpoint|url_shortner }}{% if endpoint.is_broken %} <span data-toggle="tooltip" title="Endpoint is broken. Check documentation to look for fix process" >&#128681;</span>{% endif %}</a>
-                                            {% include "dojo/snippets/tags.html" with tags=endpoint.tags.all %}
-                                        </td>
-                                        <td>{{ endpoint|endpoint_display_status:finding|safe }}</td>
-                                        <td>{{ endpoint|endpoint_date:finding|date }}</td>
-                                        <td>{{ endpoint|endpoint_update_time:finding|date}}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            {% for endpoint in endpoints %}
+            {{endpoint}} <br>
+            {% endfor%}
         {% endif %}
     {% endwith %}
 
