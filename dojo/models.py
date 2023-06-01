@@ -1243,12 +1243,12 @@ ENGAGEMENT_STATUS_CHOICES = (('Not Started', 'Not Started'),
 class Engagement(models.Model):
     name = models.CharField(max_length=300, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    niveau_securite_global = models.CharField(max_length=2000, null=True, blank=True)
-    mesures_impactees = models.CharField(max_length=2000, null=True, blank=True)
-    consequences = models.CharField(max_length=2000, null=True, blank=True)
-    risques = models.CharField(max_length=2000, null=True, blank=True)
-    cibles = models.CharField(max_length=1000, null=True, blank=True)
-    password = models.CharField(max_length=128, null=True, blank=True)
+    niveau_securite_global = models.TextField(null=True, blank=True)
+    mesures_impactees = models.TextField(null=True, blank=True)
+    consequences = models.TextField( null=True, blank=True)
+    risques = models.TextField(null=True, blank=True)
+    cibles = models.TextField( null=True, blank=True)
+    password = models.CharField(max_length=1150, null=True, blank=True)
     
     CHOICES = [
         ('generic', 'générique'),

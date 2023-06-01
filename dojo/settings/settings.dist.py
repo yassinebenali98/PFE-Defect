@@ -74,12 +74,12 @@ env = environ.Env(
     DD_FORCE_LOWERCASE_TAGS=(bool, True),
     DD_MAX_TAG_LENGTH=(int, 25),
     DD_DATABASE_ENGINE=(str, 'django.db.backends.mysql'),
-    DD_DATABASE_HOST=(str, 'mysql'),
+    DD_DATABASE_HOST=(str, 'localhost'),
     DD_DATABASE_NAME=(str, 'defectdojo'),
     # default django database name for testing is test_<dbname>
     DD_TEST_DATABASE_NAME=(str, 'test_defectdojo'),
     DD_DATABASE_PASSWORD=(str, 'defectdojo'),
-    DD_DATABASE_PORT=(int, 3306),
+    DD_DATABASE_PORT=(int, 6606),
     DD_DATABASE_USER=(str, 'defectdojo'),
     DD_SECRET_KEY=(str, ''),
     DD_CREDENTIAL_AES_256_KEY=(str, '.'),
@@ -306,7 +306,8 @@ TEMPLATE_DEBUG = env('DD_TEMPLATE_DEBUG')
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/2.0/ref/settings/#allowed-hosts
 SITE_URL = env('DD_SITE_URL')
-ALLOWED_HOSTS = tuple(env.list('DD_ALLOWED_HOSTS', default=['localhost', '127.0.0.1']))
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = tuple(env.list('DD_ALLOWED_HOSTS', default=['0.0.0.0','localhost', '127.0.0.1']))
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('DD_SECRET_KEY')

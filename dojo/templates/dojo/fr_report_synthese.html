@@ -7,9 +7,13 @@
 
     <h2 class="stitre" id="3.Synthèse">3.Synthèse</h2>
     <h4 class="titre" id="3.1._Synthèse_globale">3.1. Synthèse globale</h4>
-
-    {{ engagement.niveau_securite_global|markdown_render }}
-    {{ engagement.mesures_impactees|markdown_render }}
+    {% if engagement.consequences %}
+       {{ engagement.niveau_securite_global|markdown_render }}
+    {% endif %}
+   
+    {% if engagement.consequences %}
+        {{ engagement.mesures_impactees|markdown_render }}
+    {% endif %}
 
 
 
@@ -19,11 +23,11 @@
         <p>Au total, {{ counts.Technique }} vulnérabilités ont été identifiées durant l’audit dont le type est Technique.</p>
     {% endif %}
 
-    {% if 'Organisationnelle' in choices %}
+    {% if 'organisationnelle' in choices %}
         <p>Au total, {{ counts.Organisationnelle }} vulnérabilités ont été identifiées durant l’audit dont le type est Organisationnelle.</p>
     {% endif %}
 
-    {% if 'Configuration' in choices %}
+    {% if 'configuration' in choices %}
         <p>Au total, {{ counts.Configuration }} vulnérabilités ont été identifiées durant l’audit dont le type est Configuration.</p>
     {% endif %}
 
@@ -31,9 +35,13 @@
         <p>Au total, {{ counts.generic }} vulnérabilités ont été identifiées durant l’audit dont le type est Générique.</p>
     {% endif %}
 {% endwith %}
-
-    {{ engagement.consequences|markdown_render }}
-    {{ engagement.risques|markdown_render }}
+    
+    {% if engagement.consequences %}
+        {{ engagement.consequences|markdown_render }}
+    {% endif %}
+    {% if engagement.consequences %}
+        {{ engagement.risques|markdown_render }}
+    {% endif %}
 
 
 

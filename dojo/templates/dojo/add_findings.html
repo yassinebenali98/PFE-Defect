@@ -56,7 +56,8 @@
                 </div>
             </form>
         {% else %}
-            <form id="add_finding" class="form-horizontal" action="{% url 'add_findings' tid %}" method="post">
+            <form id="add_finding" class="form-horizontal" action="{% url 'add_findings' tid %}" method="post"
+    enctype="multipart/form-data">
                 {% csrf_token %}
                 {% include "dojo/form_fields.html" with form=form %}
                 <div class="form-group">

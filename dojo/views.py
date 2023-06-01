@@ -113,7 +113,6 @@ import json
 import pygal
 from pygal.style import Style
 import base64
-import cairosvg
 import io
 import xml.dom.minidom
 
