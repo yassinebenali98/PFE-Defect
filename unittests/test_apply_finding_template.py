@@ -256,11 +256,11 @@ class TestFindTemplateToApply(DojoTestCase):
 
     def test_find_template_to_apply_displays_templates_success(self):
         result = self.make_request(True, 1)
-        self.assertContains(result, 'Finding Template for Testing Apply Template functionality')
+        self.assertContains(result, 'Vulnerability Template for Testing Apply Template functionality')
 
     def test_find_template_to_apply_displays_breadcrumb(self):
         result = self.make_request(True, 1)
-        self.assertContains(result, 'Apply Template to Finding')
+        self.assertContains(result, 'Apply Template to Vulnerabily')
 
 
 @skip("outdated so doesn't work with current fixture")

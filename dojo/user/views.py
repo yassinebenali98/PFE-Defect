@@ -519,7 +519,7 @@ def add_product_type_member(request, uid):
                                     _('Product type members added successfully.'),
                                     extra_tags='alert-success')
                 return HttpResponseRedirect(reverse('view_user', args=(uid, )))
-    add_breadcrumb(title=_("Add Product Type Member"), top_level=False, request=request)
+    add_breadcrumb(title=_("Add Client Type Member"), top_level=False, request=request)
     return render(request, 'dojo/new_product_type_member_user.html', {
         'user': user,
         'form': memberform,
@@ -547,7 +547,7 @@ def add_product_member(request, uid):
                                 _('Product members added successfully.'),
                                 extra_tags='alert-success')
             return HttpResponseRedirect(reverse('view_user', args=(uid, )))
-    add_breadcrumb(title=_("Add Product Member"), top_level=False, request=request)
+    add_breadcrumb(title=_("Add Client Member"), top_level=False, request=request)
     return render(request, 'dojo/new_product_member_user.html', {
         'user': user,
         'form': memberform,

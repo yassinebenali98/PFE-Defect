@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }}
 {% if object_queryset %}
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="clearfix">
                 <h3 class="pull-left">Files from Build #{{ object_queryset.0.build_id }} on {{ object_queryset.0.created }}</h3>

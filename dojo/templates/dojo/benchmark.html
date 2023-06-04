@@ -5,7 +5,7 @@
 
 {% block content %}
     {{ block.super }}
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
           <div class="panel-heading">
               <div class="clearfix">
                   <span class="pull-left"><h4>{{ benchmark_type.name }} <i>{{ benchmark_type.version }}</i></h4>{% if category_name %}{{ category_name }}&nbsp;&nbsp;<br>{% endif %}{{ benchmark_product_summary|asvs_level }}</span>

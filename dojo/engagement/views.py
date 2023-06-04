@@ -82,7 +82,7 @@ def engagement_calendar(request):
     engagements = engagements.prefetch_related('product')
 
     add_breadcrumb(
-        title="Engagement Calendar", top_level=True, request=request)
+        title="Project Calendar", top_level=True, request=request)
     return render(
         request, 'dojo/calendar.html', {
             'caltype': 'engagements',
@@ -144,7 +144,7 @@ def engagements(request, view):
     engagement_name_words = sorted(get_authorized_engagements(Permissions.Engagement_View).values_list('name', flat=True).distinct())
 
     add_breadcrumb(
-        title=f"{view.capitalize()} Engagements",
+        title=f"{view.capitalize()} Projects",
         top_level=not len(request.GET),
         request=request)
 
@@ -192,7 +192,7 @@ def engagements_all(request):
     eng_words = get_authorized_engagements(Permissions.Engagement_View).values_list('name', flat=True).distinct()
 
     add_breadcrumb(
-        title="All Engagements",
+        title="All Projects",
         top_level=not len(request.GET),
         request=request)
 
@@ -244,7 +244,7 @@ def edit_engagement(request, eid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Engagement updated successfully.',
+                'Project updated successfully.',
                 extra_tags='alert-success')
 
             success, jira_project_form = jira_helper.process_jira_project_form(request, instance=jira_project, target='engagement', engagement=engagement, product=engagement.product)
@@ -283,9 +283,9 @@ def edit_engagement(request, eid):
             jira_epic_form = JIRAEngagementForm(instance=engagement)
 
     if is_ci_cd:
-        title = 'Edit CI/CD Engagement'
+        title = 'Edit CI/CD Project'
     else:
-        title = 'Edit Interactive Engagement'
+        title = 'Edit Interactive Project'
 
     product_tab = Product_Tab(engagement.product, title=title, tab="engagements")
     product_tab.setEngagement(engagement)
@@ -313,9 +313,9 @@ def delete_engagement(request, eid):
                 if get_setting("ASYNC_OBJECT_DELETE"):
                     async_del = async_delete()
                     async_del.delete(engagement)
-                    message = 'Engagement and relationships will be removed in the background.'
+                    message = 'Project and relationships will be removed in the background.'
                 else:
-                    message = 'Engagement and relationships removed.'
+                    message = 'Project and relationships removed.'
                     engagement.delete()
                 messages.add_message(
                     request,
@@ -339,7 +339,7 @@ def delete_engagement(request, eid):
         collector.collect([engagement])
         rels = collector.nested()
 
-    product_tab = Product_Tab(product, title="Delete Engagement", tab="engagements")
+    product_tab = Product_Tab(product, title="Delete Project", tab="engagements")
     product_tab.setEngagement(engagement)
     return render(request, 'dojo/delete_engagement.html', {
         'product_tab': product_tab,
@@ -363,7 +363,7 @@ def copy_engagement(request, eid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Engagement Copied successfully.',
+                'Project Copied successfully.',
                 extra_tags='alert-success')
             create_notification(event='other',
                                 title='Copying of %s' % engagement.name,
@@ -380,7 +380,7 @@ def copy_engagement(request, eid):
                 'Unable to copy engagement, please try again.',
                 extra_tags='alert-danger')
 
-    product_tab = Product_Tab(product, title="Copy Engagement", tab="engagements")
+    product_tab = Product_Tab(product, title="Copy Project", tab="engagements")
     return render(request, 'dojo/copy_object.html', {
         'source': engagement,
         'source_label': 'Engagement',
@@ -445,7 +445,7 @@ def view_engagement(request, eid):
             else:
                 form = NoteForm()
             url = request.build_absolute_uri(reverse("view_engagement", args=(eng.id,)))
-            title = "Engagement: %s on %s" % (eng.name, eng.product.name)
+            title = "Project: %s on %s" % (eng.name, eng.product.name)
             messages.add_message(request,
                                  messages.SUCCESS,
                                  'Note added successfully.',
@@ -466,7 +466,7 @@ def view_engagement(request, eid):
     title = ""
     if eng.engagement_type == "CI/CD":
         title = " CI/CD"
-    product_tab = Product_Tab(prod, title="View" + title + " Engagement", tab="engagements")
+    product_tab = Product_Tab(prod, title="View" + title + " Product", tab="engagements")
     product_tab.setEngagement(eng)
     return render(
         request, 'dojo/view_eng.html', {
@@ -576,8 +576,8 @@ def add_tests(request, eid):
         form.initial['target_end'] = eng.target_end
         form.initial['lead'] = request.user
     add_breadcrumb(
-        parent=eng, title="Add Tests", top_level=False, request=request)
-    product_tab = Product_Tab(eng.product, title="Add Tests", tab="engagements")
+        parent=eng, title="Add Tasks", top_level=False, request=request)
+    product_tab = Product_Tab(eng.product, title="Add Tasks", tab="engagements")
     product_tab.setEngagement(eng)
     return render(request, 'dojo/add_tests.html', {
         'product_tab': product_tab,
@@ -605,7 +605,7 @@ def import_scan_results(request, eid=None, pid=None):
         product = get_object_or_404(Product, id=pid)
         engagement_or_product = product
     else:
-        raise Exception('Either Engagement or Product has to be provided')
+        raise Exception('Either Project or Client has to be provided')
 
     user_has_permission_or_403(user, engagement_or_product, Permissions.Import_Scan_Result)
 
@@ -766,7 +766,7 @@ def close_eng(request, eid):
     messages.add_message(
         request,
         messages.SUCCESS,
-        'Engagement closed successfully.',
+        'Project closed successfully.',
         extra_tags='alert-success')
     create_notification(event='close_engagement',
                         title='Closure of %s' % eng.name,
@@ -782,7 +782,7 @@ def reopen_eng(request, eid):
     messages.add_message(
         request,
         messages.SUCCESS,
-        'Engagement reopened successfully.',
+        'Project reopened successfully.',
         extra_tags='alert-success')
     create_notification(event='other',
                         title='Reopening of %s' % eng.name,
@@ -1202,7 +1202,7 @@ def engagement_ics(request, eid):
     uid = "dojo_eng_%d_%d" % (eng.id, eng.product.id)
     cal = get_cal_event(
         start_date, end_date,
-        "Engagement: %s (%s)" % (eng.name, eng.product.name),
+        "Project: %s (%s)" % (eng.name, eng.product.name),
         "Set aside for engagement %s, on product %s.  Additional detail can be found at %s"
         % (eng.name, eng.product.name,
            request.build_absolute_uri(
@@ -1302,7 +1302,7 @@ def excel_export(request):
     workbook = Workbook()
     workbook.iso_dates = True
     worksheet = workbook.active
-    worksheet.title = 'Engagements'
+    worksheet.title = 'Projects'
 
     font_bold = Font(bold=True)
 

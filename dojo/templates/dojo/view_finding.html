@@ -18,7 +18,7 @@
 {% block content %}
     {{ block.super }}
 <div id="test">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="clearfix">
                 <h3 class="pull-left finding-title">
@@ -413,7 +413,7 @@
 
     {% with finding|additional_vulnerability_ids as additional_vulnerability_ids %}
     {% if additional_vulnerability_ids %}
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <table id="additional_finding_references" class="table-striped table table-condensed table-hover centered">
             <tr>
                 <th>Additional Vulnerability Ids</th>
@@ -440,7 +440,7 @@
         {% if finding.sast_source_object or finding.sast_sink_object or finding.sast_source_file_path or finding.sast_source_line > 0 %}
         {# For tools that give information on both source (start) and sink (end) of the attack vector #}
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <table id="sast_source" class="table-striped table table-condensed table-hover centered">
                 <tr>
                     <th>Source Filepath</th>
@@ -466,7 +466,7 @@
                 </tr>
             </table>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <table id="sast_sink" class="table-striped table table-condensed table-hover centered">
                 <tr>
                     <th>Sink Filepath</th>
@@ -495,7 +495,7 @@
         {% endif %}
     {% endif %}
     {% if finding.service or finding.file_path or finding.line > 0 or finding.has_jira_configured or finding.has_jira_issue or finding.github_issue or finding.github_conf_new or finding.finding_group or finding.component_name or finding.nb_occurences > 1 %}
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <table id="error_notes" class="table-striped table table-condensed table-hover centered">
             <tr>
                 {% if finding.service %}
@@ -626,7 +626,7 @@
     </div>
     {% endif %}
     {% if finding.param or finding.payload %}
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <table id="error_notes" class="table-striped table table-condensed table-hover">
                 <tr>
                     <th>Injected Parameter(s)</th>
@@ -657,7 +657,7 @@
             little extra div to serve as anchor, with some padding and padding cancelling margin to make sure it scrolls into view correctly
         {% endcomment %}
         <div id="duplicate_cluster" style="padding-top: 6em; margin-top: -6em;"></div>
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>Duplicate Cluster ({{ finding|finding_duplicate_cluster_size }})<span class="pull-right"><a data-toggle="collapse" id="duplicate_tree_toggle" href="#duplicate_tree"><i class="glyphicon glyphicon-chevron-down"></i></a></span></h4>
             </div>
@@ -671,7 +671,7 @@
         </div>
     {% endif %}
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4 class="has-filters">Similar Findings ({{ similar_findings.paginator.count }})
                     <i class="fa-solid fa-circle-question has-popover" data-trigger="hover"
@@ -754,7 +754,7 @@
     {% include "dojo/snippets/endpoints.html" with finding=finding destination="UI" %}
 
     <div class="view-finding">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>Description <span class="pull-right"><a data-toggle="collapse" href="#vuln_desc"><i
                         class="glyphicon glyphicon-chevron-up"></i></a></span></h4>
@@ -767,7 +767,7 @@
         {% if files %}
             <div class="row">
                 <div class="col-md-12" id="cred">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>Files<span class="pull-right">
                             <a data-toggle="collapse" href="#add_feat_files">
@@ -802,7 +802,7 @@
             </div>
         {% endif %}
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>Mitigation <span class="pull-right"><a data-toggle="collapse" href="#vuln_mitigation"><i
                         class="glyphicon glyphicon-chevron-{% if finding.mitigation %}up{%else%}down{%endif%}"></i></a></span></h4>
@@ -812,14 +812,14 @@
             </div>
         </div>
         {% if finding.burprawrequestresponse_set.all %}
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h4>Request / Response Pairs <span class="pull-right"><a data-toggle="collapse" href="#vuln_req_res">
                         <i class="glyphicon glyphicon-chevron-down"></i></a></span></h4>
                 </div>
                 <div id="vuln_req_res" class="panel-body collapse">
                     {% for req_resp in finding.burprawrequestresponse_set.all %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4>Request #{{ forloop.counter }}<span class="pull-right">
                                     <a data-toggle="collapse" href="#vuln_req_{{ forloop.counter }}">
@@ -829,7 +829,7 @@
                                 <pre>{{ req_resp.get_request }}</pre>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4>Response #{{ forloop.counter }}<span class="pull-right">
                                     <a data-toggle="collapse" href="#vuln_res_{{ forloop.counter }}">
@@ -844,7 +844,7 @@
                 </div>
             </div>
         {% endif %}
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>Impact <span class="pull-right"><a data-toggle="collapse" href="#vuln_impact"><i
                         class="glyphicon glyphicon-chevron-{% if finding.impact %}up{%else%}down{%endif%}"></i></a></span></h4>
@@ -854,7 +854,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default" id="steps">
+        <div class="panel panel-primary" id="steps">
             <div class="panel-heading">
                 <h4>Steps To Reproduce <span class="pull-right"><a data-toggle="collapse" href="#vuln_reproduce"><i
                         class="glyphicon glyphicon-chevron-{% if finding.steps_to_reproduce %}up{%else%}down{%endif%}"></i></a></span></h4>
@@ -864,7 +864,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>Severity Justification <span class="pull-right"><a data-toggle="collapse" href="#sev_just"><i
                         class="glyphicon glyphicon-chevron-{% if finding.severity_justification %}up{%else%}down{%endif%}"></i></a></span></h4>
@@ -874,7 +874,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h4>References <span class="pull-right"><a data-toggle="collapse" href="#vuln_refs"><i
                         class="glyphicon glyphicon-chevron-{% if finding.references %}up{%else%}down{%endif%}"></i></a></span></h4>
@@ -888,7 +888,7 @@
         {% if  finding.static_finding != True and system_settings.enable_credentials %}
             <div class="row">
                 <div class="col-md-12" id="cred">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>Credential
                                 {% if not cred_finding and finding|has_object_permission:"Finding_Edit" %}

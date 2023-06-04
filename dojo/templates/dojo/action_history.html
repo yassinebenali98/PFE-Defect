@@ -4,7 +4,7 @@
     {{ block.super }}
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading tight">
                     <h3>
                         {{ obj }} History
@@ -21,7 +21,7 @@
                 <div class="clearfix">
                     {% include "dojo/paging_snippet.html" with page=history %}
                 </div>
-                <div class="table-responsive panel panel-default">
+                <div class="table-responsive panel panel-primary">
                     <table id="endpoints"
                            class="tablesorter-bootstrap table table-bordered table-condensed table-striped table-hover">
                         <tr>

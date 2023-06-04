@@ -8,7 +8,7 @@
     {{ block.super }}
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading tight">
                     <h3 class="has-filters">
                         {{ view }} Engagements
@@ -45,7 +45,7 @@
                     {% include "dojo/paging_snippet.html" with page=engagements page_size=True %}
                 </div>
 
-                <div class="table-responsive panel panel-default">
+                <div class="table-responsive panel panel-primary">
                     <table id="engagements"
                            class="tablesorter-bootstrap table table-condensed table-striped table-hover">
                         <tr>

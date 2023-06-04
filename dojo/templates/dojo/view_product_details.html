@@ -12,7 +12,7 @@
     {{ block.super }}
 <div class="row">
   <div class="col-md-8">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading tight">
         <div class="clearfix">
           <h3 class="pull-left">{% trans "Description" %}</h3>
@@ -118,7 +118,7 @@
 
 <div class="row">
 <div class="col-md-12">
-  <div class="panel panel-default">
+  <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title"><span class="fa-solid fa-chart-pie" aria-hidden="true"></span>{% trans "Metrics" %}</h3>
     </div>
@@ -140,7 +140,7 @@
 <!-- end metrics -->
 <div class="row">
   <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="fa-solid fa-bolt" aria-hidden="true"></span>{% trans "Technologies" %} {% if app_analysis %}({{ app_analysis.count }}){% endif %}
             {% if prod|has_object_permission:"Technology_Add" %}
@@ -188,7 +188,7 @@
 </div>
   </div>
   <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title"><span class="fa-solid fa-gavel" aria-hidden="true"></span>{% trans "Regulations" %} {% if prod.regulations.count > 0%}({{ prod.regulations.count }}){%endif%}</h3>
       </div>
@@ -208,7 +208,7 @@
 {% if system_settings.enable_benchmark %}
 <div class="row">
   <div class="col-md-12">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title"><span class ="fa-solid fa-scale-balanced" aria-hidden="true"></span>{% trans "Benchmark Progress" %}</h3>
       </div>
@@ -239,7 +239,7 @@
 </div>
 {% endif %}
 
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="clearfix">
                 <h4 class="pull-left">{% trans "Members" %}</h4>
@@ -327,7 +327,7 @@
         {% endif %}
     </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
           <div class="panel-heading">
               <div class="clearfix">
                   <h4 class="pull-left">{% trans "Groups" %}</h4>

@@ -342,7 +342,7 @@ def test_calendar(request):
 
     tests = tests.prefetch_related('test_type', 'lead', 'engagement__product')
 
-    add_breadcrumb(title=_("Test Calendar"), top_level=True, request=request)
+    add_breadcrumb(title=_("Task Calendar"), top_level=True, request=request)
     return render(request, 'dojo/calendar.html', {
         'caltype': 'tests',
         'leads': request.GET.getlist('lead', ''),
