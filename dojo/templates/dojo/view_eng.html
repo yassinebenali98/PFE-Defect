@@ -12,7 +12,7 @@
 {% block content %}
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="clearfix">
                         <h4 class="pull-left">
@@ -28,22 +28,22 @@
                                 {% if eng|has_object_permission:"Engagement_Edit" %}
                                     <li role="presentation">
                                         <a class="" href="{% url 'edit_engagement' eng.id %}">
-                                        <i class="fa-solid fa-pen-to-square"></i> Edit Engagement
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit Project
                                         </a>
                                     </li>
                                     <li>
                                         <a class="" href="{% url 'copy_engagement' eng.id %}?return_url={{ request.get_full_path|urlencode }}"/>
-                                        <i class="fa-solid fa-copy"></i> Copy Engagement
+                                        <i class="fa-solid fa-copy"></i> Copy Project
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         {% if eng.active %}
                                             <a class="" href="{% url 'close_engagement' eng.id %}">
-                                            <i class="fa-solid fa-xmark"></i> Close Engagement
+                                            <i class="fa-solid fa-xmark"></i> Close Project
                                             </a>
                                         {% else %}
                                             <a class="" href="{% url 'reopen_engagement' eng.id %}">
-                                            <i class="fa-solid fa-rotate-left"></i> Reopen Engagement
+                                            <i class="fa-solid fa-rotate-left"></i> Reopen Project
                                             </a>
                                         {% endif %}
                                     </li>
@@ -90,7 +90,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li role="presentation">
                                         <a class="text-danger" href="{% url 'delete_engagement' eng.id %}">
-                                        <i class="fa-solid fa-trash"></i> Delete Engagement
+                                        <i class="fa-solid fa-trash"></i> Delete Project
                                         </a>
                                     </li>
                                 {% endif %}
@@ -109,7 +109,7 @@
             {% if eng.preset %}
                 <div class="row">
                     <div id="tests" class="col-md-12">
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="clearfix">
                                     <h4 class="pull-left">
@@ -125,12 +125,12 @@
                                             <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation">
                                                     <a class="" href="{% url 'add_engagement_presets' eng.product.id %}">
-                                                    <i class="fa-solid fa-plus"></i> Add Engagement Preset
+                                                    <i class="fa-solid fa-plus"></i> Add Project Preset
                                                     </a>
                                                 </li>
                                                 <li role="presentation">
                                                     <a class="" href="{% url 'edit_engagement_presets' eng.product.id eng.preset.id %}">
-                                                    <i class="fa-solid fa-pen-to-square"></i> Edit Engagement Preset
+                                                    <i class="fa-solid fa-pen-to-square"></i> Edit Project Preset
                                                     </a>
                                                 </li>
                                             </ul>
@@ -188,7 +188,7 @@
             {% endif %}
             <div class="row">
                 <div id="tests" class="col-md-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="clearfix">
                                 <h4>
@@ -218,12 +218,12 @@
                                             {% endif %}
                                             <li role="presentation">
                                                 <a href="{% url 'engagement_open_findings' eng.id %}">
-                                                <i class="fa-solid fa-file-lines"></i> View Open Findings
+                                                <i class="fa-solid fa-file-lines"></i> View Open Vulnerabilities
                                                 </a>
                                             </li>
                                             <li role="presentation">
                                                 <a href="{% url 'engagement_all_findings' eng.id %}">
-                                                <i class="fa-solid fa-file-lines"></i> View All Findings
+                                                <i class="fa-solid fa-file-lines"></i> View All Vulnerabilities
                                                 </a>
                                             </li>
                                         </ul>
@@ -367,7 +367,7 @@
             </div>
             <div class="row">
                 <div id="risk" class="col-md-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4> Risk Acceptance
                                 {% if eng.product.enable_full_risk_acceptance %}
@@ -452,7 +452,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h4>Additional Features<span class="pull-right"><a name="collapsible" data-toggle="collapse" href="#add_feat">
                         <i class="glyphicon glyphicon-chevron-down"></i></a></span>
@@ -460,7 +460,7 @@
                 </div>
                 <div id="add_feat" class="panel-body collapse">
                     {% if eng.engagement_type == "Interactive" and system_settings.enable_checklists %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4> Checklist<span class="pull-right">
                                     &nbsp;
@@ -481,7 +481,7 @@
                             </div>
                             <div id="add_feat_check_list" class="panel-body collapse">
                                 {% if check %}
-                                    <div class="panel panel-default">
+                                    <div class="panel panel-primary">
                                         <div class="table-responsive">
                                             <table class="tablesorter-bootstrap table table-condensed table-striped">
                                                 <thead>
@@ -520,7 +520,7 @@
                                         </div>
                                     </div>
                                 {% else %}
-                                    <div class="panel panel-default">
+                                    <div class="panel panel-primary">
                                         <div class="panel-body">
                                             <small class="text-muted"><em>Checklist has not been completed.</em></small>
                                         </div>
@@ -530,7 +530,7 @@
                         </div>
                     {% endif %}
                     {% if system_settings.enable_questionnaires %}
-                        <div class="panel panel-default">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4>Questionnaires<span class="pull-right">
                                     &nbsp;
@@ -544,7 +544,7 @@
                             <div id="add_feat_survey" class="panel-body collapse">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="panel panel-default">
+                                        <div class="panel panel-primary">
                                             {% show_surveys eng users %}
                                         </div>
                                     </div>
@@ -573,7 +573,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>Notes<span class="pull-right">
                                 <a name="collapsible" data-toggle="collapse" href="#add_feat_notes">
@@ -592,7 +592,7 @@
                                     </div>
                                 </form>
                             {% endif %}
-                            <div class="panel panel-default">
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <h4>Note Log<span class="pull-right">
                                         <a data-toggle="collapse" href="#add_feat_note_log">
@@ -602,7 +602,7 @@
                                 <div id="add_feat_note_log" class="panel-body collapse {% if notes %}in{%endif%}">
                                     {% for note in notes %}
                                         <div>
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-primary">
                                                 <div class="panel-comments">
                                                     {% if user.username == note.author.username or eng|has_object_permission:"Note_Delete" or user.is_superuser %}
                                                         <div class="pull-right">
@@ -667,7 +667,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4>Files<span class="pull-right">
                                 &nbsp;
@@ -711,7 +711,7 @@
                         {% if eng.name %}
                             {{ eng.name }}
                         {% else %}
-                            Engagement for <a href="{% url 'view_product' eng.product.id %}">{{ eng.product }}</a>
+                        Project for <a href="{% url 'view_product' eng.product.id %}">{{ eng.product }}</a>
                         {% endif %}
                         {% if eng.version %}
                             <sup>
@@ -857,7 +857,7 @@
                     <div class="panel panel-default-secondary">
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="fa-solid fa-server" aria-hidden="true"></span>
-                                CI/CD Engagement Details
+                                CI/CD Project Details
                             </h3>
                         </div>
                         <div class="table-responsive">
@@ -938,9 +938,9 @@
                                         <td colspan="3">
                                             <small class="text-muted"><em>
                                                 {% if cred_eng %}
-                                                    Credentials Configured for this <strong>Engagement</strong>
+                                                    Credentials Configured for this <strong>Project</strong>
                                                 {% else %}
-                                                    No Credentials Configured for this <strong>Engagement</strong>
+                                                    No Credentials Configured for this <strong>Project</strong>
                                                 {% endif %}
                                             </em></small>
                                         </td>
@@ -1018,7 +1018,7 @@
         </div>
     </div>
     <div class="protip">
-        <i class="fa-solid fa-lightbulb"></i> <strong>ProTip!</strong> Type <kbd>e</kbd> to edit this engagement. Type <kbd>i</kbd> to import scan results or <kbd>a</kbd> to add tests.
+        <i class="fa-solid fa-lightbulb"></i> <strong>ProTip!</strong> Type <kbd>e</kbd> to edit this Project. Type <kbd>i</kbd> to import scan results or <kbd>a</kbd> to add tests.
     </div>
 {% endblock %}
 {% block postscript %}

@@ -16,7 +16,28 @@ textarea,
 .breadcrumb,
 .panel > table:last-child,
 .panel > .table:first-child  {
-    border-radius: 0!important;
+   
+    border: 0px !important;
+    
+
+}
+small{
+    color: #eaeaea !important;;
+}
+
+.custom-table-container {
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ffffff11; /* White background */
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.24); /* Light shadow */
+  border-bottom: 0px !important;
+  border-top: 1px;
+  
+  
+}
+
+.custom-table-container table {
+  border-radius: 8px; /* Rounded corners for the table */
 }
 
 .table-condensed > tbody > tr > td,
@@ -55,7 +76,8 @@ a {
   background-color: #546474;
 }
 
-.panel-default .btn-primary {
+.panel-default  .btn-primary {
+   
     background-color: transparent!important;
     border-style: none!important;
     color: #fff!important;
@@ -1511,10 +1533,14 @@ form#quick-add-form {
     padding: 5px 10px;
     margin-bottom: 15px;
 }
+.panel-heading {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
 
 div.potential-finding, div.potential-finding div.panel-heading {
-    border-top-right-radius: 0px;
-    border-top-left-radius: 0px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 a.template-popover:hover {

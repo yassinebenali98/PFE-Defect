@@ -42,7 +42,7 @@ def product_type(request):
 
     pts.object_list = prefetch_for_product_type(pts.object_list)
 
-    page_name = _("Product Type List")
+    page_name = _("Client Type List")
     add_breadcrumb(title=page_name, top_level=True, request=request)
 
     return render(request, 'dojo/product_type.html', {
@@ -85,7 +85,7 @@ def add_product_type(request):
             member.save()
             messages.add_message(request,
                                  messages.SUCCESS,
-                                 _('Product type added successfully.'),
+                                 _('Client type added successfully.'),
                                  extra_tags='alert-success')
             create_notification(event='product_type_added', title=product_type.name,
                                 product_type=product_type,
@@ -101,7 +101,7 @@ def add_product_type(request):
 
 @user_is_authorized(Product_Type, Permissions.Product_Type_View, 'ptid')
 def view_product_type(request, ptid):
-    page_name = _("View Product Type")
+    page_name = _("View Client Type")
     pt = get_object_or_404(Product_Type, pk=ptid)
     members = get_authorized_members_for_product_type(pt, Permissions.Product_Type_View)
     groups = get_authorized_groups_for_product_type(pt, Permissions.Product_Type_View)
@@ -128,9 +128,9 @@ def delete_product_type(request, ptid):
                 if get_setting("ASYNC_OBJECT_DELETE"):
                     async_del = async_delete()
                     async_del.delete(product_type)
-                    message = 'Product Type and relationships will be removed in the background.'
+                    message = 'Client Type and relationships will be removed in the background.'
                 else:
-                    message = 'Product Type and relationships removed.'
+                    message = 'Client Type and relationships removed.'
                     product_type.delete()
                 messages.add_message(request,
                                      messages.SUCCESS,
@@ -139,7 +139,7 @@ def delete_product_type(request, ptid):
                 create_notification(event='other',
                                 title='Deletion of %s' % product_type.name,
                                 no_users=True,
-                                description='The product type "%s" was deleted by %s' % (product_type.name, request.user),
+                                description='The client type "%s" was deleted by %s' % (product_type.name, request.user),
                                 url=request.build_absolute_uri(reverse('product_type')),
                                 icon="exclamation-triangle")
                 return HttpResponseRedirect(reverse('product_type'))
@@ -151,7 +151,7 @@ def delete_product_type(request, ptid):
         collector.collect([product_type])
         rels = collector.nested()
 
-    add_breadcrumb(title=_("Delete Product Type"), top_level=False, request=request)
+    add_breadcrumb(title=_("Delete Client Type"), top_level=False, request=request)
     return render(request, 'dojo/delete_product_type.html',
                   {'product_type': product_type,
                    'form': form,
@@ -161,7 +161,7 @@ def delete_product_type(request, ptid):
 
 @user_is_authorized(Product_Type, Permissions.Product_Type_Edit, 'ptid')
 def edit_product_type(request, ptid):
-    page_name = "Edit Product Type"
+    page_name = "Edit Client Type"
     pt = get_object_or_404(Product_Type, pk=ptid)
     members = get_authorized_members_for_product_type(pt, Permissions.Product_Type_Manage_Members)
     pt_form = Product_TypeForm(instance=pt)
@@ -172,7 +172,7 @@ def edit_product_type(request, ptid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('Product type updated successfully.'),
+                _('Client type updated successfully.'),
                 extra_tags="alert-success",
             )
             return HttpResponseRedirect(reverse("product_type"))
@@ -212,7 +212,7 @@ def add_product_type_member(request, ptid):
                                     _('Product type members added successfully.'),
                                     extra_tags='alert-success')
                 return HttpResponseRedirect(reverse('view_product_type', args=(ptid, )))
-    add_breadcrumb(title=_("Add Product Type Member"), top_level=False, request=request)
+    add_breadcrumb(title=_("Add Client Type Member"), top_level=False, request=request)
     return render(request, 'dojo/new_product_type_member.html', {
         'pt': pt,
         'form': memberform,
@@ -324,7 +324,7 @@ def add_product_type_group(request, ptid):
                             product_type_group.save()
                 messages.add_message(request,
                                      messages.SUCCESS,
-                                     _('Product type groups added successfully.'),
+                                     _('Client type groups added successfully.'),
                                      extra_tags='alert-success')
                 return HttpResponseRedirect(reverse('view_product_type', args=(ptid,)))
 
@@ -354,7 +354,7 @@ def edit_product_type_group(request, groupid):
                 groupform.save()
                 messages.add_message(request,
                                      messages.SUCCESS,
-                                     _('Product type group updated successfully.'),
+                                     _('Client type group updated successfully.'),
                                      extra_tags='alert-success')
                 if is_title_in_breadcrumbs('View Group'):
                     return HttpResponseRedirect(reverse('view_group', args=(group.group.id,)))
@@ -381,7 +381,7 @@ def delete_product_type_group(request, groupid):
         group.delete()
         messages.add_message(request,
                              messages.SUCCESS,
-                             _('Product type group deleted successfully.'),
+                             _('Client type group deleted successfully.'),
                              extra_tags='alert-success')
         if is_title_in_breadcrumbs('View Group'):
             return HttpResponseRedirect(reverse('view_group', args=(group.group.id, )))

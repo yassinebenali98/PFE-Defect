@@ -6,7 +6,7 @@
     <form class="form-horizontal" action="{% url 'note_history' note.id page objid %}" method="post">{% csrf_token %}
         {% for entry in history %}
             <div>
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                 <div class="panel-comments">
                     <div class="row-sm-2">
                         <strong>{{ entry.current_editor }}</strong> 

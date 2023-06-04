@@ -2,12 +2,12 @@
 {% load display_tags %}
 {% load authorization_tags %}
 <div class="col-md-12">
-    <div class="panel panel-default table-responsive">
+    <div class="panel panel-primary table-responsive">
         <div class="panel-heading">
-            <h4> {% if status == "open" %}Active{% elif status == "paused" %}Paused {% else %}Closed{% endif %} Engagements ({{ count }})
+            <h4> {% if status == "open" %}Active{% elif status == "paused" %}Paused {% else %}Closed{% endif %} Projects ({{ count }})
                 <div class="dropdown pull-right">
                     <button id="show-filters-{{status}}" data-toggle="collapse" data-target="#the-filters-{{status}}" class="btn btn-primary toggle-filters" aria-label="Filter"> <i class="fa-solid fa-filter"></i> <i class="caret"></i> </button>
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" aria-label="Add Engagement"
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" aria-label="Add Project"
                     data-toggle="dropdown" aria-expanded="true">
                 <span class="fa-solid fa-bars"></span>
                 <span class="caret"></span>
@@ -15,12 +15,12 @@
           <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                             <li role="presentation">
                                 <a class="" href="{% url 'new_eng_for_prod' prod.id %}">
-                                    <i class="fa-solid fa-plus"></i> Add New Interactive Engagement
+                                    <i class="fa-solid fa-plus"></i> Add New Interactive Project
                                 </a>
                             </li>
                             <li role="presentation">
                                 <a class="" href="{% url 'new_eng_for_prod_cicd' prod.id %}">
-                                    <i class="fa-solid fa-plus"></i> Add New CI/CD Engagement
+                                    <i class="fa-solid fa-plus"></i> Add New CI/CD Project
                                 </a>
                             </li>
                     </ul>
@@ -35,6 +35,7 @@
             {% include "dojo/paging_snippet.html" with page=engs prefix=prefix page_size=True %}
         </div>
         {% if engs %}
+        <div class="custom-table-container">
             <table id={{ status }} class="tablesorter-bootstrap table table-condensed table-striped table-hover">
                 <thead>
                 <tr>
@@ -138,14 +139,14 @@
                               <li class="divider"></li>
                             <li role="presentation">
                               <a href="{% url 'engagement_report' eng.id %}?title=&active=1&verified=1&false_p=2&duplicate=2">
-                                  <i class="fa-solid fa-file-lines"></i> Engagement Report
+                                  <i class="fa-solid fa-file-lines"></i> Project Report
                               </a>
                             </li>
                             {% if eng|has_object_permission:"Engagement_Delete" %}
                             <li class="divider"></li>
                             <li>
                               <a class="text-danger" href="{% url 'delete_engagement' eng.id %}">
-                                  <i class="fa-solid fa-trash"></i> Delete Engagement
+                                  <i class="fa-solid fa-trash"></i> Delete Project
                               </a>
                             </li>
                             {% endif %}
@@ -265,6 +266,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
         {% else %}
             <div id='no_{% if status == "open" %}active{% elif status == "paused" %}paused{% else %}closed{% endif %}_engagements' class="panel-body">
                 <p class="text-muted">No {% if status == "open" %}active{% elif status == "paused" %}paused{% else %}closed{% endif %} engagements found.</p>

@@ -148,7 +148,7 @@ def findings(request, pid=None, eid=None, view=None, filter_name=None, order_by=
         jira_project = jira_helper.get_jira_project(engagement)
         github_config = GITHUB_PKey.objects.filter(product__engagement=eid).first()
     else:
-        add_breadcrumb(title="Findings", top_level=not len(request.GET), request=request)
+        add_breadcrumb(title="Vulnerabilities", top_level=not len(request.GET), request=request)
 
     findings_filter = get_filtered_findings(request, pid, eid, None, filter_name, order_by)
 
@@ -1320,7 +1320,7 @@ def add_stub_finding(request, tid):
                 messages.ERROR,
                 'Stub Finding form has error, please revise and try again.',
                 extra_tags='alert-danger')
-    add_breadcrumb(title="Add Stub Finding", top_level=False, request=request)
+    add_breadcrumb(title="Add Stub Vulnerability", top_level=False, request=request)
     return HttpResponseRedirect(reverse('view_test', args=(tid, )))
 
 

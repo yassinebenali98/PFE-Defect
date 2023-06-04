@@ -24,13 +24,13 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{ engagement_count }}</div>
-                                    <div>{% trans "Active Engagements" %}</div>
+                                    <div>{% trans "Active Projects" %}</div>
                                 </div>
                             </div>
                         </div>
                         <a href="{% url 'engagement' %}">
                             <div class="panel-footer">
-                                <span class="pull-left">{% trans "View Engagement Details" %}</span>
+                                <span class="pull-left">{% trans "View Project Details" %}</span>
                                 <span class="pull-right"><i class="fa-solid fa-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -116,7 +116,7 @@
         <div class="row">
             {% block historical_finding_severity %}
                 <div class="col-lg-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             {% trans "Historical Finding Severity" %}
                         </div>
@@ -131,7 +131,7 @@
             {% endblock %}
             {% block reported_finding_severity_by_month %}
                 <div class="col-lg-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             {% trans "Reported Finding Severity by Month" %}
                         </div>
@@ -149,89 +149,14 @@
     {% endblock %}
     {% block surveys %}
         {% if system_settings.enable_questionnaires and "dojo.view_engagement_survey"|has_configuration_permission  %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            {% trans "Unassigned Answered Engagement Questionnaires" %}
-                        </div>
-                        <div class="panel-body">
-                            {% if surveys %}
-                                <table id="surveys" class="tablesorter-bootstrap table table-condensed table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>{% trans "Name" %}</th>
-                                            <th>{% trans "Product" %}</th>
-                                            <th>{% trans "Engagement" %}</th>
-                                            <th>{% trans "Responder" %}</th>
-                                            <th>{% trans "Status" %}</th>
-                                            <th>{% trans "Completion" %} Date</th>
-                                            <th>{% trans "Actions" %}</th>
-                                        </tr>
-                                    </thead>
-                                    {% for survey in surveys %}
-                                        <tr>
-                                            <td>
-                                                {% if survey.engagement %}
-                                                    <a href="/engagement/{{ survey.engagement.id }}/questionnaire/{{ survey.id }}">{{ survey.survey.name }}</a>
-                                                {% else %}
-                                                    <a href="/empty_questionnaire/{{ survey.id }}">{{ survey.survey.name }}</a>
-                                                {% endif %}
-                                            </td> 
-                                            <td><a href="/product/{{ survey.engagement.product_id }}">{{ survey.engagement.product.name }}</a></td>
-                                            <td>
-                                                <a href="/engagement/{{ survey.engagement.id }}">{{ survey.engagement.name }}</a> 
-                                            </td> 
-                                            <td>
-                                                {% if survey.responder %}
-                                                    {{ survey.responder }}
-                                                {% else %}
-                                                    {% trans "Anonymous" %}
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if survey.completed %}
-                                                    <span class="pass_fail Pass">{% trans "Completed" %}</span>
-                                                {% else %}
-                                                    <span class="pass_fail">{% trans "Unanswered" %}</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ survey.answered_on }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    {% if survey.engagement %}
-                                                        <a class="btn btn-sm btn-secondary"
-                                                        href="/engagement/{{ survey.engagement.id }}/questionnaire/{{ survey.id }}">{% trans "View Responses" %}</a>
-                                                        <a class="btn btn-sm btn-info"
-                                                        href="/engagement/{{ survey.engagement.id }}/questionnaire/{{ survey.id }}/assign">{% trans "Assign User" %}</a>
-                                                    {% else %}
-                                                        <a class="btn btn-sm btn-secondary"
-                                                        href="/empty_questionnaire/{{ survey.id }}">{% trans "View Responses" %}</a>
-                                                        <a class="btn btn-sm btn-success" href="empty_questionnaire/{{ survey.id }}/new_engagement">{% trans "Create Engagement" %}</a>
-                                                        <button class="btn btn-sm btn-info" disabled
-                                                        href="/engagement/{{ survey.engagement.id }}/questionnaire/{{ survey.id }}/assign">{% trans "Assign User" %}</button>
-                                                    {% endif %}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            {% else %}
-                                <div class="panel-body">
-                                    <p>{% trans "No questionnaires found." %}</p>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         {% endif %}
     {% endblock %}    
     {% block punchcard %}
         <div class="row">
             {% if punchcard %}
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             {% trans "Weekly activity, displayed by day, of findings you reported." %}*
                         </div>

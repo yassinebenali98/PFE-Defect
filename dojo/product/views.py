@@ -83,7 +83,7 @@ def product(request):
 
     # print(prod_list.object_list.explain)
 
-    add_breadcrumb(title=_("Product List"), top_level=not len(request.GET), request=request)
+    add_breadcrumb(title=_("Client List"), top_level=not len(request.GET), request=request)
 
     return render(request, 'dojo/product.html', {
         'prod_list': prod_list,
@@ -689,7 +689,7 @@ def view_engagements(request, pid):
     result_inactive_engs.object_list = prefetch_for_view_engagements(result_inactive_engs.object_list,
                                                                      recent_test_day_count)
 
-    product_tab = Product_Tab(prod, title=_("All Engagements"), tab="engagements")
+    product_tab = Product_Tab(prod, title=_("All Projects"), tab="engagements")
     return render(request, 'dojo/view_engagements.html', {
         'prod': prod,
         'product_tab': product_tab,
@@ -828,7 +828,7 @@ def new_product(request, ptid=None):
         else:
             gform = None
 
-    add_breadcrumb(title=_("New Product"), top_level=False, request=request)
+    add_breadcrumb(title=_("New Client"), top_level=False, request=request)
     return render(request, 'dojo/new_product.html',
                   {'form': form,
                    'jform': jira_project_form,
@@ -1020,7 +1020,7 @@ def new_eng_for_app(request, pid, cicd=False):
 
             messages.add_message(request,
                                  messages.SUCCESS,
-                                 _('Engagement added successfully.'),
+                                 _('Project added successfully.'),
                                  extra_tags='alert-success')
 
             if not error:
@@ -1049,9 +1049,9 @@ def new_eng_for_app(request, pid, cicd=False):
             jira_epic_form = JIRAEngagementForm()
 
     if cicd:
-        title = _('New CI/CD Engagement')
+        title = _('New CI/CD Project')
     else:
-        title = _('New Interactive Engagement')
+        title = _('New Interactive Project')
 
     product_tab = Product_Tab(product, title=title, tab="engagements")
     return render(request, 'dojo/new_eng.html', {
@@ -1196,7 +1196,7 @@ def ad_hoc_finding(request, pid):
     test_type, res = Test_Type.objects.get_or_create(name=_("Pen Test"))
     test = None
     try:
-        eng = Engagement.objects.get(product=prod, name=_("Ad Hoc Engagement"))
+        eng = Engagement.objects.get(product=prod, name=_("Ad Hoc Project"))
         tests = Test.objects.filter(engagement=eng)
 
         if len(tests) != 0:
@@ -1206,7 +1206,7 @@ def ad_hoc_finding(request, pid):
                         target_start=timezone.now(), target_end=timezone.now())
             test.save()
     except:
-        eng = Engagement(name=_("Ad Hoc Engagement"), target_start=timezone.now(),
+        eng = Engagement(name=_("Ad Hoc Project"), target_start=timezone.now(),
                          target_end=timezone.now(), active=False, product=prod)
         eng.save()
         test = Test(engagement=eng, test_type=test_type,
@@ -1351,7 +1351,7 @@ def engagement_presets(request, pid):
     prod = get_object_or_404(Product, id=pid)
     presets = Engagement_Presets.objects.filter(product=prod).all()
 
-    product_tab = Product_Tab(prod, title=_("Engagement Presets"), tab="settings")
+    product_tab = Product_Tab(prod, title=_("Project Presets"), tab="settings")
 
     return render(request, 'dojo/view_presets.html',
                   {'product_tab': product_tab,
@@ -1364,7 +1364,7 @@ def edit_engagement_presets(request, pid, eid):
     prod = get_object_or_404(Product, id=pid)
     preset = get_object_or_404(Engagement_Presets, id=eid)
 
-    product_tab = Product_Tab(prod, title=_("Edit Engagement Preset"), tab="settings")
+    product_tab = Product_Tab(prod, title=_("Edit Project Preset"), tab="settings")
 
     if request.method == 'POST':
         tform = EngagementPresetsForm(request.POST, instance=preset)
@@ -1373,7 +1373,7 @@ def edit_engagement_presets(request, pid, eid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('Engagement Preset Successfully Updated.'),
+                _('Project Preset Successfully Updated.'),
                 extra_tags='alert-success')
             return HttpResponseRedirect(reverse('engagement_presets', args=(pid,)))
     else:
@@ -1398,13 +1398,13 @@ def add_engagement_presets(request, pid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                _('Engagement Preset Successfully Created.'),
+                _('Project Preset Successfully Created.'),
                 extra_tags='alert-success')
             return HttpResponseRedirect(reverse('engagement_presets', args=(pid,)))
     else:
         tform = EngagementPresetsForm()
 
-    product_tab = Product_Tab(prod, title=_("New Engagement Preset"), tab="settings")
+    product_tab = Product_Tab(prod, title=_("New Project Preset"), tab="settings")
     return render(request, 'dojo/new_params.html', {'tform': tform, 'pid': pid, 'product_tab': product_tab})
 
 
@@ -1421,7 +1421,7 @@ def delete_engagement_presets(request, pid, eid):
                 preset.delete()
                 messages.add_message(request,
                                      messages.SUCCESS,
-                                     _('Engagement presets and engagement relationships removed.'),
+                                     _('Project presets and engagement relationships removed.'),
                                      extra_tags='alert-success')
                 return HttpResponseRedirect(reverse('engagement_presets', args=(pid,)))
 
@@ -1429,7 +1429,7 @@ def delete_engagement_presets(request, pid, eid):
     collector.collect([preset])
     rels = collector.nested()
 
-    product_tab = Product_Tab(prod, title=_("Delete Engagement Preset"), tab="settings")
+    product_tab = Product_Tab(prod, title=_("Delete Project Preset"), tab="settings")
     return render(request, 'dojo/delete_presets.html',
                   {'product': product,
                    'form': form,

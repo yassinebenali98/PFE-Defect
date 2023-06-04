@@ -21,7 +21,7 @@
 </div>
 {% for note in notes %}
   <div>
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-comments">
         {% if user.username == note.author.username or object|has_object_permission:"Note_Delete" or user.is_superuser %}
           <div class="pull-right">

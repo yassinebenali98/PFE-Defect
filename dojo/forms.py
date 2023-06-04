@@ -1078,7 +1078,6 @@ class AddFindingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         req_resp = kwargs.pop('req_resp')
-
         product = None
         if 'engagement' in kwargs:
             engagement = kwargs.pop('engagement')
@@ -1526,9 +1525,13 @@ class FindingForm(forms.ModelForm):
         self.fields['static_finding'].widget = forms.HiddenInput()
         self.fields['dynamic_finding'].widget = forms.HiddenInput()
         self.fields['sla_start_date'].widget = forms.HiddenInput()
+<<<<<<< Updated upstream
         self.fields['sla_start_date'].widget = forms.HiddenInput()
 
 
+=======
+       
+>>>>>>> Stashed changes
 
 
         self.fields['severity'].label = "Risque"
