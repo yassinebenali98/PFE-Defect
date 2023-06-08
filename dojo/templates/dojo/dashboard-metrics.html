@@ -39,7 +39,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                         <li role="presentation">
                             <a href="{% url 'metrics' %}?view=dashboard&type=Finding">
-                                <i class="fa-solid fa-file-lines"></i> {% trans "Measures Findings" %}
+                                <i class="fa-solid fa-file-lines"></i> {% trans "Measures Vulnerabilities" %}
                             </a>
                         </li>
                         <li role="presentation">
@@ -114,7 +114,7 @@
         {% endif %}
         <div class="col-md-4 section-start">
             <div class="panel panel-primary">
-                <div class="panel-heading">{% trans "Total Findings In Period By Severity" %}</div>
+                <div class="panel-heading">{% trans "Total Vulnerabilities In Period By Severity" %}</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="opened_in_period" class="graph"></div>
@@ -125,7 +125,7 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">{% trans "Total Findings Risk Accepted In Period By Severity" %}</div>
+                <div class="panel-heading">{% trans "Total Vulnerabilities Risk Accepted In Period By Severity" %}</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="total_accepted_in_period" class="graph"></div>
@@ -136,7 +136,7 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">{% trans "Total Findings Closed In Period By Severity" %}</div>
+                <div class="panel-heading">{% trans "Total Vulnerabilities Closed In Period By Severity" %}</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="total_closed_in_period" class="graph"></div>

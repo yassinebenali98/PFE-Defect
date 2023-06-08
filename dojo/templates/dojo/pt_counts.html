@@ -18,7 +18,7 @@
     </form>
     <br/>
     {% if pt %}
-        <h2>{% blocktrans with start_date=start_date.date end_date=end_date.date%}Finding Information For Period of {{ start_date }} - {{ end_date }}
+        <h2>{% blocktrans with start_date=start_date.date end_date=end_date.date%}Vulnerability Information For Period of {{ start_date }} - {{ end_date }}
             {% endblocktrans %}</h2>
         <h3 class="inline-block">{{ pt.name }}</h3> [
         <a href="{% url 'product_type_metrics' pt.id %}" class="inline-block">{% trans "View Details" %}</a>]
@@ -230,7 +230,7 @@
         <br/>
         <div class="panel panel-default table-responsive">
             <div class="panel-heading">
-                <h4>{% blocktrans %}{{ pt }} Open Findings{% endblocktrans %}</h4>
+                <h4>{% blocktrans %}{{ pt }} Open Vulnerabilities{% endblocktrans %}</h4>
             </div>
             <table id="open_findings"
                    class="tablesorter-bootstrap table table-bordered table-condensed table-striped table-hover">

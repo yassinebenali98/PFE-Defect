@@ -500,7 +500,7 @@ def generate_report(request, obj, host_view=False):
                         queryset=prefetch_related_findings_for_report(Finding.objects.filter(test__engagement=engagement)))
 
         # Turn the filtered findings into a list and sort them by the 'name' field of 'test' and 'severity'
-        findings_list = sorted(list(findings.qs), key=attrgetter('test.title', 'severity'))
+        findings_list = sorted(list(findings.qs), key=lambda x: (x.test.title or '', x.severity or ''))
 
         # Group the sorted findings by the 'name' field of 'test' and 'severity'
         grouped_findings = {}

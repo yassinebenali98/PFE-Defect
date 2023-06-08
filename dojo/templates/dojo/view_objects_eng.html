@@ -156,7 +156,7 @@ No files for this build were found.
                         var severity = $("<td> </td>");
                         var reporter = $("<td>{{ request.user.username }}</td>");
                         var date = $("<td>None</td>");
-                        var actions = $('<td><div class="btn-group"><a class="btn btn-sm btn-warning" href="/stub_finding/[id]/promote">Promote To Finding</a> <a class="btn btn-sm btn-danger" href="/stub_finding/[id]/delete">Delete</a></div></td>'.replace(/\[id\]/g, fid));
+                        var actions = $('<td><div class="btn-group"><a class="btn btn-sm btn-warning" href="/stub_finding/[id]/promote">Promote To Vulnerability</a> <a class="btn btn-sm btn-danger" href="/stub_finding/[id]/delete">Delete</a></div></td>'.replace(/\[id\]/g, fid));
 
                         row.append(title, severity, reporter, date, actions).appendTo("#stub_findings tbody");
                         $("input#quick_add_finding").val("")

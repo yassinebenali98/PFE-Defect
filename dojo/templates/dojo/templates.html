@@ -9,17 +9,17 @@
                 <div class="panel-heading tight">
                     <h3 class="has-filters">
                         {% if add_from_template %}
-                            Add From Finding Templates
+                            Add From Vulnerability Templates
                         {% elif apply_template %}
-                            Apply Template to Finding
+                            Apply Template to Vulnerability
                         {% else %}
-                            Finding Templates
+                        Vulnerability Templates
                         {% endif %}
                         <div class="dropdown pull-right">
                             <button id="show-filters" data-toggle="collapse" data-target="#the-filters" class="btn btn-primary toggle-filters"> <i class="fa-solid fa-filter"></i> <i class="caret"></i> </button>
                             {% if "dojo.add_finding_template"|has_configuration_permission and not add_from_template and not apply_template %}
                                 <a href="{% url 'add_template' %}" class="btn btn-primary"
-                                   title="Add Finding Template">
+                                   title="Add Vulnerability Template">
                                     <i class="fa-solid fa-plus"></i>
                                 </a>
                             {% endif %}

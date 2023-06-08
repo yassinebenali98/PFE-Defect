@@ -2,7 +2,7 @@
 {% load event_tags %}
 {% block content %}
     {{ block.super }}
-    <h3> Close a Finding</h3>
+    <h3> Close a Vulnerability</h3>
     <h4>{{ finding.title }}</h4>
     {% if note_types|length <= 1 %}
       <p>Please provide a reason why this finding is being closed.</p>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               {% if note_types|length <= 1 %}
-                <input class="btn btn-primary" name='submit' type="submit" value="Close Finding" aria-label="Close Finding"/>
+                <input class="btn btn-primary" name='submit' type="submit" value="Close Vulnerability" aria-label="Close Vulnerability"/>
               {% elif note_types|length > 1 %}
                 <input class="btn btn-primary" name='submit' type="submit" value="Add Note" aria-label="Add Note"/>
               {% endif %}

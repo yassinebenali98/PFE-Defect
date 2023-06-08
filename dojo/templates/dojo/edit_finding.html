@@ -17,7 +17,7 @@ width: 70% !important;
 {% endblock %}
 {% block content %}
 {{ block.super }}
-<h3> Edit a Finding </h3>
+<h3> Edit a Vulnerability </h3>
 
 {% if temp %}
 <form id="add_finding" class="form-horizontal" action="{% url 'edit_finding' finding.id %}" method="post"
@@ -39,7 +39,7 @@ width: 70% !important;
     {% endif %}
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <input type="submit" value="Add Another Finding" />
+            <input type="submit" value="Add Another Vulnerability" />
             <input type="submit" value="Finished" />
         </div>
     </div>
@@ -64,7 +64,10 @@ width: 70% !important;
     </div>
     </div>
         {% endfor %}
-        <button id="add-more" type="button">Add more</button>
+        <div class="col-sm-2"></div>
+         <div class="col-sm-10">
+            <button id="add-more" type="button" >Add more</button>
+        </div>
         
     </div>
     <span id="original_finding" class="small">

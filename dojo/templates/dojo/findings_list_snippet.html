@@ -58,15 +58,15 @@
                 {% endif %}
                 <div class="btn-group mr-2" role="group" aria-label="Bulk Actions">
                     {% if product_tab and not 'DISABLE_FINDING_MERGE'|setting_enabled %}
-                    <button type="button" id="merge_findings" class="btn btn-sm  btn-primary" data-toggle="tooltip" data-placement="bottom" title="Merge Findings">
-                      <a class="white-color merge" href="#" alt="Merge Findings">
+                    <button type="button" id="merge_findings" class="btn btn-sm  btn-primary" data-toggle="tooltip" data-placement="bottom" title="Merge Vulnerabilities">
+                      <a class="white-color merge" href="#" alt="Merge Vulnerabilities">
                         <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
                       </a>
                     </button>
                     {% endif %}
                     {% if not product_tab or product_tab and product_tab.product|has_object_permission:"Finding_Delete" %}
-                    <button type="button" class="btn btn-sm  btn-primary" data-toggle="tooltip" data-placement="bottom" title="Delete Findings">
-                      <a class="white-color delete-bulk" href="#" alt="Delete Findings">
+                    <button type="button" class="btn btn-sm  btn-primary" data-toggle="tooltip" data-placement="bottom" title="Delete Vulnerabilities">
+                      <a class="white-color delete-bulk" href="#" alt="Delete Vulnerabilities">
                         <i class="fa-solid fa-trash"></i>
                       </a>
                     </button>
@@ -92,9 +92,9 @@
                                 <option value="Critical">Critical</option>
                             </select><br/><br/>
                             <label style="display: block" for="id_bulk_date">Date</label>
-                                <input id="id_bulk_date" name="date" type="date" alt="Select the date the Findings were discovered"/><br/>
+                                <input id="id_bulk_date" name="date" type="date" alt="Select the date the Vulnerabilities were discovered"/><br/>
                             <label style="display: block" for="id_bulk_planned_remediation_date">Planned Remediation Date</label>
-                                <input id="id_bulk_planned_remediation_date" name="planned_remediation_date" type="date" alt="Select the date the Finding will be remediated"/><br/>
+                                <input id="id_bulk_planned_remediation_date" name="planned_remediation_date" type="date" alt="Select the date the Vulnerability will be remediated"/><br/>
                             <label><b>Status</b><input id="id_bulk_status" name="status" type="checkbox" alt="Select to enable"/></label><br/>
                             <label style="font-size: 80%; font-weight: normal; display: block">
                                 <input id="id_bulk_active" name="active" type="checkbox" disabled/> <span>Active</span>
@@ -279,21 +279,21 @@
                                        {% if finding|has_object_permission:"Finding_Edit" %}
                                           <li role="presentation">
                                               <a href="{% url 'touch_finding' finding.id %}?return_url={{ request.get_full_path|urlencode }}">
-                                                  <i class="fa-solid fa-clock"></i> Touch Finding
+                                                  <i class="fa-solid fa-clock"></i> Touch Vulnerability
                                               </a>
                                           </li>
                                        {% endif %}
                                        {% if "dojo.add_finding_template"|has_configuration_permission %}
                                           <li role="presentation">
                                               <a href="{% url 'mktemplate' finding.id %}">
-                                                  <i class="fa-solid fa-copy"></i> Make Finding a Template
+                                                  <i class="fa-solid fa-copy"></i> Make Vulnerability a Template
                                               </a>
                                           </li>
                                        {% endif %}
                                        {% if finding|has_object_permission:"Finding_Edit" and "dojo.view_finding_template"|has_configuration_permission %}
                                           <li role="presentation">
                                               <a href="{% url 'find_template_to_apply' finding.id %}">
-                                                  <i class="fa-solid fa-copy"></i> Apply Template to Finding
+                                                  <i class="fa-solid fa-copy"></i> Apply Template to Vulnerability
                                               </a>
                                           </li>
                                        {% endif %}
@@ -301,13 +301,13 @@
                                         {% if finding.active %}
                                             <li role="presentation">
                                                 <a href="{% url 'close_finding' finding.id %}">
-                                                    <i class="fa-solid fa-fire-extinguisher"></i> Close Finding
+                                                    <i class="fa-solid fa-fire-extinguisher"></i> Close Vulnerability
                                                 </a>
                                             </li>
                                         {% else %}
                                             <li role="presentation">
                                                 <a href="{% url 'reopen_finding' finding.id %}">
-                                                    <i class="fa-solid fa-bug"></i> Open Finding
+                                                    <i class="fa-solid fa-bug"></i> Open Vulnerability
                                                 </a>
                                             </li>
                                         {% endif %}

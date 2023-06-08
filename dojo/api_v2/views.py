@@ -254,6 +254,7 @@ class EngagementViewSet(prefetch.PrefetchListMixin,
                         ra_api.AcceptedRisksMixin,
                         viewsets.GenericViewSet,
                         dojo_mixins.DeletePreviewModelMixin):
+    
     serializer_class = serializers.EngagementSerializer
     queryset = Engagement.objects.none()
     filter_backends = (DjangoFilterBackend,)

@@ -136,7 +136,7 @@ def findings(request, pid=None, eid=None, view=None, filter_name=None, order_by=
         product = get_object_or_404(Product, id=pid)
         user_has_permission_or_403(request.user, product, Permissions.Product_View)
         show_product_column = False
-        product_tab = Product_Tab(product, title="Findings", tab="findings")
+        product_tab = Product_Tab(product, title="Vulnerabilities", tab="findings")
         jira_project = jira_helper.get_jira_project(product)
         github_config = GITHUB_PKey.objects.filter(product=pid).first()
 
@@ -329,7 +329,7 @@ def view_finding(request, fid):
                 form = NoteForm()
             url = request.build_absolute_uri(
                 reverse("view_finding", args=(finding.id, )))
-            title = "Finding: " + finding.title
+            title = "Vulnerability: " + finding.title
             process_notifications(request, new_note, url, title)
             messages.add_message(
                 request,
@@ -368,7 +368,7 @@ def view_finding(request, fid):
     for similar_finding in similar_findings:
         similar_finding.related_actions = calculate_possible_related_actions_for_similar_finding(request, finding, similar_finding)
 
-    product_tab = Product_Tab(finding.test.engagement.product, title="View Finding", tab="findings")
+    product_tab = Product_Tab(finding.test.engagement.product, title="View Vulnerability", tab="findings")
 
     can_be_pushed_to_jira, can_be_pushed_to_jira_error, error_code = jira_helper.can_be_pushed_to_jira(finding)
 

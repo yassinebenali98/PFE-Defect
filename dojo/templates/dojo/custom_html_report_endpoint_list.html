@@ -34,7 +34,7 @@
                 <div class="panel-heading finding-title">
                     <div class="clearfix">
                         <h5>
-                            Finding {{ forloop.counter }}: {{ finding.title }}
+                            Vulnerability {{ forloop.counter }}: {{ finding.title }}
                             {% if finding.tags %}
                                 <sup>
                                     {% for tag in finding.tags.all %}

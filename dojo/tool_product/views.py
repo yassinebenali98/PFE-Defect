@@ -76,7 +76,7 @@ def edit_tool_product(request, pid, ttid):
     else:
         tform = ToolProductSettingsForm(instance=tool_product)
 
-    product_tab = Product_Tab(product, title=_("Edit Product Tool Configuration"), tab="settings")
+    product_tab = Product_Tab(product, title=_("Edit Client Tool Configuration"), tab="settings")
     return render(request, 'dojo/edit_tool_product.html', {
         'tform': tform,
         'product_tab': product_tab
@@ -102,7 +102,7 @@ def delete_tool_product(request, pid, ttid):
     else:
         tform = ToolProductSettingsForm(instance=tool_product)
 
-    product_tab = Product_Tab(product, title=_("Delete Product Tool Configuration"), tab="settings")
+    product_tab = Product_Tab(product, title=_("Delete Client Tool Configuration"), tab="settings")
 
     return render(request, 'dojo/delete_tool_product.html', {
         'tform': tform,

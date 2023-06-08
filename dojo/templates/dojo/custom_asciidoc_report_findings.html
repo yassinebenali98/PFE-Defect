@@ -89,13 +89,13 @@
         <br>
         {{ find.references|linebreaksasciidocbr }}
     </p>
-    <p><b>==== Finding ID: ====</b>
+    <p><b>==== Vulnerability ID: ====</b>
         <br>
-        Finding {{ find.id }}
+        Vulnerability {{ find.id }}
     </p>
     <br>
     {% if include_finding_images %}
-        <p><b>==== Finding Images: ====</b>
+        <p><b>==== Vulnerability Images: ====</b>
             <br>
             {% include "dojo/snippets/file_images.html" with size='small' obj=find format="AsciiDoc" %}
         </p><br>
@@ -106,7 +106,7 @@
     {% if include_finding_notes %}
         {% with notes=find.notes.all|get_public_notes %}
             {% if notes.count > 0 %}
-                <p><b>==== Finding Notes: ====</b>
+                <p><b>==== Vulnerability Notes: ====</b>
                     <br>
                     {% if notes|get_notetype_notes_count > 0 %}
                         {% for note in notes reversed %}

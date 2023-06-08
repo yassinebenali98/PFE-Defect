@@ -972,6 +972,17 @@ class TestForm(forms.ModelForm):
             self.fields['api_scan_configuration'].queryset = Product_API_Scan_Configuration.objects.filter(product=product)
         else:
             self.fields['lead'].queryset = get_authorized_users(Permissions.Test_View).filter(is_active=True)
+        self.fields['percent_complete'].widget = forms.HiddenInput()
+        self.fields['percent_complete'].widget = forms.HiddenInput()
+        self.fields['tags'].widget = forms.HiddenInput()
+        self.fields['version'].widget = forms.HiddenInput()
+        self.fields['version'].widget = forms.HiddenInput()
+        self.fields['branch_tag'].widget = forms.HiddenInput()
+        self.fields['build_id'].widget = forms.HiddenInput()
+        self.fields['commit_hash'].widget = forms.HiddenInput()
+        self.fields['api_scan_configuration'].widget = forms.HiddenInput()
+        
+
 
     class Meta:
         model = Test
@@ -1426,7 +1437,7 @@ class FindingForm(forms.ModelForm):
 
 
     # the onyl reliable way without hacking internal fields to get predicatble ordering is to make it explicit
-    field_order = ('title','risque' ,'statut', 'date','severity', 'cvssv3','endpoints', 'description','scenarioDeRisque', 'mitigation','type','complexite',
+    field_order = ('title','risque' ,'statut', 'date','severity', 'cvssv3','endpoints','endpoints_to_add', 'description','scenarioDeRisque', 'mitigation','type','complexite',
                    'priorite')
 
     def __init__(self, *args, **kwargs):
@@ -1525,13 +1536,9 @@ class FindingForm(forms.ModelForm):
         self.fields['static_finding'].widget = forms.HiddenInput()
         self.fields['dynamic_finding'].widget = forms.HiddenInput()
         self.fields['sla_start_date'].widget = forms.HiddenInput()
-<<<<<<< Updated upstream
         self.fields['sla_start_date'].widget = forms.HiddenInput()
 
 
-=======
-       
->>>>>>> Stashed changes
 
 
         self.fields['severity'].label = "Risque"

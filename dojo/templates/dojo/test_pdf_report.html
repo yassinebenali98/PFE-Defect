@@ -121,7 +121,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5>
-                                Finding Age
+                                Vulnerability Age
                             </h5>
                         </div>
                         <div class="panel-body">
@@ -133,7 +133,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5>
-                                Engagement Finding Count
+                                Engagement Vulnerability Count
                             </h5>
                         </div>
                         <div class="panel-body">
@@ -196,7 +196,7 @@
                 {% endif %}
 
                 {% if test.engagement.risk_acceptance.count > 0 %}
-                    <h3 id="risk_acceptance">Risk Accepted Findings</h3>
+                    <h3 id="risk_acceptance">Risk Accepted Vulnerabilities</h3>
                     <table style="width: 100%;max-width: 100%;margin-bottom: 20px;margin-top:0;border: 1px solid #DDDDDD;">
                         <tr>
                             <th style="text-align: center;padding: 4px;vertical-align: top;border: 1px solid #DDDDDD;">
@@ -225,7 +225,7 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if findings %}
-                    <h3 id="findings">Findings</h3>
+                    <h3 id="findings">Vulnerabilities</h3>
                 {% endif %}
                 {% for finding in findings %}
                     {% ifchanged finding.severity %}
@@ -235,7 +235,7 @@
                         <div class="panel-heading finding-title">
                             <div class="clearfix">
                                 <h5>
-                                    Finding {{ forloop.counter }}: {{ finding.title }}
+                                    Vulnerability {{ forloop.counter }}: {{ finding.title }}
                                     {% if finding.tags %}
                                         <sup>
                                             {% for tag in finding.tags.all %}

@@ -17,6 +17,315 @@
 {% endblock %}
 {% block content %}
     {{ block.super }}
+    <style>
+        .ficha {
+            text-align: left;
+            border: 0px;
+            padding-left: 10px;
+        }
+    
+        .ficha .recomtd {
+            text-align: start;
+            vertical-align: text-top;
+            width: 50%;
+            border: 0px;
+        }
+    
+        .ficha .rectab {
+            width: 100%;
+            border: 0px;
+        }
+    
+        .ficha body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+        }
+    
+        .ficha .flex-container1 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    
+        .ficha .flex-container2 {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+    
+        .ficha .header {
+            color: #365273;
+            text-align: center;
+            font-size: 3em;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin-bottom: 50px;
+        }
+    
+        .ficha .container {
+            padding: 10px;
+        }
+    
+        .ficha .circle {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            background-color: #edc400;
+            color: white;
+        }
+    
+        .ficha .center {
+            text-align: center;
+            margin: 0;
+        }
+    
+        .ficha .center-vertical {
+            padding: 30px 0;
+        }
+    
+        .ficha .grey-background {
+            background-color: #F2F2F2;
+            padding: 0.5px 0;
+            width: 50%;
+        }
+    
+        .ficha .bleu {
+            color: #365273;
+        }
+    
+        .ficha p {
+            min-width: 50%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+    
+        .ficha .vert {
+            background-color: #00B050;
+        }
+    
+        .ficha .jaune {
+            background-color: #FFD301;
+        }
+    
+        .ficha .orange {
+            background-color: #FF8B01;
+        }
+    
+        .ficha .rouge {
+            background-color: #C23B21;
+        }
+    
+        .ficha .tvert {
+            color: #00B050;
+        }
+    
+        .ficha .tjaune {
+            color: #FFD301;
+        }
+    
+        .ficha .torange {
+            color: #FF8B01;
+        }
+    
+        .ficha .trouge {
+            color: #C23B21;
+        }
+    
+        .ficha .stitre {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            letter-spacing: 0px;
+            word-spacing: -1.2px;
+            color: #365F91;
+            font-weight: 700;
+            text-decoration: none;
+            font-style: normal;
+            font-variant: normal;
+            text-transform: none;
+        }
+    
+        .ficha .sbg {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            letter-spacing: 0px;
+            word-spacing: -1.2px;
+            color: #365F91;
+            font-weight: 700;
+            text-decoration: none;
+            font-style: normal;
+            font-variant: normal;
+            text-transform: none;
+            background-color: #F2F2F2;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+    
+        .ficha .titre {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 17px;
+            letter-spacing: 0px;
+            word-spacing: -1.2px;
+            color: #365F91;
+            font-weight: 700;
+            text-decoration: none;
+            font-style: normal;
+            font-variant: normal;
+            text-transform: none;
+            margin-left: 30px;
+        }
+    
+        .ficha .conttext {
+            font-family: calibri;
+            font-size: 18px;
+            letter-spacing: 0px;
+            word-spacing: 0px;
+            font-weight: 400;
+            text-decoration: none;
+            font-style: bold;
+            font-variant: normal;
+            text-transform: none;
+        }
+    
+        .ficha p {
+            font-size: 15px;
+        }
+    
+        .ficha ul {
+            font-size: 15px;
+        }
+    
+        .ficha th {
+            background-color: #365F91;
+            color: #F2F2F2;
+            text-align: center;
+            border: 1px;
+        }
+    
+        .ficha td {
+            text-align: left;
+            border-collapse: collapse;
+        }
+    
+        .ficha .rep {
+            width: fit-content;
+            margin: 1cm;
+        }
+    
+        .ficha .page-break {
+            page-break-after: always;
+        }
+    
+        .ficha .sticky-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background-color: #365F91;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        .ficha .sticky-button:hover {
+            background-color: #365f9180;
+        }
+    
+        @media screen {
+            .ficha .hide-in-html {
+                display: none;
+            }
+        }
+    
+        @media print {
+            .ficha .element-to-hide {
+                display: none;
+            }
+    
+            @page {
+                size: A4;
+                margin-left: 10mm;
+                margin-right: 10mm;
+                margin-top: 100px;
+                margin-bottom: 50px;
+            }
+    
+            .ficha .full-width-img {
+                width: 100%;
+                max-width: 100vw;
+                height: auto;
+            }
+    
+            /* Styles for the centered image */
+            .ficha .centered-image {
+                max-width: 100px;
+                height: auto;
+            }
+    
+            header {
+                position: fixed;
+                top: -100px;
+                left: 0;
+                right: 0;
+                height: 100px;
+            }
+    
+            footer {
+                position: fixed;
+                bottom: -50px;
+                left: 0;
+                right: 0;
+                height: 50px;
+            }
+    
+            .ficha .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 10px;
+                text-align: center;
+                font-size: 12px;
+                color: #000000; /* Set the desired color for the footer text */
+            }
+    
+            /* Page numbering styles */
+            .ficha .page-number:before {
+                counter-increment: page;
+                content: "Page " counter(page) " of";
+            }
+    
+            .ficha .logo {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                max-width: 150px;
+                opacity: 50%;
+                margin-top: 25px;
+                margin-right: 25px;
+            }
+        }
+    
+        /* Additional styles from the second CSS */
+        .ficha .thfiche {
+            background-color: #ffffff;
+            color: #000000;
+            border: 0px;
+            text-align: left;
+            width: 37%;
+        }
+    
+        .ficha .tfiche {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style> 
 <div id="test">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -51,12 +360,12 @@
                             {% if finding|has_object_permission:"Finding_Edit" %}
                                 <li role="presentation">
                                     <a href="{% url 'edit_finding' finding.id %}">
-                                        <i class="fa-solid fa-pen-to-square"></i> Edit Finding
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit Vulnerability
                                     </a>
                                 </li>
                                 <li>
                                     <a class="" href="{% url 'copy_finding' finding.id %}?return_url={{ request.get_full_path|urlencode }}"/>
-                                    <i class="fa-solid fa-copy"></i> Copy Finding
+                                    <i class="fa-solid fa-copy"></i> Copy Vulnerability
                                     </a>
                                 </li>
                             {% endif %}
@@ -84,7 +393,7 @@
                             {% if finding|has_object_permission:"Finding_Edit" %}
                                 <li role="presentation">
                                     <a href="{% url 'touch_finding' finding.id %}">
-                                        <i class="fa-solid fa-clock"></i> Touch Finding
+                                        <i class="fa-solid fa-clock"></i> Touch Vulnerability
                                     </a>
                                 </li>
                             {% endif %}
@@ -92,14 +401,14 @@
                             {% if "dojo.add_finding_template"|has_configuration_permission %}
                                 <li role="presentation">
                                     <a href="{% url 'mktemplate' finding.id %}">
-                                        <i class="fa-solid fa-copy"></i> Make Finding a Template
+                                        <i class="fa-solid fa-copy"></i> Make Vulnerability a Template
                                     </a>
                                 </li>
                             {% endif %}
                             {% if cwe_template.cwe and finding|has_object_permission:"Finding_Edit" %}
                                     <li role="presentation">
                                         <a class="apply-cwe-finding" href="#">
-                                            <i class="fa-solid fa-copy"></i> Apply CWE Template Remediation to Finding
+                                            <i class="fa-solid fa-copy"></i> Apply CWE Template Remediation to Vulnerability
                                         </a>
                                     </li>
                                     <form id="apply-cwe-finding-form" method="post" action="{% url 'apply_template_cwe' finding.id %}">
@@ -117,7 +426,7 @@
                             {% if finding|has_object_permission:"Finding_Edit" and "dojo.view_finding_template"|has_configuration_permission %}
                                 <li role="presentation">
                                     <a href="{% url 'find_template_to_apply' finding.id %}">
-                                        <i class="fa-solid fa-copy"></i> Apply Template to Finding
+                                        <i class="fa-solid fa-copy"></i> Apply Template to Vulnerability
                                     </a>
                                 </li>
                             {% endif %}
@@ -134,13 +443,13 @@
                                 {% if finding.mitigated %}
                                     <li role="presentation">
                                         <a href="{% url 'reopen_finding' finding.id %}">
-                                            <i class="fa-solid fa-bug"></i> Open Finding
+                                            <i class="fa-solid fa-bug"></i> Open Vulnerability
                                         </a>
                                     </li>
                                 {% else %}
                                 <li role="presentation">
                                     <a href="{% url 'close_finding' finding.id %}">
-                                        <i class="fa-solid fa-fire-extinguisher"></i> Close Finding
+                                        <i class="fa-solid fa-fire-extinguisher"></i> Close Vulnerability
                                     </a>
                                 </li>
                                 {% endif %}
@@ -180,7 +489,7 @@
                                 <li role="separator" class="divider"></li>
                                 <li role="presentation">
                                     <a class="text-danger delete-finding" href="#">
-                                        <i class="fa-solid fa-trash"></i> Delete Finding
+                                        <i class="fa-solid fa-trash"></i> Delete Vulnerability
                                     </a>
                                 </li>
                                 <form id="delete-finding-form" method="post" action="{% url 'delete_finding' finding.id %}">
@@ -193,222 +502,223 @@
                     </div>
             </div>
         </div>
-        <div class="table-responsive">
-            <table id="notes" class="table-striped table table-condensed table-hover centered">
-                {% if finding.under_review %}
-                    <tr class="bg-warning">
-                        <th class="bg-warning" colspan="7">
-                            <span class="text-danger">
-                                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-                                Alert: This Finding is under review and may not be 100% accurate.
-                            </span>
-                            {% if dojo_user in finding.reviewers.all or dojo_user == finding.review_requested_by %}
-                                [<a title="Clear Review" class="text-primary" style="display: inline !important;"
-                                    href="{% url 'clear_finding_review' finding.id %}">Clear Review</a>]
-                            {% endif %}
-                        </th>
-                    </tr>
-                {% endif %}
-                {% if finding.under_defect_review %}
-                    <tr class="bg-warning">
-                        <th class="bg-warning" colspan="7">
-                            <span class="text-danger">
-                                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-                                Alert: Please review this finding to verify if the defect is remediated.
-                            </span>
-                            [<a title="Review Finding for Closure" class="text-primary"
-                                style="display: inline !important;"
-                                href="{% url 'defect_finding_review' finding.id %}">Review Finding for Closure</a>]
-                        </th>
-                    </tr>
-                {% endif %}
-                <tr>
-                    <th>ID</th>
-                    <th>Severity</th>
-                    {% if system_settings.enable_finding_sla %}
-                    <th>SLA</th>
-                    {% endif %}
-                    {% if finding.scanner_confidence %}
-                    <th>Scanner Confidence</th>
-                    {% endif %}
-                    <th>Status</th>
-                    {% if finding.risk_acceptance_set.all %}
-                        <th>Risk Acceptance</th>
-                    {% endif %}
-                    {% if finding.duplicate_finding %}
-                    <th>Original</th>
-                    {% endif %}
-                    {% if duplicate_cluster and not finding.duplicate %}
-                        <th title="Findings that are marked as duplicate of this finding">Duplicates</th>
-                    {% elif duplicate_cluster and finding.duplicate %}
-                        <th title="Findings that are also marked as duplicates of the same original finding">Duplicate Cluster</th>
-                    {% endif %}
-                    <th>Type</th>
-                    <th>Date discovered</th>
-                    <th>Age</th>
-                    {% if finding.publish_date %}
-                        <th>Vuln Publish date</th>
-                    {% endif %}
-                    {% if finding.planned_remediation_date %}
-                        <th>Planned Remediation</th>
-                    {% endif%}
-                    <th>Reporter</th>
-                    {% if finding.mitigated %}
-                        <th>Date Mitigated</th>
-                        <th>Mitigated By</th>
-                    {% endif %}
-                        <th>CWE</th>
-                        <th>Vulnerability Id</th>
-                    <th>Found by</th>
-                </tr>
-                <tr>
-                    <td title="hash_code: {{ finding.hash_code }}">{{ finding.id }}</td>
-                    <td>
-                        <span class="label severity severity-{{ finding.severity }}">
-                            {% if finding.severity %}
-                                {% if finding.cvssv3 %}
-                                    <i class="no-italics has-popover" font-style="normal" data-toggle="tooltip" data-placement="bottom" data-container="body" title="" href="#"
-                                        data-content="{{ finding.cvssv3 }}">
-                                {% endif %}
-                                {{ finding.severity_display }}
-                                {% if finding.cvssv3_score %}
-                                    ({{ finding.cvssv3_score }})
-                                {% endif %}
-                                {% if finding.cvssv3 %}
-                                    </i>
-                                {% endif %}
-                            {% else %}
-                                Unknown
-                            {% endif %}
-                        </span>
-                    </td>
-                    {% if system_settings.enable_finding_sla %}
-                    <td>
-                      {{ finding|finding_sla }}
-                    </td>
-                    {% endif %}
-                    {% if finding.scanner_confidence %}
-                    <td> {{finding.get_scanner_confidence_text}}</td>
-                    {% endif %}
-                    <td class="nowrap, align-top">
-                            {% comment %}
-                            {% if finding.duplicate %}
-                                {% include "dojo/finding_related_actions.html" with similar_finding=finding finding_context=finding intro=finding|finding_display_status|safe %}
-                            {% else %}
-                                {{ finding|finding_display_status|safe }}
-                            {% endif %}
-                            {% endcomment %}
-                            {{ finding|finding_display_status|safe }}
-                        &nbsp;{{ finding|import_history }}
-                    </td>
-                    {% if finding.risk_acceptance_set.all %}
-                        <td>
-                            {% for ra in finding.risk_acceptance_set.all|slice:":5" %}
-                                <a href="{% url 'view_risk_acceptance' finding.test.engagement.id ra.id %}"
-                                class="fa-solid fa-circle-exclamation fa-lg has-popover {% if ra.is_expired %}lightgrey{% endif%}"
-                                data-trigger="hover" data-placement="right"
-                                data-content="{{ ra.name_and_expiration_info }}"
-                                data-container="body" data-original-title="Risk Acceptance"></a>
-                            {% endfor %}
-                        </td>
-                    {% endif %}
-                    {% if finding.duplicate_finding %}
-                        <td>
-                            <div class="align-top">
-                                <div class="dropdown">
-                                    <a class="fa-solid fa-bug" href="{% url 'view_finding' finding.duplicate_finding.id %}" title="{{ finding.duplicate_finding|finding_extended_title }}"/>
+        
+            <div class="ficha">
 
-                                    <a href="#" data-toggle="dropdown">&nbsp;<i class="fa-solid fa-ellipsis-vertical"></i>&nbsp;</a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                    <li>
-                                        <a class="" href="{% url 'view_finding' finding.duplicate_finding.id %}">
-                                        <i class="fa-solid fa-bug" title="valentino"></i> {{ finding.duplicate_finding|finding_extended_title }}</i>
-                                        </a>
-                                    </li>
-                                    </ul>
+               
+            
+                <br>
+                <div class="container">
+                    <table class="tfiche">
+                        <tr class="thfiche">
+                            <th class="thfiche">
+                                <span>
+                                    <span class="stitre">Risque : </span>
+                                </span>
+                            </th>
+                            <th class="thfiche">
+                                <span class="home-text09">
+                                    <span class="stitre">Statut :</span>
+            
+                                </span>
+                            </th>
+                            {%if finding.cvssv3_score%}
+                            <th class="thfiche">
+                                <span class="stitre">CVSS Score :</span>
+            
+                            </th>
+                            {%endif%}
+                        </tr>
+                        <tr class="thfiche">
+                            
+                            <td class="thfiche">
+                                <span
+                                    class="conttext {% if finding.cvssv3_score < 4 and 0 < finding.cvssv3_score %}tvert{% endif %}
+                                                                                    {% if finding.cvssv3_score < 7 and 3.9 < finding.cvssv3_score %}tjaune{% endif %}
+                                                                                    {% if finding.cvssv3_score < 9 and 6.9 < finding.cvssv3_score %}torange{% endif %}
+                                                                                    {% if finding.cvssv3_score < 10.1 and 8.9 < finding.cvssv3_score %}trouge{% endif %}">
+            
+                                    {%if finding.severity == 'High' %}
+                                    Elevé
+            
+                                    {% elif finding.severity == 'Critical' %}
+                                    Critique
+            
+                                    {% elif finding.severity == 'Low' %}
+                                    Faible
+                                    {% elif finding.severity == 'Medium' %}
+                                    Moyenne
+                                    {% else%}
+                                    Générique
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="thfiche">
+                                <span class="conttext {% if finding.statut == 'Résolue'%} tvert{%else%} trouge{%endif%}">
+                                    {{finding.statut}}
+            
+                                </span>
+                            </td>
+                            {%if finding.cvssv3_score%}
+                            <td class="thfiche" style="margin-right: 10px;">
+                                <div class="circle {% if finding.cvssv3_score < 4 and 0 < finding.cvssv3_score %}vert{% endif %}
+                                                                                    {% if finding.cvssv3_score < 7 and 3.9 < finding.cvssv3_score %}jaune{% endif %}
+                                                                                    {% if finding.cvssv3_score < 9 and 6.9 < finding.cvssv3_score %}orange{% endif %}
+                                                                                    {% if finding.cvssv3_score < 10.1 and 8.9 < finding.cvssv3_score %}rouge{% endif %}"
+                                    style="margin: 8px;">
+                                    <div class="center-vertical">
+            
+                                        <b style='font-size: 25px;' class='center'>
+                                            <center>
+                                                {% if finding.cvssv3_score %}
+                                                {{ finding.cvssv3_score }}
+                                                {% else %}
+                                                N/A
+                                                {% endif %}
+                                        </b>
+                                        </center>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
+                            {%endif%}
+                        </tr>
+                    </table>
+                </div>
+                {% if finding|get_vulnerable_endpoints %}
+                <span class="home-text18">
+                    <div class="sbg ">
+                        <span class="sbg">Eléments Impactés :</span>
+                    </div>
+                    <br class="home-text20" />
+                    <br />
+                    {% include "dojo/snippets/endpoints.html" with finding=finding%}
+                    <br />
+                    <br />
+                    <br />
+                </span>
+                {%endif%}
+                {% if finding.description %}
+            
+                    <div class="sbg ">
+                        <span class="sbg">Description :</span>
+                    </div>
+                    <br />
+                    <br />
+            
+                    {{ finding.description|markdown_render }}
+            
+                    <br />
+                    <br />
                     {% endif %}
-                    {% if duplicate_cluster %}
-                    <td>
-                        <div class="align-top">
-                            <div class="dropdown">
-                                {% for duplicate in duplicate_cluster|slice:"5" %}
-                                    <a class="fa-solid fa-bug" href="{% url 'view_finding' duplicate.id %}" title="{{ duplicate|finding_extended_title }}"/>
-                                {%  endfor %}
-                                {% if duplicate_cluster|length > 5 %}
-                                    <a href="#duplicate_cluster" onclick="$('#duplicate_tree_toggle').click()">...</a>
-                                {% endif %}
-                                <a href="#" data-toggle="dropdown">&nbsp;<i class="fa-solid fa-ellipsis-vertical"></i>&nbsp;</a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                {% for duplicate in duplicate_cluster|slice:"5" %}
-                                    <li>
-                                        <a class="" href="{% url 'view_finding' duplicate.id %}">
-                                        <i class="fa-solid fa-bug"></i> {{ duplicate|finding_extended_title }}</i>
-                                        </a>
-                                    </li>
-                                {%  endfor %}
-                                {% if duplicate_cluster|length > 5 %}
-                                    <li>
-                                        <a href="#duplicate_cluster" onclick="$('#duplicate_tree_toggle').click()">
-                                        <i class="fa-solid fa-bug"></i>... more below ...</i>
-                                        </a>
-                                    </li>
-                                {% endif %}
-                                </ul>
-                            </div>
+                    
+                    {% if finding.scenarioDeRisque %}
+                    <div class="sbg ">
+                        <span class="sbg">Scénario de risque :</span>
+                    </div>
+                    <center>
+                    <img src="{{ finding.scenarioDeRisque|image_to_data_uri }}" alt="Scenario de Risque" class="img-fluid">
+                    </center>
+                    <br />
+                    <br />
+                    {% endif %}
+            
+                <table class="rectab" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <div class="sbg ">
+                            <span class="sbg">Recommandation :</span>
                         </div>
-                    </td>
+                        <tr>
+                            <td class="recomtd" rowspan="3" style="border-right: 1px solid rgb(0, 0, 0);">
+            
+                                {% if finding.mitigation %} {{ finding.mitigation|markdown_render }} {% endif %}
+                            </td>
+                            <td class="rectd"><span class="stitre">Type :</span>
+                                <b> <span class="conttext">{{ finding.type }}</span></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="rectd"><span class="stitre">Complexité de mise en œuvre :</span>
+                                <b><span
+                                        class="conttext {% if finding.complexite == 'Simple' %}tvert{% endif %}
+                                                                                            {% if finding.complexite == 'Moyenne' %}torange{% endif %}
+                                                                                            {% if finding.complexite == 'Complexe' %}trouge{% endif %}">{{finding.complexite }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="rectd"><span class="stitre">Priorité de mise en œuvre</span>
+                                <b><span
+                                        class="conttext {% if finding.priorite == 'Immédiate' %}trouge{% endif %}
+                                                                                            {% if finding.priorite == 'Court Terme' %}torange{% endif %}
+                                                                                            {% if finding.priorite == 'Moyenne Terme' %}tjaune{% endif %}
+                                                                                            {% if finding.priorite == 'Long Terme' %}tvert{% endif %}">:
+                                        {{finding.priorite}}</span></b>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            
+            
+            
+            
+                {% if finding.cvssv3 %}
+                <div class="sbg ">
+                    <span class="sbg">Vecteur CVSS :</span>
+                </div>
+                <br />
+                </span>
+            
+                <center>
+                    <b style="font-size:large ;"> {{ finding.cvssv3|markdown_render }} </b>
+                </center>
+                {%endif%}
+            
+            
+            
+            
+            
+             {% if finding.images.all %}
+                
+                <div class="sbg ">
+                    <span class="sbg">Preuve :</span>
+                </div>
+                <br>
+               
+                <div class="row">
+            
+            
+                    {% for finding_image in finding.images.all %}
+                    <div class="col-12">
+                        <center>
+                            <img src="{{ finding_image.image|image_to_data_uri }}" class="img-responsive">
+                        </center>
+                    </div>
+                    <div class="col-12">
+                        <center>
+                            <u style="margin-top: 8px; font-size: 15px; text-decoration: underline;" class="titre">{{ finding_image.title }}</u>
+                        </center>
+                    </div>
+            
+            
+                    {% endfor %}
+            
+            
+                </div>
+                
+                {% endif %}
+            
+                {% if finding.impact %}
+                {{ finding.impact }}
+                {% endif %}
+                <center>
+                    {% if include_finding_images %}
+                    {% include "dojo/snippets/file_images.html" with size='original' obj=finding format="HTML" %}
                     {% endif %}
-                    <td>
-                        {% if finding.static_finding and finding.dynamic_finding > 0 %}
-                            Static/Dynamic
-                        {% elif finding.static_finding > 0 %}
-                            Static
-                        {% else %}
-                            Dynamic
-                        {% endif %}
-                    </td>
-                    <td>{{ finding.date }}</td>
-                    <td>{{ finding.age }} days</td>
-                    {% if finding.publish_date %}
-                        <td>{{ finding.publish_date }}</td>
-                    {% endif %}
-                    {% if finding.planned_remediation_date %}
-                        <td>{{ finding.planned_remediation_date }}</td>
-                    {% endif %}
-                    <td>{{ finding.reporter }}</td>
-                    {% if finding.mitigated %}
-                        <td>{{ finding.mitigated }}</td>
-                        <td>{{ finding.mitigated_by }}</td>
-                    {% endif %}
-                        <td>
-                        {% if finding.cwe > 0 %}
-                            <a target="_blank" href="{{ finding.cwe|cwe_url }}">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ finding.cwe }}
-                            </a>
-                        {% endif %}
-                        </td>
-                    <td>
-                    {% with finding|first_vulnerability_id as first_vulnerability_id %}
-                    {% if first_vulnerability_id %}
-                        {% if first_vulnerability_id|has_vulnerability_url %}
-                            <a target="_blank" href="{{ first_vulnerability_id|vulnerability_url }}">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ first_vulnerability_id }}
-                            </a>
-                        {% else %}
-                            {{ first_vulnerability_id }}
-                        {% endif %}
-                    {% endif %}
-                    </td>
-                    <td> {% for scanner in found_by %}
-                        {{ scanner }}
-                    {% endfor %}</td>
-                    {% endwith %}
-                </tr>
-            </table>
-        </div>
+                </center>
+                       
+                <hr style="border-top: 1px solid #222; opacity: 100%;" class="element-to-hide">
+                <div class="page-break"></div>
+            </div>
+        
     </div>
 
     {% with finding|additional_vulnerability_ids as additional_vulnerability_ids %}
@@ -671,37 +981,7 @@
         </div>
     {% endif %}
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4 class="has-filters">Similar Findings ({{ similar_findings.paginator.count }})
-                    <i class="fa-solid fa-circle-question has-popover" data-trigger="hover"
-                       data-content="Opening this panel shows findings that are not exact duplicates,
-                        but have similar values for Vulnerability Id, CWE, file_path, line number, unique_id_from_tool.
-                        It has a filter panel where filtering can be made less or more strict, and across
-                        product boundaries. The resulting findings can be view, marked as duplicate or original.
-                        Clear filters will empty all filters. Restart will start over by matching against the fields
-                        mentioned above."
-                        data-placement="bottom" data-container="body">
-                    </i>
-                    <span class="pull-right">
-                        <button id="show-filters" data-toggle="collapse" data-target="#the-filters-wrapper" class="btn btn-primary toggle-filters"> <i class="fa-solid fa-filter"></i> <i class="caret"></i> </button>
-                        &nbsp;
-                        <a data-toggle="collapse" href="#the-filters-wrapper"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                    </span>
-                </h4>
-            </div>
-            <span id="the-filters-wrapper" class="collapse {% if similar_findings_filter.has_changed %}in{% endif %}">
-                <div id="the-filters" class="is-filters panel-body similar-filters">
-                    {% url 'view_finding' finding.id as finding_url %}
-                    {% include "dojo/filter_snippet.html" with form=similar_findings_filter.form form_id="similar" clear_js=True restart_link=finding_url %}
-                </div>
-                {% if similar_findings_filter %}
-                    <div id="similar_findings" class="panel-body">
-                        {% include "dojo/finding_related_list.html" with finding_context=finding finding_list=similar_findings prefix='similar' %}
-                    </div>
-                {% endif %}
-            </span>
-        </div>
+       
 
     {% comment %} Add a form to (ab)use to submit any actions related to similar/duplicates as POST requests {% endcomment %}
     <form method="post" style="display: none" id="related_action">
@@ -751,263 +1031,146 @@
         </div>
     </div>
 
-    {% include "dojo/snippets/endpoints.html" with finding=finding destination="UI" %}
 
     <div class="view-finding">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>Description <span class="pull-right"><a data-toggle="collapse" href="#vuln_desc"><i
-                        class="glyphicon glyphicon-chevron-up"></i></a></span></h4>
-            </div>
-            <div id="vuln_desc" class="panel-body finding-description collapse in">
-              <pre>{{ finding.description|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
+       
+       
 
-        {% if files %}
-            <div class="row">
-                <div class="col-md-12" id="cred">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h4>Files<span class="pull-right">
-                            <a data-toggle="collapse" href="#add_feat_files">
-                                <i class="glyphicon glyphicon-chevron-down"></i></a></span>
-                            <a title="Manage Files" name="Manage Files" class="btn btn-sm btn-primary pull-right"
-                                href="{% url 'manage_files' oid=finding.id obj_type='Finding' %}">
-                                <span class="fa-solid fa-pen-to-square"></span></a>
-                            </h4>
-                        </div>
-
-                        <div id="add_feat_files" class="panel-body collapse {% if files %}in{% endif %}">
-                            {% for file in files %}
-                            <div class="col-md-2" style="text-align: center">
-                                <div class="row">
-                                    {% url 'access_file' fid=file.id oid=finding.id obj_type='Finding' as image_url %}
-                                    <a href="{{ image_url }}" target="_blank">
-                                        {% if file|get_thumbnail %}
-                                            <img src="{{ image_url }}" alt="thumbnail" style="width:150px">
-                                        {% else %}
-                                            <span style="font-size: 50px;" class="glyphicon glyphicon-file"></span>
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <caption style="text-align:center">{{ file.title }}</caption>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>Mitigation <span class="pull-right"><a data-toggle="collapse" href="#vuln_mitigation"><i
-                        class="glyphicon glyphicon-chevron-{% if finding.mitigation %}up{%else%}down{%endif%}"></i></a></span></h4>
-            </div>
-            <div id="vuln_mitigation" class="panel-body collapse {% if finding.mitigation %}in{%endif%}">
-                <pre>{{ finding.mitigation|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
+      
         {% if finding.burprawrequestresponse_set.all %}
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h4>Request / Response Pairs <span class="pull-right"><a data-toggle="collapse" href="#vuln_req_res">
-                        <i class="glyphicon glyphicon-chevron-down"></i></a></span></h4>
-                </div>
-                <div id="vuln_req_res" class="panel-body collapse">
-                    {% for req_resp in finding.burprawrequestresponse_set.all %}
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h4>Request #{{ forloop.counter }}<span class="pull-right">
-                                    <a data-toggle="collapse" href="#vuln_req_{{ forloop.counter }}">
-                                        <i class="glyphicon glyphicon-chevron-down"></i></a></span></h4>
-                            </div>
-                            <div id="vuln_req_{{ forloop.counter }}" class="panel-body collapse">
-                                <pre>{{ req_resp.get_request }}</pre>
-                            </div>
-                        </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h4>Response #{{ forloop.counter }}<span class="pull-right">
-                                    <a data-toggle="collapse" href="#vuln_res_{{ forloop.counter }}">
-                                        <i class="glyphicon glyphicon-chevron-down"></i></a></span></h4>
-                            </div>
-
-                            <div id="vuln_res_{{ forloop.counter }}" class="panel-body collapse">
-                                <pre>{{ req_resp.get_response }}</pre>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+          
         {% endif %}
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>Impact <span class="pull-right"><a data-toggle="collapse" href="#vuln_impact"><i
-                        class="glyphicon glyphicon-chevron-{% if finding.impact %}up{%else%}down{%endif%}"></i></a></span></h4>
-            </div>
-            <div id="vuln_impact" class="panel-body collapse {% if finding.impact %}in{%endif%}">
-                <pre>{{ finding.impact|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
+       
 
-        <div class="panel panel-primary" id="steps">
-            <div class="panel-heading">
-                <h4>Steps To Reproduce <span class="pull-right"><a data-toggle="collapse" href="#vuln_reproduce"><i
-                        class="glyphicon glyphicon-chevron-{% if finding.steps_to_reproduce %}up{%else%}down{%endif%}"></i></a></span></h4>
-            </div>
-            <div id="vuln_reproduce" class="panel-body collapse {% if finding.steps_to_reproduce %}in{%endif%}">
-                <pre>{{ finding.steps_to_reproduce|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
+        
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>Severity Justification <span class="pull-right"><a data-toggle="collapse" href="#sev_just"><i
-                        class="glyphicon glyphicon-chevron-{% if finding.severity_justification %}up{%else%}down{%endif%}"></i></a></span></h4>
-            </div>
-            <div id="sev_just" class="panel-body collapse {% if finding.severity_justification %}in{%endif%}">
-                <pre>{{ finding.severity_justification|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>References <span class="pull-right"><a data-toggle="collapse" href="#vuln_refs"><i
-                        class="glyphicon glyphicon-chevron-{% if finding.references %}up{%else%}down{%endif%}"></i></a></span></h4>
-            </div>
-            <div id="vuln_refs" class="panel-body collapse {% if finding.references %}in{%endif%}">
-                <pre>{{ finding.get_references_with_links|markdown_render|default_if_none:"" }}</pre>
-            </div>
-        </div>
+       
 
         <!--Cred Begin-->
-        {% if  finding.static_finding != True and system_settings.enable_credentials %}
-            <div class="row">
-                <div class="col-md-12" id="cred">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h4>Credential
-                                {% if not cred_finding and finding|has_object_permission:"Finding_Edit" %}
-                                    {% if cred_engagement or creds %}
-                                        <a title="Add New Credential" class="pull-right btn btn-primary btn-sm"
-                                           href="{% url 'new_cred_finding' finding.id %}"><span
-                                                class="fa-solid fa-plus"></span></a>
-                                    {% endif %}
-                                {% endif %}
-                            </h4>
-                        </div>
-                        {% if cred_finding or creds %}
-                            <table class="tablesorter-bootstrap table table-condensed table-striped table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Role</th>
-                                    <th>Environment</th>
-                                    <th>Authentication Provider</th>
-                                    <th>Login Valid</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% if cred_finding %}
-                                    <tr>
-                                        <td colspan="7">
-                                            Credential Configured for this <strong>Finding</strong>
-                                            {% if not cred_finding %}
-                                                <br/>
-                                                <center>None configured</center>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-
-                                    {% for cred in cred_finding %}
-                                        <tr>
-                                            <td>
-                                                <a href="{{ cred.cred_id.url }}"
-                                                   target="_blank">{{ cred.cred_id.name }}</a>
-                                            </td>
-                                            <td>{{ cred.cred_id.username }}</td>
-                                            <td>{{ cred.cred_id.role }}</td>
-                                            <td>{{ cred.cred_id.environment }}</td>
-                                            <td>{{ cred.is_authn_provider }}</td>
-                                            <td>{{ cred.cred_id.is_valid }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    {% if user.is_superuser %}
-                                                    <a class="btn btn-sm btn-secondary"
-                                                       href="{% url 'view_cred_finding' cred.finding.id cred.id %}">View</a>
-                                                    {% endif %}
-                                                    {% if finding|has_object_permission:"Finding_Edit" %}
-                                                    <a class="btn btn-sm btn-danger delete"
-                                                       href="{% url 'delete_cred_finding' cred.finding.id cred.id %}">Delete</a>
-                                                    {% endif %}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% endif %}
-                                {% if not cred_finding %}
-                                    <tr>
-                                        <td colspan="7">
-                                            Credentials Inherited from <strong>Test: {{ finding.test }}</strong>
-                                        </td>
-                                    </tr>
-                                    {% for cred in creds %}
-                                        <tr>
-                                            <td>
-                                                <a href="{{ cred.cred_id.url }}"
-                                                   target="_blank">{{ cred.cred_id.name }}</a>
-                                            </td>
-                                            <td>{{ cred.cred_id.username }}</td>
-                                            <td>{{ cred.cred_id.role }}</td>
-                                            <td>{{ cred.cred_id.environment }}</td>
-                                            <td>{{ cred.is_authn_provider }}</td>
-                                            <td>{{ cred.cred_id.is_valid }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-sm btn-primary"
-                                                       href="{% url 'view_cred_engagement_test' cred.test.id cred.id %}">View</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% endif %}
-
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <div class="panel-body">
-                                <p>No credentials configured.
-                                    {% if not cred_engagement %}
-                                        Configure engagement credentials first, then add a credential to the test or
-                                        finding.
-                                    {% endif %}
-                                </p>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <!--Cred end -->
-        {% endif %}
+       
     </div>
 
     {% include "dojo/snippets/sonarqube_history.html" with finding=finding only %}
 
     {% include "dojo/snippets/comments.html" with notes=notes object=finding destination="finding" %}
+    {% if  finding.static_finding != True and system_settings.enable_credentials %}
+    <div class="row">
+        <div class="col-md-12" id="cred">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Credential
+                        {% if not cred_finding and finding|has_object_permission:"Finding_Edit" %}
+                            {% if cred_engagement or creds %}
+                                <a title="Add New Credential" class="pull-right btn btn-primary btn-sm"
+                                   href="{% url 'new_cred_finding' finding.id %}"><span
+                                        class="fa-solid fa-plus"></span></a>
+                            {% endif %}
+                        {% endif %}
+                    </h4>
+                </div>
+                {% if cred_finding or creds %}
+                    <table class="tablesorter-bootstrap table table-condensed table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Environment</th>
+                            <th>Authentication Provider</th>
+                            <th>Login Valid</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if cred_finding %}
+                            <tr>
+                                <td colspan="7">
+                                    Credential Configured for this <strong>Vulnerability</strong>
+                                    {% if not cred_finding %}
+                                        <br/>
+                                        <center>None configured</center>
+                                    {% endif %}
+                                </td>
+                            </tr>
 
+                            {% for cred in cred_finding %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ cred.cred_id.url }}"
+                                           target="_blank">{{ cred.cred_id.name }}</a>
+                                    </td>
+                                    <td>{{ cred.cred_id.username }}</td>
+                                    <td>{{ cred.cred_id.role }}</td>
+                                    <td>{{ cred.cred_id.environment }}</td>
+                                    <td>{{ cred.is_authn_provider }}</td>
+                                    <td>{{ cred.cred_id.is_valid }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            {% if user.is_superuser %}
+                                            <a class="btn btn-sm btn-secondary"
+                                               href="{% url 'view_cred_finding' cred.finding.id cred.id %}">View</a>
+                                            {% endif %}
+                                            {% if finding|has_object_permission:"Finding_Edit" %}
+                                            <a class="btn btn-sm btn-danger delete"
+                                               href="{% url 'delete_cred_finding' cred.finding.id cred.id %}">Delete</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        {% if not cred_finding %}
+                            <tr>
+                                <td colspan="7">
+                                    Credentials Inherited from <strong>Test: {{ finding.test }}</strong>
+                                </td>
+                            </tr>
+                            {% for cred in creds %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ cred.cred_id.url }}"
+                                           target="_blank">{{ cred.cred_id.name }}</a>
+                                    </td>
+                                    <td>{{ cred.cred_id.username }}</td>
+                                    <td>{{ cred.cred_id.role }}</td>
+                                    <td>{{ cred.cred_id.environment }}</td>
+                                    <td>{{ cred.is_authn_provider }}</td>
+                                    <td>{{ cred.cred_id.is_valid }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-primary"
+                                               href="{% url 'view_cred_engagement_test' cred.test.id cred.id %}">View</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="panel-body">
+                        <p>No credentials configured.
+                            {% if not cred_engagement %}
+                                Configure engagement credentials first, then add a credential to the test or
+                                finding.
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--Cred end -->
+{% endif %}
     <div class="PrevAndNext_Buttons">
     </div>
 
     <div class="protip">
        <i class="fa-solid fa-lightbulb"></i> <strong>ProTip!</strong> Type <kbd>e</kbd> to edit any finding, <kbd>p</kbd> and <kbd>n</kbd> to navigate to the previous or next finding.
     </div>
+</div>
 {% endblock %}
 {% block postscript %}
     {{ block.super }}

@@ -48,7 +48,7 @@
                     {% if system_settings.enable_jira %}
                     <th class="text-center">JIRA</td>
                     {% endif %}
-                    <th class="text-center">Tests</th>
+                    <th class="text-center">Tasks</th>
                     <th class="text-center">Active (Verified)</th>
                     <th class="text-center">Mitigated</th>
                     <th class="text-center">Accepted</th>
@@ -113,27 +113,27 @@
                             <li class="divider"></li>
                             <li role="presentation">
                               <a href="{% url 'engagement_open_findings' eng.id %}">
-                                <i class="fa-solid fa-file-lines"></i> View Active Findings
+                                <i class="fa-solid fa-file-lines"></i> View Active Vulnerabilities
                               </a>
                             </li>
                             <li role="presentation">
                               <a href="{% url 'engagement_verified_findings' eng.id %}">
-                                <i class="fa-solid fa-file-lines"></i> View Active and Verified Findings
+                                <i class="fa-solid fa-file-lines"></i> View Active and Verified Vulnerabilities
                               </a>
                             </li>
                             <li role="presentation">
                               <a href="{% url 'engagement_closed_findings' eng.id %}">
-                                <i class="fa-solid fa-file-lines"></i> View Mitigated Findings
+                                <i class="fa-solid fa-file-lines"></i> View Mitigated Vulnerabilities
                               </a>
                             </li>
                             <li role="presentation">
                                 <a href="{% url 'engagement_accepted_findings' eng.id %}">
-                                    <i class="fa-solid fa-file-lines"></i> View Accepted Findings
+                                    <i class="fa-solid fa-file-lines"></i> View Accepted Vulnerabilities
                                 </a>
                               </li>
                             <li role="presentation">
                               <a href="{% url 'engagement_all_findings' eng.id %}">
-                                  <i class="fa-solid fa-file-lines"></i> View All Findings
+                                  <i class="fa-solid fa-file-lines"></i> View All Vulnerabilities
                               </a>
                             </li>
                               <li class="divider"></li>
@@ -190,14 +190,14 @@
                         {% if eng.count_tests == 0 %}
                         &nbsp;<sup>
                           <div class="tag-label amber-color">
-                            no tests
+                            no tasks
                           </div>
                         </sup>
                         {% endif %}
                         {% if eng.count_findings_all == 0 %}
                         &nbsp;<sup>
                           <div class="tag-label amber-color">
-                            no findings
+                            no vulnerabilities
                           </div>
                         </sup>
                         {% endif %}
@@ -219,9 +219,9 @@
                             <a>
                               <i class="fa-solid fa-circle-info"></i>
                               {% if eng.test_set.all|length %}
-                                Recent tests
+                                Recent tasks
                               {% else %}
-                                No recent tests
+                                No recent tasks
                               {% endif %}
                               (last {{recent_test_day_count}} day{{recent_test_day_count|pluralize}})
                             </a>
@@ -235,7 +235,7 @@
                           {% endfor %}
                           <li>
                             <a href="{% url 'view_engagement' eng.id %}#tests">
-                              <i class="fa-solid fa-earth-americas"></i> View all {{ eng.count_tests }} tests...
+                              <i class="fa-solid fa-earth-americas"></i> View all {{ eng.count_tests }} tasks...
                             </a>
                           </li>
                         </ul>
@@ -269,7 +269,7 @@
         </div>
         {% else %}
             <div id='no_{% if status == "open" %}active{% elif status == "paused" %}paused{% else %}closed{% endif %}_engagements' class="panel-body">
-                <p class="text-muted">No {% if status == "open" %}active{% elif status == "paused" %}paused{% else %}closed{% endif %} engagements found.</p>
+                <p class="text-muted">No {% if status == "open" %}active{% elif status == "paused" %}paused{% else %}closed{% endif %} projects found.</p>
             </div>
         {% endif %}
 

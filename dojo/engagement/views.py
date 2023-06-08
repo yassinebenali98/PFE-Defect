@@ -239,7 +239,7 @@ def edit_engagement(request, eid):
 
             # Additional logging for debugging purposes
             print(form.cleaned_data['compteur'])
-            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+           
 
             messages.add_message(
                 request,
@@ -466,7 +466,7 @@ def view_engagement(request, eid):
     title = ""
     if eng.engagement_type == "CI/CD":
         title = " CI/CD"
-    product_tab = Product_Tab(prod, title="View" + title + " Product", tab="engagements")
+    product_tab = Product_Tab(prod, title="View" + title + " Project", tab="engagements")
     product_tab.setEngagement(eng)
     return render(
         request, 'dojo/view_eng.html', {
@@ -556,7 +556,7 @@ def add_tests(request, eid):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Test added successfully.',
+                'Task added successfully.',
                 extra_tags='alert-success')
 
             notifications_helper.notify_test_created(new_test)

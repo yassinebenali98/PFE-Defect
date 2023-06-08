@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                         <li role="presentation">
                             <a href="{% url 'view_product_metrics' prod.id %}?type=Finding">
-                                <i class="fa-solid fa-file-lines"></i> Measure Findings
+                                <i class="fa-solid fa-file-lines"></i> Measure Vulnerabilities
                             </a>
                         </li>
                         <li role="presentation">
@@ -379,7 +379,7 @@
             <div class="col-md-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Finding Age
+                        Vulnerability Age
                     </div>
                     <div class="panel-body">
                         <div id="finding_age" class="graph"></div>
@@ -387,7 +387,7 @@
                     <div class="panel-footer">
                         <i title="Weeks are only displayed if findings are available."
                            class="text-info fa-solid fa-circle-info"></i>
-                        <small>Finding age of {{ open_objs|length|apnumber }} open
+                        <small>Vulnerability age of {{ open_objs|length|apnumber }} open
                             finding{{ open_objs|length|pluralize }}</small>
                     </div>
                 </div>
