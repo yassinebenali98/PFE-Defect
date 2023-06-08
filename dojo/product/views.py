@@ -195,7 +195,7 @@ def view_product(request, pid):
 
     total = critical + high + medium + low + info
 
-    product_tab = Product_Tab(prod, title=_("Product"), tab="overview")
+    product_tab = Product_Tab(prod, title=_("Client"), tab="overview")
     return render(request, 'dojo/view_product_details.html', {
         'prod': prod,
         'product_tab': product_tab,
@@ -225,7 +225,7 @@ def view_product(request, pid):
 @user_is_authorized(Product, Permissions.Component_View, 'pid')
 def view_product_components(request, pid):
     prod = get_object_or_404(Product, id=pid)
-    product_tab = Product_Tab(prod, title=_("Product"), tab="components")
+    product_tab = Product_Tab(prod, title=_("Client"), tab="components")
     separator = ', '
 
     # Get components ordered by component_name and concat component versions to the same row
@@ -615,7 +615,7 @@ def view_product_metrics(request, pid):
         else:
             test_data[t.test_type.name] = t.verified_finding_count
 
-    product_tab = Product_Tab(prod, title=_("Product"), tab="metrics")
+    product_tab = Product_Tab(prod, title=_("Client"), tab="metrics")
 
     open_objs_by_age = {x: len([_ for _ in filters.get('open') if _.age == x]) for x in set([_.age for _ in filters.get('open')])}
 
@@ -689,7 +689,7 @@ def view_engagements(request, pid):
     result_inactive_engs.object_list = prefetch_for_view_engagements(result_inactive_engs.object_list,
                                                                      recent_test_day_count)
 
-    product_tab = Product_Tab(prod, title=_("All Projects"), tab="engagements")
+    product_tab = Product_Tab(prod, title=_("All Clients"), tab="engagements")
     return render(request, 'dojo/view_engagements.html', {
         'prod': prod,
         'product_tab': product_tab,

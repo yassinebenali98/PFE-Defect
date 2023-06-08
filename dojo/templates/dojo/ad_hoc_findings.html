@@ -18,7 +18,7 @@
 {% block content %}
     {{ block.super }}
     <div>
-        <h3> Add Findings to a Test </h3>
+        <h3> Add Vulnerability to a Test </h3>
     </div>
     <div>
         <form class="form-horizontal" action="{% url 'ad_hoc_finding' pid %}" method="post">
@@ -50,7 +50,7 @@
             {% endif %}
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input class="btn btn-primary" type="submit" value="Add Another Finding"/>
+                    <input class="btn btn-primary" type="submit" value="Add Another Vulnerability"/>
                     <input class="btn btn-primary" name="_Finished" type="submit" value="Finished"/>
                 </div>
             </div>

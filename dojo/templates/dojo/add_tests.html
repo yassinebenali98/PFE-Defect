@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }}
 
-    <h3> Add Tests</h3>
+    <h3> Add Tasks</h3>
     <p>
         <a href="https://defectdojo.github.io/django-DefectDojo/integrations/importing/">Documentation</a>
     </p>
@@ -20,8 +20,8 @@
         {% include "dojo/form_fields.html" with form=cred_form %}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <input class="btn btn-primary" type="submit" name="_Add Another Test" value="Add Another Test"/>
-                <input class="btn btn-primary" type="submit" name="_Add Findings" value="Add Findings"/>
+                <input class="btn btn-primary" type="submit" name="_Add Another Test" value="Add Another Task"/>
+                <input class="btn btn-primary" type="submit" name="_Add Findings" value="Add Vulnerabilities"/>
                 <input class="btn btn-primary" type="submit" name="_Finished" value="Finished"/>
             </div>
         </div>

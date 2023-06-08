@@ -9,10 +9,10 @@
             <div class="table-responsive">
                 <table class="table-striped table table-condensed table-hover centered">
                     <tr>
-                        <th>Finding Date updated</th>
+                        <th>Vulnerability Date updated</th>
                         <th>SonarQube Status</th>
                         <th>Transitions applied</th>
-                        <th>Finding Status</th>
+                        <th>Vulnerability Status</th>
                     </tr>
                     {% for transition in finding.sonarqube_issue.sonarqube_issue_transition_set.all %}
                     <tr>

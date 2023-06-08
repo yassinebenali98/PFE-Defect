@@ -9,7 +9,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading tight">
                     <h3 class="has-filters">
-                        Engagements
+                        Projects
                         <div class="dropdown pull-right">
                             <button id="show-filters" data-toggle="collapse" data-target="#the-filters" class="btn btn-primary toggle-filters"> <i class="fa-solid fa-filter"></i> <i class="caret"></i> </button>
                         </div>
@@ -30,17 +30,17 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Product</th>
-                            <th>Product Type</th>
-                            <th>Engagement Name</th>
+                            <th>Client</th>
+                            <th>Client Type</th>
+                            <th>Project Name</th>
                             {% if system_settings.enable_jira %}
                                 <th>JIRA</th>
                             {% endif %}
                             <th>Status</th>
                             <th>Period</th>
                             <th>Lead</th>
-                            <th>Tests</th>
-                            <th>Engagement</th>
+                            <th>Task</th>
+                            <th>Project</th>
                         </tr>
                         </thead>
 
@@ -68,7 +68,7 @@
                                                     {% if e|has_object_permission:"Test_Add" %}
                                                     <li role="presentation">
                                                         <a class="" href="{% url 'add_tests' e.id %}">
-                                                            <i class="fa-solid fa-plus"></i> Add Tests
+                                                            <i class="fa-solid fa-plus"></i> Add Tasks
                                                         </a>
                                                     </li>
                                                     {% endif %}
@@ -82,40 +82,40 @@
                                                     <li class="divider"></li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_open_findings' e.id %}">
-                                                            <i class="fa-solid fa-file-lines"></i> View Active Findings
+                                                            <i class="fa-solid fa-file-lines"></i> View Active Vulnerabilities
                                                         </a>
                                                     </li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_verified_findings' e.id %}">
-                                                            <i class="fa-solid fa-file-lines"></i> View Active and Verified Findings
+                                                            <i class="fa-solid fa-file-lines"></i> View Active and Verified Vulnerabilities
                                                         </a>
                                                     </li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_closed_findings' e.id %}">
-                                                            <i class="fa-solid fa-file-lines"></i> View Mitigated Findings
+                                                            <i class="fa-solid fa-file-lines"></i> View Mitigated Vulnerabilities
                                                         </a>
                                                     </li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_accepted_findings' e.id %}">
-                                                            <i class="fa-solid fa-file-lines"></i> View Accepted Findings
+                                                            <i class="fa-solid fa-file-lines"></i> View Accepted Vulnerabilities
                                                         </a>
                                                     </li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_all_findings' e.id %}">
-                                                            <i class="fa-solid fa-file-lines"></i> View All Findings
+                                                            <i class="fa-solid fa-file-lines"></i> View All Vulnerabilities
                                                         </a>
                                                     </li>
                                                     <li class="divider"></li>
                                                     <li role="presentation">
                                                         <a href="{% url 'engagement_report' e.id %}?title=&active=1&verified=1&false_p=2&duplicate=2">
-                                                            <i class="fa-solid fa-file-lines"></i> Engagement Report
+                                                            <i class="fa-solid fa-file-lines"></i> Project Report
                                                         </a>
                                                     </li>
                                                     {% if e|has_object_permission:"Engagement_Delete" %}
                                                     <li class="divider"></li>
                                                     <li>
                                                         <a class="text-danger" href="{% url 'delete_engagement' e.id %}">
-                                                            <i class="fa-solid fa-trash"></i> Delete Engagement
+                                                            <i class="fa-solid fa-trash"></i> Delete Project
                                                         </a>
                                                     </li>
                                                     {% endif %}
@@ -170,7 +170,7 @@
                     {% include "dojo/paging_snippet.html" with page=products page_size=True %}
                 </div>
             {% else %}
-            <div id="no_engagements"><h5 class="text-center"> No engagements found </h5></div>
+            <div id="no_engagements"><h5 class="text-center"> No projects found </h5></div>
             {% endif %}
         </div>
     </div>

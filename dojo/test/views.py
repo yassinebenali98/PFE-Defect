@@ -123,7 +123,7 @@ def view_test(request, tid):
     paged_stub_findings = get_page_items(request, stub_findings, 25)
     show_re_upload = any(test.test_type.name in code for code in get_choices_sorted())
 
-    product_tab = Product_Tab(prod, title=_("Test"), tab="engagements")
+    product_tab = Product_Tab(prod, title=_("Task"), tab="engagements")
     product_tab.setEngagement(test.engagement)
     jira_project = jira_helper.get_jira_project(test)
 
@@ -220,7 +220,7 @@ def edit_test(request, tid):
     form.initial['target_end'] = test.target_end.date()
     form.initial['description'] = test.description
 
-    product_tab = Product_Tab(test.engagement.product, title=_("Edit Test"), tab="engagements")
+    product_tab = Product_Tab(test.engagement.product, title=_("Edit Task"), tab="engagements")
     product_tab.setEngagement(test.engagement)
     return render(request, 'dojo/edit_test.html',
                   {'test': test,
@@ -267,7 +267,7 @@ def delete_test(request, tid):
         collector.collect([test])
         rels = collector.nested()
 
-    product_tab = Product_Tab(test.engagement.product, title=_("Delete Test"), tab="engagements")
+    product_tab = Product_Tab(test.engagement.product, title=_("Delete Task"), tab="engagements")
     product_tab.setEngagement(test.engagement)
     return render(request, 'dojo/delete_test.html',
                   {'test': test,
@@ -312,7 +312,7 @@ def copy_test(request, tid):
                 'Unable to copy test, please try again.',
                 extra_tags='alert-danger')
 
-    product_tab = Product_Tab(product, title="Copy Test", tab="engagements")
+    product_tab = Product_Tab(product, title="Copy Task", tab="engagements")
     return render(request, 'dojo/copy_object.html', {
         'source': test,
         'source_label': 'Test',
@@ -436,7 +436,7 @@ def add_findings(request, tid):
         if use_jira:
             jform = JIRAFindingForm(push_all=jira_helper.is_push_all_issues(test), prefix='jiraform', jira_project=jira_helper.get_jira_project(test), finding_form=form)
 
-    product_tab = Product_Tab(test.engagement.product, title=_("Add Finding"), tab="engagements")
+    product_tab = Product_Tab(test.engagement.product, title=_("Add Vulnerability"), tab="engagements")
     product_tab.setEngagement(test.engagement)
     return render(request, 'dojo/add_findings.html',
               {'form': form,
@@ -545,7 +545,7 @@ def add_temp_finding(request, tid, fid):
     # logger.debug('jform errors: %s', jform.errors)
     # logger.debug('jform errors: %s', vars(jform))
 
-    product_tab = Product_Tab(test.engagement.product, title=_("Add Finding"), tab="engagements")
+    product_tab = Product_Tab(test.engagement.product, title=_("Add Vulnerability"), tab="engagements")
     product_tab.setEngagement(test.engagement)
     return render(request, 'dojo/add_findings.html',
                   {'form': form,

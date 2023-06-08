@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='engagement',
             name='password',
-            field=models.CharField(blank=True, max_length=1150, null=True),
+            field=models.TextField(blank=True, null=True),
         ),
     ]

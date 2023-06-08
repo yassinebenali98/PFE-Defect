@@ -293,7 +293,7 @@
                                             <!-- /.nav-second-level -->
                                         </li>
                                         <li>
-                                            <a href="{% url 'open_findings' %}" aria-expanded="false" aria-label="Findings">
+                                            <a href="{% url 'open_findings' %}" aria-expanded="false" aria-label="Vulnerabilities">
                                                 <i class="fa-solid fa-bug fa-fw"></i>
                                                 <span>{% trans "Vulnerabilities" %}</span>
                                                 <span class="glyphicon arrow"></span>
@@ -329,19 +329,7 @@
                                             </ul>
                                             <!-- /.nav-second-level -->
                                         </li>
-                                        <li>
-                                            <a href="{% url 'components' %}" id="product_component_view" aria-expanded="false"  aria-label="Components">
-                                                <i class="fa-solid fa-table-cells-large fa-fw"></i>
-                                                <span>{% trans "Components" %}</span>
-                                            </a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="{% url 'components' %}">
-                                                        {% trans "All Components" %}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                       
                                         <li>
                                             <a href="{% url 'endpoint' %}" aria-expanded="false" aria-label="Endpoints">
                                                 <i class="fa-solid fa-sitemap fa-fw"></i>
@@ -521,14 +509,7 @@
                                             </ul>
                                         </li>
                                     {% endblock %}
-                                    {% block support-tab %}
-                                        <li>
-                                            <a href="{% url 'support' %}" aria-disabled="true" aria-expanded="false" aria-label="Support">
-                                                <i class="fa-solid fa-life-ring fa-fw"></i>
-                                                <span>{% trans "Get Support" %}</span>
-                                            </a>
-                                        </li>
-                                    {% endblock %}
+                                    
                                     <li id="min-menu">
                                         <a href="#" id="minimize-menu" title="Expand/Collapse Menu" aria-label="Expand/Collapse Menu" >
                                             <i id="nav-minimize-menu-li" class="fa-solid fa-circle-right fa-fw"></i>
@@ -813,7 +794,7 @@
                                                             <li role="presentation">
                                                                 <a href="{% url 'view_objects' product_tab.product.id %}">
                                                                     <i class="fa-solid fa-rectangle-list"></i>
-                                                                    {% trans "View Product Tracking Files" %}
+                                                                    {% trans "View Client Tracking Files" %}
                                                                 </a>
                                                             </li>
                                                         {% endif %}

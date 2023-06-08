@@ -349,7 +349,7 @@ footer {
 
         
         <div class="page-break"></div>
-        {% include "dojo/fr_report_presentation.html"%}
+        {% include "dojo/fr_report_presentation.html" with engagement=engagement grouped_findings=grouped_findings%}
         <div class="page-break"></div>
         {% include "dojo/fr_report_finding_list.html" with findings=findings grouped_findings=grouped_findings advanced_threats_findings=advanced_threats_findings %}
     </div>

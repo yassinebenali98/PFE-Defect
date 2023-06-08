@@ -79,7 +79,7 @@
                         <!-- <th>Decision Details</th> -->
                         <th>Expiration</th>
                         <th>Expiration handled</th>
-                        <th>Findings</th>
+                        <th>Vulnerabilities</th>
                         <th>Proof</th>
                         <th>Reactivate
                             <i class="fa-solid fa-circle-question has-popover" data-trigger="hover" data-content="Reactivate findings when risk acceptance expires?" data-placement="right" data-container="body" data-original-title="" title="">
@@ -158,7 +158,7 @@
 
     <div id="risk_acceptance" class="panel panel-default table-responsive">
         <div class="panel-heading">
-            <h3>Findings Accepted</h3>
+            <h3>Vulnerabilities Accepted</h3>
         </div>
         {% if accepted_findings %}
             <table id="open_findings" class="table table-condensed table-striped">
@@ -212,7 +212,7 @@
     {% if engagement|has_object_permission:"Risk_Acceptance" %}
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3>Accept Additional Findings</h3>
+                <h3>Accept Additional Vulnerabilities</h3>
             </div>
             <br/>
             <form method="post" class="form-horizontal">{% csrf_token %}
@@ -223,7 +223,7 @@
                     {% include "dojo/paging_snippet.html" with page=add_findings prefix="apage" %}
                 </div>
                 <div class="panel-footer text-center">
-                    <input class="btn btn-primary" name="add_findings" type="submit" value="Add Selected Findings"/>
+                    <input class="btn btn-primary" name="add_findings" type="submit" value="Add Selected Vulnerabilities"/>
                 </div>
             </form>
         </div>

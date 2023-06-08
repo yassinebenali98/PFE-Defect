@@ -41,7 +41,7 @@
         <ul class="nav nav-tabs" role="tablist">
             {% if findings %}
                 <li role="presentation" {% if activetab == 'findings' %}class="active"{% endif %}>
-                    <a href="#tabs-1" role="tab" data-toggle="tab">{% trans "Findings" %} ({{ findings.paginator.count }})</a>
+                    <a href="#tabs-1" role="tab" data-toggle="tab">{% trans "Vulnerabilities" %} ({{ findings.paginator.count }})</a>
                 </li>
             {% endif %}
             {% if vulnerability_ids %}
@@ -51,17 +51,17 @@
             {% endif %}
             {% if products %}
                 <li role="presentation" {% if activetab == 'products' %}class="active"{% endif %}>
-                    <a href="#tabs-3" role="tab" data-toggle="tab">{% trans "Products" %} ({{ products|length }})</a>
+                    <a href="#tabs-3" role="tab" data-toggle="tab">{% trans "Clients" %} ({{ products|length }})</a>
                 </li>
             {% endif %}
             {% if engagements %}
                 <li role="presentation" {% if activetab == 'engagements' %}class="active"{% endif %}>
-                    <a href="#tabs-4" role="tab" data-toggle="tab">{% trans "Engagements" %} ({{ engagements|length }})</a>
+                    <a href="#tabs-4" role="tab" data-toggle="tab">{% trans "Projects" %} ({{ engagements|length }})</a>
                 </li>
             {% endif %}
             {% if tests %}
                 <li role="presentation" {% if activetab == 'tests' %}class="active"{% endif %}>
-                    <a href="#tabs-5" role="tab" data-toggle="tab">{% trans "Tests" %} ({{ tests|length }})</a>
+                    <a href="#tabs-5" role="tab" data-toggle="tab">{% trans "Tasks" %} ({{ tests|length }})</a>
                 </li>
             {% endif %}
             {% if endpoints %}
@@ -71,7 +71,7 @@
             {% endif %}
             {% if finding_templates %}
                 <li role="presentation">
-                    <a href="#tabs-7" role="tab" data-toggle="tab">{% trans "Finding Templates" %} ({{ finding_templates|length }})</a>
+                    <a href="#tabs-7" role="tab" data-toggle="tab">{% trans "Vulnerability Templates" %} ({{ finding_templates|length }})</a>
                 </li>
             {% endif %}
             {% if languages %}
@@ -112,10 +112,10 @@
                         <thead>
                         <tr>
                             <th>{% trans "Vulnerability Id" %}</th>
-                            <th>{% trans "Product" %}</th>
-                            <th>{% trans "Engagement" %}</th>
-                            <th>{% trans "Test" %}</th>
-                            <th>{% trans "Finding" %}</th>
+                            <th>{% trans "Client" %}</th>
+                            <th>{% trans "Project" %}</th>
+                            <th>{% trans "Task" %}</th>
+                            <th>{% trans "Vulnerability" %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -185,7 +185,7 @@
                         <thead>
                         <tr>
                             <th>{% trans "Type" %}</th>
-                            <th>{% trans "Product" %}</th>
+                            <th>{% trans "Client" %}</th>
                             <th>{% trans "Date" %}</th>
                             <th>{% trans "Status" %}</th>
                         </tr>
@@ -218,8 +218,8 @@
                         <thead>
                         <tr>
                             <th>{% trans "Title" %}</th>
-                            <th>{% trans "Product" %}</th>
-                            <th>{% trans "Engagement" %}</th>
+                            <th>{% trans "Client" %}</th>
+                            <th>{% trans "Project" %}</th>
                             <th>{% trans "Date" %}</th>
                             <th>{% trans "Status" %}</th>
                         </tr>
@@ -257,7 +257,7 @@
                         <tr>
                             <th>{% trans "Endpoint" %}</th>
                             <th>{% trans "Product" %}</th>
-                            <th>{% trans "Open Findings" %}</th>
+                            <th>{% trans "Open Vulnerabilities" %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -279,7 +279,7 @@
                                   {% if e.active_finding_count > 0 %}
                                   <a href="{% url 'open_findings' %}?endpoints={{ e.id }}">{{ e.active_finding_count }}</a>
                                   {% else %}
-                                  {% trans "No Open, Active Findings" %}
+                                  {% trans "No Open, Active Vulnerabilities" %}
                                   {% endif %}
                                 </td>
                             </tr>
@@ -319,7 +319,7 @@
                         <thead>
                         <tr>
                             <th>{% trans "Language" %}</th>
-                            <th>{% trans "Product" %}</th>
+                            <th>{% trans "Client" %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -344,7 +344,7 @@
                         <thead>
                         <tr>
                             <th>{% trans "Technology" %}</th>
-                            <th>{% trans "Product" %}</th>
+                            <th>{% trans "Client" %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -376,7 +376,7 @@
                         {% if tagged_tests %}
                             {% for test in tagged_tests %}
                                 <tr>
-                                    <td>{% trans "Test" %}</td>
+                                    <td>{% trans "Task" %}</td>
                                     <td>
                                         <a class="search-finding" href="{% url 'view_test' test.id %}">{{ test }}</a>
                                         {% include "dojo/snippets/tags.html" with tags=test.tags.all %}
@@ -386,7 +386,7 @@
                         {% endif %}
                         {% for finding in tagged_findings %}
                             <tr>
-                                <td>{% trans "Finding" %}</td>
+                                <td>{% trans "Vulnerability" %}</td>
                                 <td><a class="search-finding"
                                        href="{% url 'view_finding' finding.id %}">{{ finding.title }}</a>
                                 </td>
@@ -394,7 +394,7 @@
                         {% endfor %}
                         {% for finding_template in tagged_finding_templates %}
                             <tr>
-                                <td>{% trans "Finding Template" %}</td>
+                                <td>{% trans "Vulnerability Template" %}</td>
                                 <td>
                                     <a class="search-finding" href="{% url 'edit_template' finding_template.id %}">{{ finding_template.title }}</a>
                                     {% include "dojo/snippets/tags.html" with tags=finding_template.tags.all %}
@@ -403,7 +403,7 @@
                         {% endfor %}
                         {% for product in tagged_products %}
                             <tr>
-                                <td>{% trans "Product" %}</td>
+                                <td>{% trans "Client" %}</td>
                                 <td>
                                     <a class="search-finding" href="{% url 'view_product' product.id %}">{{ product.name }}</a>
                                     {% include "dojo/snippets/tags.html" with tags=product.tags.all %}
@@ -421,7 +421,7 @@
                         {% endfor %}
                         {% for eng in tagged_engagements %}
                             <tr>
-                                <td>{% trans "Engagement" %}</td>
+                                <td>{% trans "Project" %}</td>
                                 <td>
                                     <a class="search-finding" href="{% url 'view_engagement' eng.id %}">{{ eng }}</a>
                                     {% include "dojo/snippets/tags.html" with tags=eng.tags.all %}
@@ -440,7 +440,7 @@
                         <tr>
                             <th>{% trans "ID" %}</th>
                             <th>{% trans "Type" %}</th>
-                            <th>{% trans "Product" %}</th>
+                            <th>{% trans "Client" %}</th>
                             <th>{% trans "Severity" %}</th>
                             <th>{% trans "Title" %}</th>
                             <th>{% trans "Description" %}</th>

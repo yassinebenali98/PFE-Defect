@@ -10,7 +10,7 @@
 {% endblock %}
 {% block content %}
     {{ block.super }}
-    <h3> Clear Finding Review</h3>
+    <h3> Clear Vulnerability Review</h3>
     <h4>{{ finding.title }}</h4>
     <p>Set the appropriate status for this finding.  Please add notes to help document.</p>
     <form class="form-horizontal" action="{% url 'clear_finding_review' finding.id %}" method="post">

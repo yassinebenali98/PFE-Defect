@@ -9,7 +9,7 @@
     {% for endpoint in endpoints %}
         <h4>=== {{ endpoint }} with {{ endpoint.active_findings|length|apnumber }} active findings ===</h4>
         {% for find in endpoint.active_findings %}
-            <h5>==== Finding {{ find.id }}: {{ find.title | nice_title }} {% if find.mitigated %}
+            <h5>==== Vulnerability {{ find.id }}: {{ find.title | nice_title }} {% if find.mitigated %}
                 Mitigated on: {{ find.mitigated }} {% endif %}
                 {% if find.tags %}
                     <sup>
@@ -90,7 +90,7 @@
             </p>
             <br>
             {% if include_finding_images %}
-                <p><b>==== Finding Images: ====</b>
+                <p><b>==== Vulnerability Images: ====</b>
                     <br>
                     {% include "dojo/snippets/file_images.html" with size='small' obj=find format="AsciiDoc" %}
                 </p><br>
@@ -101,7 +101,7 @@
             {% if include_finding_notes %}
                 {% with notes=find.notes.all|get_public_notes %}
                     {% if notes.count > 0 %}
-                        <p><b>==== Finding Notes: ====</b>
+                        <p><b>==== Vulnerability Notes: ====</b>
                             <br>
                             {% if notes|get_notetype_notes_count > 0 %}
                                 {% for note in notes reversed %}

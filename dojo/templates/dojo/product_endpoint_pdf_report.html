@@ -75,7 +75,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5>Open Findings</h5>
+                            <h5>Open Vulnerabilities</h5>
                         </div>
                         <div class="panel-body">
                             <div id="open_findings" class="graph"></div>
@@ -85,7 +85,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5>Closed Findings</h5>
+                            <h5>Closed Vulnerabilities</h5>
                         </div>
                         <div class="panel-body">
                             <div id="closed_findings" class="graph"></div>
@@ -95,7 +95,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5>Risk Accepted Findings</h5>
+                            <h5>Risk Accepted Vulnerabilities</h5>
                         </div>
                         <div class="panel-body">
                             <div id="accepted_findings" class="graph"></div>
@@ -106,7 +106,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5>Finding Age</h5>
+                            <h5>Vulnerability Age</h5>
                         </div>
                         <div class="panel-body">
                             <div id="finding_age" class="graph"></div>
@@ -125,7 +125,7 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if endpoints %}
-                    <h3 id="findings">Endpoint Findings</h3>
+                    <h3 id="findings">Endpoint Vulnerabilities</h3>
                     <p>
                         A total of {{ endpoints|length|apnumber }} endpoint{{ endpoints|length|pluralize }} with findngs
                         of varying severity are represented in this report.
@@ -145,7 +145,7 @@
                             <div class="panel-heading finding-title">
                                 <div class="clearfix">
                                     <h5>
-                                        Finding {{ finding.id }}: {{ finding.title }}
+                                        Vulnerability {{ finding.id }}: {{ finding.title }}
                                         {% if finding.tags %}
                                             <sup>
                                                 {% for tag in finding.tags.all %}

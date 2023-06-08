@@ -1248,7 +1248,7 @@ class Engagement(models.Model):
     consequences = models.TextField( null=True, blank=True)
     risques = models.TextField(null=True, blank=True)
     cibles = models.TextField( null=True, blank=True)
-    password = models.CharField(max_length=1150, null=True, blank=True)
+    password = models.TextField(null=True, blank=True)
     
     CHOICES = [
         ('generic', 'générique'),
